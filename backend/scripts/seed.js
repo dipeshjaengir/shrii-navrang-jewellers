@@ -181,6 +181,336 @@ const productsData = [
     gender: "Women",
     ratings: 4.8,
     reviewsCount: 7
+  },
+  {
+    productName: "Royal Rajwadi Gold Choker Set",
+    category: "Necklaces",
+    price: 295000,
+    description: "Opulent 22k gold choker highlighting intricate meenakari work and classic Rajwadi kundan clusters. Perfect for regal functions.",
+    images: [
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 5,
+    material: "Gold",
+    weight: "42.5g",
+    gender: "Women",
+    ratings: 4.9,
+    reviewsCount: 4
+  },
+  {
+    productName: "Aura Diamond Hoop Earrings",
+    category: "Earrings",
+    price: 88000,
+    description: "Dazzling diamond hoop earrings set in 18k yellow gold. Perfect circular contours with micro-pave hand-set brilliant solitaire diamonds.",
+    images: [
+      "https://images.unsplash.com/photo-1635767798638-3e25273a8236?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 14,
+    material: "Diamond",
+    weight: "5.2g",
+    gender: "Women",
+    ratings: 4.7,
+    reviewsCount: 3
+  },
+  {
+    productName: "Vedic Gold Mangalsutra",
+    category: "Necklaces",
+    price: 54000,
+    description: "Sacred 22k yellow gold Mangalsutra featuring traditional black beads and an ornate gold pendant depicting cosmic harmony.",
+    images: [
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 20,
+    material: "Gold",
+    weight: "12.8g",
+    gender: "Women",
+    ratings: 4.8,
+    reviewsCount: 5
+  },
+  {
+    productName: "Ganga Silver Filigree Bangles",
+    category: "Bangles",
+    price: 18500,
+    description: "A pair of hand-twisted 925 sterling silver bangles highlighting delicate filigree artwork representing the sacred flows of the Ganges.",
+    images: [
+      "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 15,
+    material: "Silver",
+    weight: "34.0g",
+    gender: "Women",
+    ratings: 4.6,
+    reviewsCount: 6
+  },
+  {
+    productName: "Meenakari Peacock Kada",
+    category: "Bangles",
+    price: 135000,
+    description: "Stunning 22k gold Kada bangle showcasing heritage hand-painted Meenakari peacock enameling and fine Kundan settings.",
+    images: [
+      "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 7,
+    material: "Gold",
+    weight: "24.5g",
+    gender: "Women",
+    ratings: 4.9,
+    reviewsCount: 4
+  },
+  {
+    productName: "Nirvana Platinum Ring for Men",
+    category: "Men's Collection",
+    price: 115000,
+    description: "Premium pure 950 platinum band featuring a brushed matte center finish and polished secure bevels. High-comfort luxury fit.",
+    images: [
+      "https://images.unsplash.com/photo-1615655404740-8f030d678890?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 9,
+    material: "Platinum",
+    weight: "9.5g",
+    gender: "Men",
+    ratings: 4.8,
+    reviewsCount: 5
+  },
+  {
+    productName: "Heritage Polki Chandbalis",
+    category: "Earrings",
+    price: 145000,
+    description: "Breath-taking 22k gold crescent-shaped Chandbali earrings, set with uncut Polki diamonds, pearls, and ruby beads.",
+    images: [
+      "https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 6,
+    material: "Gold",
+    weight: "22.4g",
+    gender: "Women",
+    ratings: 5.0,
+    reviewsCount: 3
+  },
+  {
+    productName: "Modernist Silver Curb Chain",
+    category: "Men's Collection",
+    price: 12000,
+    description: "Strong, thick 925 sterling silver curb link chain for men. Fully polished, hand-soldered, with secure custom luxury clasp.",
+    images: [
+      "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 22,
+    material: "Silver",
+    weight: "38.0g",
+    gender: "Men",
+    ratings: 4.5,
+    reviewsCount: 8
+  },
+  {
+    productName: "Solitaire Diamond Studs",
+    category: "Earrings",
+    price: 95000,
+    description: "Timeless 18k white gold stud earrings featuring two perfectly matched brilliant-cut diamonds, GIA certified.",
+    images: [
+      "https://images.unsplash.com/photo-1635767798638-3e25273a8236?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 18,
+    material: "Diamond",
+    weight: "2.2g",
+    gender: "Women",
+    ratings: 4.9,
+    reviewsCount: 10
+  },
+  {
+    productName: "Classic Gold Temple Bangles Set",
+    category: "Bangles",
+    price: 220000,
+    description: "Set of four heavy solid 22k gold bangles showcasing hand-carved floral, bead, and divine coin patterns.",
+    images: [
+      "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 4,
+    material: "Gold",
+    weight: "44.0g",
+    gender: "Women",
+    ratings: 4.8,
+    reviewsCount: 5
+  },
+  {
+    productName: "Maharani Kundan Bridal Necklace",
+    category: "Bridal Collection",
+    price: 490000,
+    description: "Grand multi-layered bridal necklace featuring brilliant Kundan settings, pure uncut glass stones, and hand-carved royal emerald beads.",
+    images: [
+      "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 2,
+    material: "Gold",
+    weight: "98.5g",
+    gender: "Women",
+    ratings: 5.0,
+    reviewsCount: 4
+  },
+  {
+    productName: "Princess Cut Sapphire Diamond Ring",
+    category: "Rings",
+    price: 175000,
+    description: "Luxurious 18k white gold ring set with a majestic princess-cut blue sapphire, flanked by paved brilliant diamonds.",
+    images: [
+      "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 8,
+    material: "Diamond",
+    weight: "4.5g",
+    gender: "Women",
+    ratings: 4.8,
+    reviewsCount: 6
+  },
+  {
+    productName: "Timeless Platinum Solitaire Ring",
+    category: "Rings",
+    price: 210000,
+    description: "An elegant pure 950 platinum ring holding a spectacular 1-carat round brilliant-cut GIA diamond. The epitome of modern promise.",
+    images: [
+      "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 5,
+    material: "Platinum",
+    weight: "5.8g",
+    gender: "Women",
+    ratings: 4.9,
+    reviewsCount: 4
+  },
+  {
+    productName: "Sterling Silver Ganesha Pendant",
+    category: "Silver Jewellery",
+    price: 7500,
+    description: "A finely detailed 92.5% silver pendant depicting Lord Ganesha. Blessed, auspicious, and polished to a flawless mirror glow.",
+    images: [
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 35,
+    material: "Silver",
+    weight: "8.0g",
+    gender: "Unisex",
+    ratings: 4.7,
+    reviewsCount: 12
+  },
+  {
+    productName: "Royal Pearl Drop Gold Jhumkas",
+    category: "Earrings",
+    price: 72000,
+    description: "Beautiful 22k yellow gold jhumka earrings accented with premium Basra pearls, rubies, and detailed dome carvings.",
+    images: [
+      "https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 12,
+    material: "Gold",
+    weight: "16.8g",
+    gender: "Women",
+    ratings: 4.8,
+    reviewsCount: 5
+  },
+  {
+    productName: "Maharaja Gold Sherwani Buttons",
+    category: "Men's Collection",
+    price: 165000,
+    description: "Set of seven handcrafted 22k gold sherwani buttons linked with a gold safety chain, featuring deep engraving and rubies.",
+    images: [
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 3,
+    material: "Gold",
+    weight: "22.5g",
+    gender: "Men",
+    ratings: 4.9,
+    reviewsCount: 2
+  },
+  {
+    productName: "Elegant Diamond Tennis Bracelet",
+    category: "Bangles",
+    price: 320000,
+    description: "A breathtaking continuous row of GIA certified round brilliant-cut diamonds, hand-set in an 18-karat white gold slider setting.",
+    images: [
+      "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 6,
+    material: "Diamond",
+    weight: "14.2g",
+    gender: "Women",
+    ratings: 5.0,
+    reviewsCount: 7
+  },
+  {
+    productName: "Contemporary Silver Choker",
+    category: "Silver Jewellery",
+    price: 22000,
+    description: "Modernist sterling silver collar choker necklace featuring smooth contours, geometric edges, and high-fashion mirror finish.",
+    images: [
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 15,
+    material: "Silver",
+    weight: "48.0g",
+    gender: "Women",
+    ratings: 4.4,
+    reviewsCount: 4
+  },
+  {
+    productName: "Vintage Gold Kasu Mala",
+    category: "Necklaces",
+    price: 240000,
+    description: "Stunning traditional South Indian coin necklace (Kasu Mala) meticulously crafted in pure 22-karat yellow gold with Laxmi coins.",
+    images: [
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 5,
+    material: "Gold",
+    weight: "48.5g",
+    gender: "Women",
+    ratings: 4.9,
+    reviewsCount: 6
+  },
+  {
+    productName: "Elite Platinum Diamond Cufflinks",
+    category: "Men's Collection",
+    price: 140000,
+    description: "Exquisite pair of 950 platinum square cufflinks, featuring custom central princess-cut diamonds. An executive luxury statement.",
+    images: [
+      "https://images.unsplash.com/photo-1615655404740-8f030d678890?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 6,
+    material: "Platinum",
+    weight: "14.0g",
+    gender: "Men",
+    ratings: 4.7,
+    reviewsCount: 4
+  },
+  {
+    productName: "Traditional Silver Payal Pair",
+    category: "Silver Jewellery",
+    price: 9800,
+    description: "A pair of classic, heavy-draped sterling silver payal (anklets) with beautiful ringing bells (ghungroos) and floral clasps.",
+    images: [
+      "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 25,
+    material: "Silver",
+    weight: "62.0g",
+    gender: "Women",
+    ratings: 4.6,
+    reviewsCount: 8
+  },
+  {
+    productName: "Aria Marquise Diamond Ring",
+    category: "Rings",
+    price: 185000,
+    description: "Vibrant Marquise-cut solitaire diamond ring set on an 18k yellow gold band with pave-set diamond shoulders.",
+    images: [
+      "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=600"
+    ],
+    stock: 7,
+    material: "Diamond",
+    weight: "4.2g",
+    gender: "Women",
+    ratings: 4.9,
+    reviewsCount: 3
   }
 ];
 

@@ -1,0 +1,36 @@
+[
+  {
+    "_id": "id0gv6ryg",
+    "name": "Navrang Shrinath (Admin)",
+    "email": "admin@shriinavrang.com",
+    "phone": "+91 98765 43210",
+    "password": "$2a$10$szZTGZLuHTZxLNCf.2xoteFnPkzq114gk5IIJysIDv7YGJ17Pw1Qm",
+    "role": "admin",
+    "addresses": [],
+    "wishlist": [],
+    "createdAt": "2026-05-26T06:29:13.691Z"
+  },
+  {
+    "_id": "t50zg2x5m",
+    "name": "Dipesh Sharma",
+    "email": "customer@shriinavrang.com",
+    "phone": "+91 99887 76655",
+    "password": "$2a$10$szZTGZLuHTZxLNCf.2xoteg2sfqM1zd8b0a3NGALucOa3RAimqPbS",
+    "role": "customer",
+    "addresses": [
+      {
+        "street": "12, Gold Souk Mall, Sector 43",
+        "city": "Gurugram",
+        "state": "Haryana",
+        "zip": "122002",
+        "country": "India",
+        "isDefault": true
+      }
+    ],
+    "wishlist": [
+      "wdgar8vn9",
+      "uaciznwck"
+    ],
+    "createdAt": "2026-05-26T06:29:13.709Z"
+  }
+]

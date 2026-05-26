@@ -1,0 +1,19 @@
+[
+  {
+    "_id": "19mflsrrh",
+    "userId": "id0gv6ryg",
+    "products": [],
+    "createdAt": "2026-05-26T06:29:13.693Z"
+  },
+  {
+    "_id": "mbjktyc17",
+    "userId": "t50zg2x5m",
+    "products": [
+      {
+        "productId": "zrzdzshf6",
+        "quantity": 1
+      }
+    ],
+    "createdAt": "2026-05-26T06:29:13.713Z"
+  }
+]

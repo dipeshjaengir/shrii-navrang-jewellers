@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, Send, ShieldCheck } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, ShieldCheck, MessageCircle, Sparkles, Star } from 'lucide-react';
 
 const ContactUs = ({ onShowToast }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    subject: '',
+    subject: 'Bespoke Jewelry Consultation',
     message: ''
   });
   const [submitting, setSubmitting] = useState(false);
@@ -24,29 +24,35 @@ const ContactUs = ({ onShowToast }) => {
     setSubmitting(true);
     setTimeout(() => {
       setSubmitting(false);
-      if (onShowToast) onShowToast('Thank you! Your message has been sent successfully. Our concierge will connect with you within 24 hours.', 'success');
-      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-    }, 1500);
+      if (onShowToast) onShowToast('Thank you! Your inquiry has been logged. Our luxury concierge will connect with you within 24 hours. ✨', 'success');
+      setFormData({ name: '', email: '', phone: '', subject: 'Bespoke Jewelry Consultation', message: '' });
+    }, 2000);
   };
 
   return (
-    <div style={{ fontFamily: 'var(--font-body)', backgroundColor: 'var(--white)', color: 'var(--charcoal)', overflowX: 'hidden' }}>
+    <div style={{ fontFamily: 'var(--font-body)', backgroundColor: 'var(--alabaster)', color: 'var(--charcoal)', overflowX: 'hidden' }}>
       
-      {/* 1. Header */}
+      {/* 1. Luxurious Header */}
       <div style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(17, 17, 17, 0.85), rgba(17, 17, 17, 0.95)), url("https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=1200")`,
+        backgroundImage: `linear-gradient(to bottom, rgba(10, 10, 10, 0.8), rgba(17, 17, 17, 0.95)), url("https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=1200")`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        padding: '120px 20px',
+        padding: '140px 20px',
         textAlign: 'center',
-        borderBottom: '2px solid var(--gold)'
+        borderBottom: '3px solid var(--gold)',
+        position: 'relative'
       }}>
-        <div className="container">
-          <h1 style={{ fontFamily: 'var(--font-title)', color: '#ffffff', fontSize: '3.5rem', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '2px' }}>
-            Contact & Showrooms
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(212,175,55,0.03)', pointerEvents: 'none' }} />
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+          <div style={{ display: 'inline-flex', padding: '6px 12px', backgroundColor: 'rgba(212,175,55,0.15)', border: '1px solid var(--gold)', borderRadius: '4px', gap: '8px', alignItems: 'center', marginBottom: '20px', animation: 'fadeIn 1s' }}>
+            <Sparkles size={14} color="var(--gold)" />
+            <span style={{ fontSize: '0.7rem', color: 'var(--gold)', letterSpacing: '2px', fontWeight: 600, textTransform: 'uppercase' }}>Bespoke Experience</span>
+          </div>
+          <h1 style={{ fontFamily: 'var(--font-title)', color: '#ffffff', fontSize: '3.6rem', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 700 }}>
+            Connect With Navrang
           </h1>
-          <p style={{ color: 'var(--gold)', fontFamily: 'var(--font-title)', fontStyle: 'italic', fontSize: '1.4rem', letterSpacing: '1px', maxWidth: '700px', margin: '0 auto' }}>
-            "Step into the world of pure elegance. Visit our grand showroom."
+          <p style={{ color: '#cccccc', fontSize: '1.2rem', lineHeight: '1.6', maxWidth: '650px', margin: '0 auto', fontWeight: 300 }}>
+            Whether scheduling a private showroom preview or arranging a bespoke design consultation, our personal advisors are delighted to assist you.
           </p>
         </div>
       </div>
@@ -55,203 +61,297 @@ const ContactUs = ({ onShowToast }) => {
       <section style={{ padding: '80px 0' }}>
         <div className="container" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '60px' }}>
           
-          {/* Left Panel: Contact Form */}
-          <div className="glass-panel" style={{ padding: '50px 40px', borderRadius: '8px', border: '1px solid rgba(212, 175, 55, 0.15)' }}>
-            <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '2.2rem', marginBottom: '30px', color: 'var(--black)' }}>
-              Write to Our Concierge
-            </h2>
+          {/* Left Column: Elegant Contact Form */}
+          <div 
+            className="glass-panel" 
+            style={{ 
+              padding: '50px 45px', 
+              borderRadius: '8px', 
+              border: '1.5px solid var(--gold)',
+              boxShadow: 'var(--shadow)',
+              backgroundColor: '#ffffff'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
+              <Star size={18} color="var(--gold-dark)" fill="var(--gold)" />
+              <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '2.2rem', color: 'var(--black)', margin: 0 }}>
+                Concierge Request
+              </h2>
+            </div>
+            <p style={{ color: 'var(--grey)', fontSize: '0.9rem', marginBottom: '35px', fontWeight: 300 }}>
+              Complete the details below, and an expert jewelry advisor will guide you through custom modifications, diamond certification queries, or custom bridal sketches.
+            </p>
+
             <form onSubmit={handleSubmit}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                <div className="form-group">
-                  <label htmlFor="name">Full Name *</label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '20px' }}>
+                <div className="form-group" style={{ margin: 0 }}>
+                  <label htmlFor="name" style={{ fontWeight: 600, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--black)', display: 'block', marginBottom: '8px' }}>Your Name *</label>
                   <input 
                     type="text" 
                     id="name" 
                     name="name" 
                     className="form-control" 
-                    placeholder="Enter your name"
+                    placeholder="Enter full name"
                     value={formData.name} 
                     onChange={handleChange}
                     required
+                    style={{ border: '1.5px solid var(--light-grey)', borderRadius: '4px', padding: '12px 14px', fontSize: '0.85rem' }}
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="email">Email Address *</label>
+                <div className="form-group" style={{ margin: 0 }}>
+                  <label htmlFor="email" style={{ fontWeight: 600, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--black)', display: 'block', marginBottom: '8px' }}>Email Address *</label>
                   <input 
                     type="email" 
                     id="email" 
                     name="email" 
                     className="form-control" 
-                    placeholder="Enter your email"
+                    placeholder="Enter email address"
                     value={formData.email} 
                     onChange={handleChange}
                     required
+                    style={{ border: '1.5px solid var(--light-grey)', borderRadius: '4px', padding: '12px 14px', fontSize: '0.85rem' }}
                   />
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                <div className="form-group">
-                  <label htmlFor="phone">Phone Number</label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '20px' }}>
+                <div className="form-group" style={{ margin: 0 }}>
+                  <label htmlFor="phone" style={{ fontWeight: 600, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--black)', display: 'block', marginBottom: '8px' }}>Phone Number</label>
                   <input 
                     type="tel" 
                     id="phone" 
                     name="phone" 
                     className="form-control" 
-                    placeholder="Enter your number"
+                    placeholder="Enter mobile number"
                     value={formData.phone} 
                     onChange={handleChange}
+                    style={{ border: '1.5px solid var(--light-grey)', borderRadius: '4px', padding: '12px 14px', fontSize: '0.85rem' }}
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="subject">Subject</label>
-                  <input 
-                    type="text" 
+                <div className="form-group" style={{ margin: 0 }}>
+                  <label htmlFor="subject" style={{ fontWeight: 600, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--black)', display: 'block', marginBottom: '8px' }}>Inquiry Purpose</label>
+                  <select 
                     id="subject" 
                     name="subject" 
                     className="form-control" 
-                    placeholder="Bespoke consultation..."
                     value={formData.subject} 
                     onChange={handleChange}
-                  />
+                    style={{ border: '1.5px solid var(--light-grey)', borderRadius: '4px', padding: '12px 14px', fontSize: '0.85rem', height: '45px', cursor: 'pointer' }}
+                  >
+                    <option value="Bespoke Jewelry Consultation">Bespoke Jewelry Consultation</option>
+                    <option value="Showroom Private Preview">Showroom Private Preview</option>
+                    <option value="Order & Delivery Tracking">Order & Delivery Tracking</option>
+                    <option value="Lifetime Exchange Program">Lifetime Exchange Program</option>
+                    <option value="Other Inquiries">Other Inquiries</option>
+                  </select>
                 </div>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="message">Message *</label>
+              <div className="form-group" style={{ marginBottom: '30px' }}>
+                <label htmlFor="message" style={{ fontWeight: 600, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--black)', display: 'block', marginBottom: '8px' }}>Message details *</label>
                 <textarea 
                   id="message" 
                   name="message" 
                   className="form-control" 
                   rows="5"
-                  placeholder="How can we assist you today? Feel free to request video calling appointments or custom modifications..."
+                  placeholder="Tell us about the design, gemstones, or custom sizing you are interested in. If scheduling a private preview, please state your preferred dates..."
                   value={formData.message} 
                   onChange={handleChange}
                   required
-                  style={{ resize: 'vertical' }}
+                  style={{ resize: 'vertical', border: '1.5px solid var(--light-grey)', borderRadius: '4px', padding: '14px', fontSize: '0.85rem' }}
                 />
               </div>
 
               <button 
                 type="submit" 
                 className="btn-gold" 
-                style={{ width: '100%', justifyContent: 'center', marginTop: '10px' }}
+                style={{ width: '100%', justifyContent: 'center', height: '48px', gap: '10px' }}
                 disabled={submitting}
               >
-                {submitting ? 'Sending Request...' : 'Send Message'}
+                {submitting ? 'DISPATCHING TO ADVISORS...' : 'SEND SECURED MESSAGE'}
                 <Send size={16} />
               </button>
             </form>
           </div>
 
-          {/* Right Panel: Showroom Details & Quick Info */}
-          <div>
-            <div style={{ marginBottom: '40px' }}>
-              <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '2.2rem', marginBottom: '25px', color: 'var(--black)' }}>
-                Grand Showroom
-              </h2>
+          {/* Right Column: Showroom Details & Glowing WhatsApp button */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+            
+            {/* Showroom card */}
+            <div className="glass-panel" style={{ padding: '40px', borderRadius: '8px', border: '1px solid rgba(212,175,55,0.15)', backgroundColor: '#ffffff', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
+              <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '1.8rem', color: 'var(--black)', marginBottom: '30px', borderBottom: '1px solid var(--light-grey)', paddingBottom: '12px' }}>
+                Flagship Showroom
+              </h3>
+              
               <div style={{ display: 'flex', gap: '15px', marginBottom: '24px', alignItems: 'flex-start' }}>
-                <div style={{ minWidth: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(212,175,55,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <MapPin size={20} color="var(--gold)" />
+                <div style={{ minWidth: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(212,175,55,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <MapPin size={18} color="var(--gold-dark)" />
                 </div>
                 <div>
-                  <h4 style={{ fontWeight: 600, fontSize: '1rem', color: 'var(--black)', marginBottom: '4px' }}>Address</h4>
-                  <p style={{ fontWeight: 300, fontSize: '0.95rem', lineHeight: '1.6' }}>
-                    Shrii Navrang Jewellers Building, 104-106, Chandni Chowk Road, Opposite Metro Gate 2, Delhi - 110006, India.
+                  <h4 style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--black)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Location</h4>
+                  <p style={{ fontWeight: 300, fontSize: '0.9rem', lineHeight: '1.6', color: 'var(--charcoal-light)' }}>
+                    Shrii Navrang Jewellers Building, 45, Gold Plaza Market, Sector 18, Noida, Uttar Pradesh, India - 201301.
                   </p>
                 </div>
               </div>
 
               <div style={{ display: 'flex', gap: '15px', marginBottom: '24px', alignItems: 'flex-start' }}>
-                <div style={{ minWidth: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(212,175,55,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Phone size={20} color="var(--gold)" />
+                <div style={{ minWidth: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(212,175,55,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Phone size={18} color="var(--gold-dark)" />
                 </div>
                 <div>
-                  <h4 style={{ fontWeight: 600, fontSize: '1rem', color: 'var(--black)', marginBottom: '4px' }}>Phone Support</h4>
-                  <p style={{ fontWeight: 300, fontSize: '0.95rem', lineHeight: '1.6' }}>
-                    Concierge Line: +91 11 4987 6543<br />
-                    WhatsApp Catalogue: +91 98765 43210
+                  <h4 style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--black)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Luxury Phone Concierge</h4>
+                  <p style={{ fontWeight: 300, fontSize: '0.9rem', lineHeight: '1.6', color: 'var(--charcoal-light)' }}>
+                    Line support: +91 120 4567 890<br />
+                    Toll-Free Heritage Support: 1800 212 5555
                   </p>
                 </div>
               </div>
 
               <div style={{ display: 'flex', gap: '15px', marginBottom: '24px', alignItems: 'flex-start' }}>
-                <div style={{ minWidth: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(212,175,55,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Mail size={20} color="var(--gold)" />
+                <div style={{ minWidth: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(212,175,55,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Mail size={18} color="var(--gold-dark)" />
                 </div>
                 <div>
-                  <h4 style={{ fontWeight: 600, fontSize: '1rem', color: 'var(--black)', marginBottom: '4px' }}>General & Bespoke Inquiries</h4>
-                  <p style={{ fontWeight: 300, fontSize: '0.95rem', lineHeight: '1.6' }}>
-                    concierge@shriinavrang.com<br />
-                    orders@shriinavrang.com
+                  <h4 style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--black)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Email Channels</h4>
+                  <p style={{ fontWeight: 300, fontSize: '0.9rem', lineHeight: '1.6', color: 'var(--charcoal-light)' }}>
+                    Bespoke Inquiries: concierge@shriinavrang.com<br />
+                    Corporate & Orders: orders@shriinavrang.com
                   </p>
                 </div>
               </div>
 
               <div style={{ display: 'flex', gap: '15px', alignItems: 'flex-start' }}>
-                <div style={{ minWidth: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(212,175,55,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Clock size={20} color="var(--gold)" />
+                <div style={{ minWidth: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(212,175,55,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Clock size={18} color="var(--gold-dark)" />
                 </div>
                 <div>
-                  <h4 style={{ fontWeight: 600, fontSize: '1rem', color: 'var(--black)', marginBottom: '4px' }}>Showroom Timings</h4>
-                  <p style={{ fontWeight: 300, fontSize: '0.95rem', lineHeight: '1.6' }}>
+                  <h4 style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--black)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Visiting Hours</h4>
+                  <p style={{ fontWeight: 300, fontSize: '0.9rem', lineHeight: '1.6', color: 'var(--charcoal-light)' }}>
                     Tuesday - Sunday: 11:00 AM - 08:30 PM<br />
-                    (Closed on Mondays)
+                    <span style={{ color: 'var(--error)', fontWeight: 600 }}>(Mondays Closed for vault inventory audits)</span>
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="glass-panel" style={{ padding: '30px', borderRadius: '8px', border: '1px solid rgba(212, 175, 55, 0.15)', display: 'flex', gap: '15px', alignItems: 'center' }}>
-              <ShieldCheck size={40} color="var(--gold)" style={{ flexShrink: 0 }} />
-              <p style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--charcoal)', lineHeight: '1.5' }}>
-                <strong>VIRTUAL ASSISTANCE AVAILABLE</strong><br />
-                Request a dedicated live video presentation of any jewellery piece via Google Meet or WhatsApp with our expert consultants.
+            {/* Glowing WhatsApp Chat Button */}
+            <div 
+              className="glass-panel" 
+              style={{ 
+                padding: '30px', 
+                borderRadius: '8px', 
+                border: '1.5px solid #25d366', 
+                backgroundColor: '#ffffff', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: '15px',
+                boxShadow: '0 4px 15px rgba(37, 211, 102, 0.05)'
+              }}
+            >
+              <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+                <div style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: 'rgba(37,211,102,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#25d366' }}>
+                  <MessageCircle size={24} fill="#25d366" color="#ffffff" />
+                </div>
+                <div>
+                  <h4 style={{ margin: 0, fontWeight: 700, fontSize: '0.95rem', color: 'var(--black)' }}>Instant WhatsApp Advisor</h4>
+                  <span style={{ fontSize: '0.75rem', color: '#25d366', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#25d366', display: 'inline-block', animation: 'pulseGreen 1.5s infinite' }} />
+                    Advisors Online Now
+                  </span>
+                </div>
+              </div>
+              
+              <p style={{ fontSize: '0.8rem', fontWeight: 300, color: 'var(--charcoal-light)', lineHeight: '1.5', margin: 0 }}>
+                Prefer instant messaging? Chat directly with our high-jewelry advisors on WhatsApp. Request real-time photos, video previews, or lock diamond selections.
               </p>
+
+              <a 
+                href="https://wa.me/919876543210?text=Hello%20Shrii%20Navrang%20Jewellers,%20I%20would%20like%20to%20schedule%20a%20bespoke%20consultation." 
+                target="_blank" 
+                rel="noreferrer"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  backgroundColor: '#25d366',
+                  color: '#ffffff',
+                  fontWeight: 600,
+                  fontSize: '0.85rem',
+                  textDecoration: 'none',
+                  padding: '12px 20px',
+                  borderRadius: '4px',
+                  boxShadow: '0 4px 10px rgba(37, 211, 102, 0.25)',
+                  transition: 'background-color 0.2s',
+                  textAlign: 'center'
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#20ba5a'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = '#25d366'}
+              >
+                <MessageCircle size={18} />
+                CHAT ON WHATSAPP
+              </a>
             </div>
+
           </div>
 
         </div>
       </section>
 
-      {/* 3. Embedded Map Mockup */}
-      <section style={{ height: '400px', borderTop: '2px solid var(--gold)', position: 'relative', overflow: 'hidden' }}>
-        <img 
-          src="https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&q=80&w=1200" 
-          alt="Mock map showroom location background"
-          style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(1) brightness(0.3)' }}
+      {/* 3. Interactive Embedded Google Maps Section */}
+      <section style={{ borderTop: '3px solid var(--gold)', height: '450px', backgroundColor: 'var(--black)' }}>
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500.567080836585!2d77.3218768!3d28.5707106!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce5cc00000001%3A0x6bcfd3ff698d5c4e!2sSector%2018%2C%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1684000000000!5m2!1sen!2sin" 
+          width="100%" 
+          height="100%" 
+          style={{ border: 0, filter: 'grayscale(0.1) contrast(1.1) invert(0)' }} 
+          allowFullScreen="" 
+          loading="lazy" 
+          referrerPolicy="no-referrer-when-downgrade"
+          title="Shrii Navrang Jewellers Flagship Showroom Noida"
         />
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'rgba(0,0,0,0.5)',
-          color: '#ffffff',
-          textAlign: 'center',
-          padding: '20px'
-        }}>
-          <h3 style={{ fontFamily: 'var(--font-title)', color: 'var(--gold)', fontSize: '2rem', marginBottom: '10px' }}>
-            Visit Us in Chandni Chowk
-          </h3>
-          <p style={{ maxWidth: '500px', fontWeight: 300, fontSize: '1rem', lineHeight: '1.6' }}>
-            Convenient valet parking is available right at our entrance. Guided shuttle assistance is also available from Chandni Chowk Metro Station.
-          </p>
+      </section>
+
+      {/* 4. Valet Parking & Trust highlights */}
+      <section style={{ backgroundColor: 'var(--black)', padding: '50px 0', color: 'var(--white)', borderTop: '1px solid var(--charcoal-light)' }}>
+        <div className="container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', gap: '30px', textAlign: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', maxWidth: '250px' }}>
+            <ShieldCheck size={28} color="var(--gold)" />
+            <h5 style={{ fontWeight: 700, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '4px 0 0 0' }}>COMPLIMENTARY VALET PARKING</h5>
+            <span style={{ fontSize: '0.75rem', color: '#b5b5b5', fontWeight: 300 }}>Experience premium secured valet parking service right at our entrance.</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', maxWidth: '250px' }}>
+            <Clock size={28} color="var(--gold)" />
+            <h5 style={{ fontWeight: 700, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '4px 0 0 0' }}>BESPOKE DISCRETION</h5>
+            <span style={{ fontSize: '0.75rem', color: '#b5b5b5', fontWeight: 300 }}>Private VIP lounge available for high-value bridal previews upon reservation.</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', maxWidth: '250px' }}>
+            <Sparkles size={28} color="var(--gold)" />
+            <h5 style={{ fontWeight: 700, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '4px 0 0 0' }}>EXPERT GEMOLOGISTS</h5>
+            <span style={{ fontSize: '0.75rem', color: '#b5b5b5', fontWeight: 300 }}>In-house GIA-certified gemologists available for complimentary diamond grading.</span>
+          </div>
         </div>
       </section>
 
+      {/* Embedded Animations styles */}
       <style dangerouslySetInnerHTML={{__html: `
+        @keyframes pulseGreen {
+          0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+          70% { box-shadow: 0 0 0 8px rgba(37, 211, 102, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+        @keyframes pulseGold {
+          0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+          70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
         @media (max-width: 768px) {
           section > .container {
             grid-template-columns: 1fr !important;
             gap: 40px !important;
           }
-          h1[style*="fontSize: 3.5rem"] {
+          h1[style*="fontSize: 3.6rem"] {
             font-size: 2.2rem !important;
           }
         }

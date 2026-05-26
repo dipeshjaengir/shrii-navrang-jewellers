@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
@@ -120,52 +121,18 @@ const Navbar = () => {
       }}>
         {/* Logo */}
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0 }} onClick={() => setShowProfileDropdown(false)}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
-            {/* SN Royal Crown Premium Logo */}
-            <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 2px 8px rgba(212, 175, 55, 0.45))' }}>
-              <defs>
-                <linearGradient id="gold-grad-logo" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FFF3B0" />
-                  <stop offset="30%" stopColor="#D4AF37" />
-                  <stop offset="70%" stopColor="#AA7C11" />
-                  <stop offset="100%" stopColor="#F3E5AB" />
-                </linearGradient>
-                <radialGradient id="gold-glow-logo" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.35" />
-                  <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
-                </radialGradient>
-              </defs>
-              <circle cx="50" cy="50" r="46" fill="url(#gold-glow-logo)" />
-              <circle cx="50" cy="50" r="42" stroke="url(#gold-grad-logo)" strokeWidth="1.5" fill="none" />
-              <circle cx="50" cy="50" r="38" stroke="url(#gold-grad-logo)" strokeWidth="0.75" strokeDasharray="2 2" fill="none" />
-              
-              {/* Crown Base */}
-              <path d="M35 55 H65 V58 Q50 60 35 58 Z" fill="url(#gold-grad-logo)" />
-              <rect x="38" y="52" width="24" height="1.5" rx="0.5" fill="#FFFFFF" opacity="0.8" />
-              
-              {/* Crown Peaks */}
-              <path d="M35 55 L30 35 L40 48 Z" fill="url(#gold-grad-logo)" />
-              <path d="M50 55 L50 24 L45 42 Z" fill="url(#gold-grad-logo)" />
-              <path d="M50 55 L50 24 L55 42 Z" fill="url(#gold-grad-logo)" opacity="0.9" />
-              <path d="M65 55 L70 35 L60 48 Z" fill="url(#gold-grad-logo)" />
-              
-              {/* Crown Peak Jewels */}
-              <circle cx="30" cy="34" r="2.5" fill="#FFFFFF" />
-              <circle cx="30" cy="34" r="1.5" fill="url(#gold-grad-logo)" />
-              
-              <circle cx="50" cy="22" r="3.5" fill="#FFFFFF" />
-              <circle cx="50" cy="22" r="2.5" fill="url(#gold-grad-logo)" />
-              
-              <circle cx="70" cy="34" r="2.5" fill="#FFFFFF" />
-              <circle cx="70" cy="34" r="1.5" fill="url(#gold-grad-logo)" />
-              
-              {/* Interwoven SN Serif Monogram */}
-              <text x="50" y="78" fontFamily="'Playfair Display', Georgia, serif" fontSize="20" fontWeight="bold" fill="url(#gold-grad-logo)" textAnchor="middle" letterSpacing="0.5">SN</text>
-              
-              {/* Sparkling Stars */}
-              <path d="M22 45 L24 47 L22 49 L20 47 Z" fill="url(#gold-grad-logo)" opacity="0.7" />
-              <path d="M78 45 L80 47 L78 49 L76 47 Z" fill="url(#gold-grad-logo)" opacity="0.7" />
-            </svg>
+          <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+            <img 
+              src="/logo.png" 
+              alt="Shrii Navrang Jewellers Logo" 
+              style={{
+                height: '54px',
+                width: 'auto',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 2px 8px rgba(212, 175, 55, 0.35))',
+                display: 'block'
+              }} 
+            />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <span className="brand-text" style={{
@@ -605,7 +572,7 @@ const Navbar = () => {
       `}} />
 
       {/* 5. Today's Rates Luxury Modal */}
-      {showRatesModal && (
+      {showRatesModal && createPortal(
         <div className="modal-overlay" onClick={handleOverlayClick}>
           <div className="modal-content-card">
             <button className="modal-close-btn" onClick={() => setShowRatesModal(false)}>
@@ -614,13 +581,16 @@ const Navbar = () => {
 
             {/* Logo Monogram */}
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-              <svg width="46" height="46" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="46" stroke="#D4AF37" strokeWidth="4" fill="#111111" />
-                <circle cx="50" cy="50" r="40" stroke="#D4AF37" strokeWidth="1.5" strokeDasharray="3 3" />
-                <path d="M50 20 L60 32 L50 44 L40 32 Z" fill="#D4AF37" />
-                <path d="M50 56 L60 68 L50 80 L40 68 Z" fill="#D4AF37" opacity="0.8" />
-                <text x="50" y="58" fontFamily="Georgia, serif" fontSize="24" fontWeight="bold" fill="#D4AF37" textAnchor="middle">N</text>
-              </svg>
+              <img 
+                src="/logo.png" 
+                alt="Shrii Navrang Jewellers Logo" 
+                style={{
+                  height: '70px',
+                  width: 'auto',
+                  objectFit: 'contain',
+                  filter: 'drop-shadow(0 2px 8px rgba(212, 175, 55, 0.25))'
+                }} 
+              />
             </div>
 
             <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '1.6rem', color: '#ffffff', margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '1px' }}>
@@ -661,7 +631,8 @@ const Navbar = () => {
               <span style={{ color: '#666', fontSize: '0.65rem' }}>Showroom Managed by Navrang Jangid & Family. GST & Making charges extra.</span>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
     </nav>

@@ -92,9 +92,18 @@ const AuthModal = () => {
           <X size={20} />
         </button>
 
-        {/* Brand Icon & Heading */}
-        <div style={{ display: 'inline-flex', padding: '12px', borderRadius: '50%', backgroundColor: 'rgba(212, 175, 55, 0.15)', marginBottom: '16px', border: '1px solid var(--gold)' }}>
-          <Sparkles size={28} color="var(--gold)" />
+        {/* Brand Logo & Heading */}
+        <div style={{ display: 'inline-flex', marginBottom: '16px' }}>
+          <img 
+            src="/logo.png" 
+            alt="Shrii Navrang Jewellers Logo" 
+            style={{
+              height: '80px',
+              width: 'auto',
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 2px 8px rgba(212, 175, 55, 0.25))'
+            }} 
+          />
         </div>
 
         <h3 style={{ fontSize: '1.6rem', color: 'var(--white)', fontWeight: 600, fontFamily: 'var(--font-title)', marginBottom: '8px' }}>

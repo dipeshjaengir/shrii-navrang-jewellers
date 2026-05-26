@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Cart = require('../models/Cart');
+const Notification = require('../models/Notification');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
@@ -19,6 +20,12 @@ const registerUser = async (req, res) => {
 
     const sanitizedEmail = email.trim().toLowerCase();
     const sanitizedPhone = phone.trim();
+
+    // Validate Indian 10-digit phone format (digits only, starting with 6-9)
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(sanitizedPhone)) {
+      return res.status(400).json({ message: 'Please enter a valid 10-digit Indian mobile number (starting with 6-9)' });
+    }
 
     // Verify existing user lookup before account creation (uniqueness validation)
     const emailExists = await User.findOne({ email: sanitizedEmail });
@@ -211,10 +218,185 @@ const toggleWishlist = async (req, res) => {
   }
 };
 
+const forgotPassword = async (req, res) => {
+  const { identifier } = req.body;
+  try {
+    if (!identifier) {
+      return res.status(400).json({ message: 'Please enter your registered email or mobile number' });
+    }
+
+    const searchStr = identifier.trim();
+    let user;
+    
+    if (searchStr.includes('@')) {
+      const sanitizedEmail = searchStr.toLowerCase();
+      user = await User.findOne({ email: sanitizedEmail });
+    } else {
+      const digitsOnly = searchStr.replace(/\D/g, '');
+      user = await User.findOne({ phone: digitsOnly });
+      if (!user && digitsOnly.length >= 8) {
+        const rawUsers = await User.find({});
+        const users = Array.isArray(rawUsers) ? rawUsers : (rawUsers.data || []);
+        user = users.find(u => {
+          if (!u.phone) return false;
+          const uDigits = u.phone.replace(/\D/g, '');
+          return uDigits.endsWith(digitsOnly) || digitsOnly.endsWith(uDigits);
+        });
+      }
+    }
+
+    if (!user) {
+      return res.status(404).json({ message: 'No registered account found with that email or mobile number' });
+    }
+
+    // Abuse protection: limit requests to once per minute
+    if (user.lastOtpRequest && (Date.now() - new Date(user.lastOtpRequest).getTime()) < 60000) {
+      const secondsLeft = Math.ceil((60000 - (Date.now() - new Date(user.lastOtpRequest).getTime())) / 1000);
+      return res.status(429).json({ message: `Please wait ${secondsLeft} second(s) before requesting another recovery code.` });
+    }
+
+    // Generate 6 digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    
+    // Set 10 minutes expiration (600000 ms)
+    user.otp = otp;
+    user.otpExpires = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+    user.otpAttempts = 0;
+    user.lastOtpRequest = new Date().toISOString();
+    
+    await user.save();
+
+    console.log(`🔑 [OTP-SECURITY] Secure Reset Flow: Generated OTP ${otp} for User: "${user.name}" (${user.email}). Expires in 10 minutes.`);
+
+    return res.json({ 
+      message: `A secure 6-digit verification code has been generated. For testing/local validation, your code is: ${otp}`,
+      otp 
+    });
+  } catch (error) {
+    console.error('Forgot password OTP generation crash:', error);
+    return res.status(500).json({ message: 'Server recovery error', error: error.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { identifier, otp, password } = req.body;
+  try {
+    if (!identifier || !otp || !password) {
+      return res.status(400).json({ message: 'Please provide all details: identifier, OTP, and new password' });
+    }
+
+    const searchStr = identifier.trim();
+    let user;
+    
+    if (searchStr.includes('@')) {
+      const sanitizedEmail = searchStr.toLowerCase();
+      user = await User.findOne({ email: sanitizedEmail });
+    } else {
+      const digitsOnly = searchStr.replace(/\D/g, '');
+      user = await User.findOne({ phone: digitsOnly });
+      if (!user && digitsOnly.length >= 8) {
+        const rawUsers = await User.find({});
+        const users = Array.isArray(rawUsers) ? rawUsers : (rawUsers.data || []);
+        user = users.find(u => {
+          if (!u.phone) return false;
+          const uDigits = u.phone.replace(/\D/g, '');
+          return uDigits.endsWith(digitsOnly) || digitsOnly.endsWith(uDigits);
+        });
+      }
+    }
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (!user.otp) {
+      return res.status(400).json({ message: 'No active password recovery request found for this account.' });
+    }
+
+    // Check expiration
+    if (new Date() > new Date(user.otpExpires)) {
+      user.otp = undefined;
+      user.otpExpires = undefined;
+      user.otpAttempts = 0;
+      await user.save();
+      return res.status(400).json({ message: 'The verification code has expired (valid for 10 minutes only). Please request a new code.' });
+    }
+
+    // Verify code match
+    if (String(user.otp) !== String(otp).trim()) {
+      user.otpAttempts = (user.otpAttempts || 0) + 1;
+      
+      // Repeated abuse protection: Max 5 failed attempts
+      if (user.otpAttempts >= 5) {
+        user.otp = undefined;
+        user.otpExpires = undefined;
+        user.otpAttempts = 0;
+        await user.save();
+        return res.status(400).json({ message: 'Too many invalid OTP attempts. For security, this verification code has been revoked. Please request a new one.' });
+      }
+
+      await user.save();
+      return res.status(400).json({ message: `Invalid verification code. You have ${5 - user.otpAttempts} attempt(s) remaining.` });
+    }
+
+    // OTP matches! Update password securely using bcrypt
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+
+    // Clear OTP fields - one-time use verified!
+    user.otp = undefined;
+    user.otpExpires = undefined;
+    user.otpAttempts = 0;
+
+    await user.save();
+
+    console.log(`✓ [OTP-SECURITY] Password updated successfully for user "${user.name}" <${user.email}>. OTP revoked.`);
+
+    return res.json({ message: 'Your password has been successfully reset! You can now log in with your new password.' });
+  } catch (error) {
+    console.error('Reset password crash:', error);
+    return res.status(500).json({ message: 'Server reset error', error: error.message });
+  }
+};
+
+const getCustomerNotifications = async (req, res) => {
+  try {
+    const rawNotifications = await Notification.find({ userId: String(req.user._id) });
+    const notifications = Array.isArray(rawNotifications) ? rawNotifications : (rawNotifications.data || []);
+    // Sort newest first
+    notifications.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    return res.json(notifications);
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error retrieving notifications', error: error.message });
+  }
+};
+
+const markCustomerNotificationRead = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const notification = await Notification.findById(id);
+    if (!notification) {
+      return res.status(404).json({ message: 'Notification not found' });
+    }
+    if (String(notification.userId) !== String(req.user._id)) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+    notification.isRead = true;
+    await notification.save();
+    return res.json({ message: 'Notification marked as read', notification });
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error marking notification as read', error: error.message });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   getUserProfile,
   updateUserProfile,
-  toggleWishlist
+  toggleWishlist,
+  forgotPassword,
+  resetPassword,
+  getCustomerNotifications,
+  markCustomerNotificationRead
 };

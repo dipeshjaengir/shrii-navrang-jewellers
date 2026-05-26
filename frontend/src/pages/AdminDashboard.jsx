@@ -54,6 +54,37 @@ const AdminDashboard = ({ onShowToast }) => {
 
   const navigate = useNavigate();
 
+  // Ref for admin notifications click-outside
+  const adminNotifRef = React.useRef(null);
+
+  // Close dropdown on outside click or Escape key press
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (adminNotifRef.current && !adminNotifRef.current.contains(e.target)) {
+        setShowNotificationsDropdown(false);
+      }
+    };
+
+    const handleEscapeKey = (e) => {
+      if (e.key === 'Escape') {
+        setShowNotificationsDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+    window.addEventListener('keydown', handleEscapeKey);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      window.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, []);
+
+  // Close notifications dropdown on active tab change
+  useEffect(() => {
+    setShowNotificationsDropdown(false);
+  }, [activeTab]);
+
   const fetchDashboardData = async () => {
     if (!token) return;
     try {
@@ -433,7 +464,7 @@ const AdminDashboard = ({ onShowToast }) => {
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
           {/* Real-time Admin Notifications Tray */}
-          <div style={{ position: 'relative' }}>
+          <div style={{ position: 'relative' }} ref={adminNotifRef}>
             <button 
               onClick={() => setShowNotificationsDropdown(!showNotificationsDropdown)}
               style={{

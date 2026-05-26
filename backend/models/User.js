@@ -15,7 +15,12 @@ const userSchema = new mongoose.Schema({
     country: String,
     isDefault: { type: Boolean, default: false }
   }],
-  wishlist: [{ type: String }] // Can store string IDs or ObjectIds transparently
+  wishlist: [{ type: String }], // Can store string IDs or ObjectIds transparently
+  otp: { type: String },
+  otpExpires: { type: String },
+  otpAttempts: { type: Number, default: 0 },
+  lastOtpRequest: { type: String },
+  lastLogin: { type: String }
 }, { timestamps: true });
 
 let UserModel;

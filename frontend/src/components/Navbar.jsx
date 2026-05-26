@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { Search, Heart, ShoppingBag, User as UserIcon, LogOut, ChevronDown, Menu, X, Sparkles, LayoutDashboard, Landmark } from 'lucide-react';
+import { Search, Heart, ShoppingBag, User as UserIcon, LogOut, ChevronDown, Menu, X, Sparkles, LayoutDashboard, Landmark, Bell } from 'lucide-react';
 import { API_URL } from '../config';
 
 const Navbar = () => {
-  const { user, logout, triggerRestrictedAction, setAuthModalPurpose, setShowAuthModal } = useAuth();
+  const { user, token, logout, triggerRestrictedAction, setAuthModalPurpose, setShowAuthModal } = useAuth();
   const { cartCount } = useCart();
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState([]);
   const [showRatesModal, setShowRatesModal] = useState(false);
+  
   const [ratesConfig, setRatesConfig] = useState({
     gold24k: 7250,
     gold22k: 6650,
@@ -20,8 +23,22 @@ const Navbar = () => {
     businessEmail: 'info@Shrinavrang.com',
     updatedAt: new Date().toISOString()
   });
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Refs for click outside
+  const profileRef = React.useRef(null);
+  const notificationsRef = React.useRef(null);
+
+  // Close dropdowns on route changes
+  useEffect(() => {
+    setShowProfileDropdown(false);
+    setShowNotifications(false);
+    setMobileMenuOpen(false);
+  }, [location]);
+
+  // Fetch Live Rates
   useEffect(() => {
     const fetchRates = async () => {
       try {
@@ -37,6 +54,7 @@ const Navbar = () => {
     fetchRates();
   }, []);
 
+  // Rates Modal Escape Key handler
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
@@ -52,6 +70,84 @@ const Navbar = () => {
       document.body.style.overflow = 'unset';
     };
   }, [showRatesModal]);
+
+  // Outside Click & ESC Key close handlers for Dropdowns
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setShowProfileDropdown(false);
+      }
+      if (notificationsRef.current && !notificationsRef.current.contains(e.target)) {
+        setShowNotifications(false);
+      }
+    };
+
+    const handleEscapeKey = (e) => {
+      if (e.key === 'Escape') {
+        setShowProfileDropdown(false);
+        setShowNotifications(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+    window.addEventListener('keydown', handleEscapeKey);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      window.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, []);
+
+  // Fetch Customer Notifications from database
+  const fetchNotifications = async () => {
+    if (!user || !token) return;
+    try {
+      const res = await fetch(`${API_URL}/auth/notifications`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setNotifications(data);
+      }
+    } catch (err) {
+      console.error('Error fetching customer notifications:', err);
+    }
+  };
+
+  // Real-time synchronization: poll every 5 seconds
+  useEffect(() => {
+    if (user && token) {
+      fetchNotifications();
+      const interval = setInterval(fetchNotifications, 5000);
+      return () => clearInterval(interval);
+    } else {
+      setNotifications([]);
+    }
+  }, [user, token]);
+
+  const handleMarkAsRead = async (id) => {
+    try {
+      const res = await fetch(`${API_URL}/auth/notifications/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (res.ok) {
+        setNotifications(prev => prev.map(notif => notif._id === id ? { ...notif, isRead: true } : notif));
+      }
+    } catch (err) {
+      console.error('Error marking notification as read:', err);
+    }
+  };
+
+  const handleMarkAllAsRead = async () => {
+    const unread = notifications.filter(n => !n.isRead);
+    for (let notif of unread) {
+      await handleMarkAsRead(notif._id);
+    }
+  };
 
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -250,8 +346,114 @@ const Navbar = () => {
               )}
             </a>
 
+            {/* Customer Bell Notifications */}
+            {user && (
+              <div style={{ position: 'relative' }} ref={notificationsRef}>
+                <button 
+                  onClick={() => setShowNotifications(!showNotifications)} 
+                  className="nav-icon-link" 
+                  style={{ 
+                    position: 'relative', 
+                    display: 'flex', 
+                    alignItems: 'center',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: 0
+                  }}
+                >
+                  <Bell size={20} />
+                  {notifications.filter(n => !n.isRead).length > 0 && (
+                    <span className="badge-count gold-badge">
+                      {notifications.filter(n => !n.isRead).length}
+                    </span>
+                  )}
+                </button>
+
+                {showNotifications && (
+                  <div 
+                    className="glass-panel-dark"
+                    style={{
+                      position: 'absolute',
+                      top: '40px',
+                      right: 0,
+                      width: '320px',
+                      borderRadius: '4px',
+                      border: '1px solid var(--gold)',
+                      boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
+                      zIndex: 1000,
+                      textAlign: 'left',
+                      overflow: 'hidden'
+                    }}
+                  >
+                    <div style={{ padding: '12px 16px', borderBottom: '1px solid #222', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgba(212,175,55,0.05)' }}>
+                      <span style={{ fontWeight: 600, fontSize: '0.85rem', color: '#fff' }}>Notifications</span>
+                      {notifications.filter(n => !n.isRead).length > 0 && (
+                        <button 
+                          onClick={handleMarkAllAsRead} 
+                          style={{ background: 'none', border: 'none', color: 'var(--gold)', cursor: 'pointer', fontSize: '0.7rem', padding: 0, textDecoration: 'underline' }}
+                        >
+                          Mark all read
+                        </button>
+                      )}
+                    </div>
+
+                    <div style={{ maxHeight: '280px', overflowY: 'auto' }}>
+                      {notifications.length === 0 ? (
+                        <div style={{ padding: '24px 16px', textAlign: 'center', color: '#888', fontSize: '0.8rem' }}>
+                          No notifications yet.
+                        </div>
+                      ) : (
+                        notifications.map(notif => (
+                          <div 
+                            key={notif._id}
+                            style={{ 
+                              padding: '12px 16px', 
+                              borderBottom: '1px solid #1a1a1a', 
+                              backgroundColor: notif.isRead ? 'transparent' : 'rgba(212,175,55,0.03)',
+                              transition: 'background-color 0.2s',
+                              position: 'relative'
+                            }}
+                          >
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
+                              <span style={{ fontWeight: notif.isRead ? 500 : 700, fontSize: '0.8rem', color: notif.isRead ? '#e5e5e5' : '#ffffff' }}>
+                                {notif.title}
+                              </span>
+                              {!notif.isRead && (
+                                <button 
+                                  onClick={() => handleMarkAsRead(notif._id)}
+                                  style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    color: 'var(--gold)',
+                                    cursor: 'pointer',
+                                    fontSize: '0.65rem',
+                                    padding: 0,
+                                    textTransform: 'uppercase',
+                                    fontWeight: 600
+                                  }}
+                                >
+                                  Read
+                                </button>
+                              )}
+                            </div>
+                            <p style={{ fontSize: '0.75rem', color: '#aaaaaa', margin: '4px 0 0 0', lineHeight: '1.3' }}>
+                              {notif.message}
+                            </p>
+                            <span style={{ fontSize: '0.6rem', color: '#666666', display: 'block', marginTop: '6px' }}>
+                              {new Date(notif.createdAt).toLocaleDateString('en-IN')} {new Date(notif.createdAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Profile Dropdown controller */}
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative' }} ref={profileRef}>
               <a href="/profile" onClick={handleProfileClick} className="nav-icon-link" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <UserIcon size={20} />
                 {user && <ChevronDown size={12} />}
@@ -478,7 +680,7 @@ const Navbar = () => {
           border-radius: 50%;
           display: flex;
           align-items: center;
-          justifyContent: center;
+          justify-content: center;
           border: 1px solid var(--gold);
           transition: all 0.3s ease;
         }
@@ -501,7 +703,7 @@ const Navbar = () => {
           background-color: rgba(0,0,0,0.85);
           display: flex;
           align-items: center;
-          justifyContent: center;
+          justify-content: center;
           z-index: 9999;
           backdrop-filter: blur(8px);
           padding: 20px;
@@ -546,7 +748,7 @@ const Navbar = () => {
           transition: all 0.3s ease;
           display: flex;
           align-items: center;
-          justifyContent: center;
+          justify-content: center;
           padding: 4px;
         }
         .modal-close-btn:hover {
@@ -572,7 +774,7 @@ const Navbar = () => {
         }
       `}} />
 
-      {/* 5. Today's Rates Luxury Modal */}
+      {/* Today's Rates Live Modal */}
       {showRatesModal && createPortal(
         <div className="modal-overlay" onClick={handleOverlayClick}>
           <div className="modal-content-card">
@@ -580,7 +782,6 @@ const Navbar = () => {
               <X size={20} />
             </button>
 
-            {/* Logo Monogram */}
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
               <img 
                 src="/logo.png" 
@@ -601,28 +802,23 @@ const Navbar = () => {
               Today's Live Showroom Rates
             </span>
 
-            {/* Rates Table/Cards */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '30px' }}>
-              {/* Gold 24K */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 20px', backgroundColor: 'rgba(212, 175, 55, 0.05)', border: '1px solid rgba(212,175,55,0.2)', borderRadius: '4px' }}>
                 <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#e5e5e5' }}>Gold 24K (99.9% Purity)</span>
                 <span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--gold)' }}>₹{ratesConfig.gold24k.toLocaleString('en-IN')} <span style={{ fontSize: '0.75rem', fontWeight: 500, color: '#aaa' }}>/ 1g</span></span>
               </div>
 
-              {/* Gold 22K */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 20px', backgroundColor: 'rgba(212, 175, 55, 0.05)', border: '1px solid rgba(212,175,55,0.2)', borderRadius: '4px' }}>
                 <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#e5e5e5' }}>Gold 22K (91.6% Purity)</span>
                 <span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--gold)' }}>₹{ratesConfig.gold22k.toLocaleString('en-IN')} <span style={{ fontSize: '0.75rem', fontWeight: 500, color: '#aaa' }}>/ 1g</span></span>
               </div>
 
-              {/* Silver */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 20px', backgroundColor: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px' }}>
                 <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#e5e5e5' }}>Silver (99.9% Purity)</span>
                 <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#ffffff' }}>₹{ratesConfig.silver.toLocaleString('en-IN')} <span style={{ fontSize: '0.75rem', fontWeight: 500, color: '#aaa' }}>/ 1g</span></span>
               </div>
             </div>
 
-            {/* Last Updated Timestamp & Hallmark Info */}
             <div style={{ borderTop: '1px solid #222', paddingTop: '20px', fontSize: '0.7rem', color: '#888', display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', color: 'var(--gold)' }}>
                 <Landmark size={12} />

@@ -92,6 +92,29 @@ const updateOrderStatus = async (req, res) => {
     order.orderStatus = orderStatus;
     await order.save();
 
+    // Trigger order status update notification for customer
+    let emoji = '✨';
+    let detailMsg = `Your order status has been updated.`;
+    if (orderStatus === 'Processing') {
+      emoji = '⚙️';
+      detailMsg = `Your luxury jewelry is being hand-crafted and detailed by our master artisans.`;
+    } else if (orderStatus === 'Packed') {
+      emoji = '📦';
+      detailMsg = `Your items have been safely packed in our premium velvet-lined boxes and are ready to ship.`;
+    } else if (orderStatus === 'Shipped') {
+      emoji = '🚚';
+      detailMsg = `Your jewelry has been shipped via secure luxury courier. Estimated delivery in 2-3 business days.`;
+    } else if (orderStatus === 'Delivered') {
+      emoji = '🎁';
+      detailMsg = `Your order has been safely delivered! Thank you for choosing Shri Navrang Jewellers.`;
+    }
+
+    await Notification.create({
+      userId: order.userId,
+      title: `Order #${order._id.substring(order._id.length - 8).toUpperCase()} is ${orderStatus}! ${emoji}`,
+      message: `${detailMsg} Total Price: ₹${order.totalPrice.toLocaleString('en-IN')}`
+    });
+
     return res.json({ message: `Order status updated to ${orderStatus}`, order });
   } catch (error) {
     return res.status(500).json({ message: 'Server error updating order status', error: error.message });

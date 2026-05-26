@@ -251,11 +251,6 @@ const AuthModal = () => {
           </button>
         </p>
 
-        {/* Quick Testing helper */}
-        <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--charcoal-light)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', textAlign: 'left' }}>
-          <span style={{ color: 'var(--gold)', fontWeight: 600 }}>💡 Testing Credentials:</span><br />
-          Email: <span style={{ color: '#fff' }}>customer@Shrinavrang.com</span> | Pass: <span style={{ color: '#fff' }}>customerpassword123</span>
-        </div>
       </div>
     </div>
   );

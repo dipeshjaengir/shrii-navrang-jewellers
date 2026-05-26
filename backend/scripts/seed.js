@@ -566,7 +566,7 @@ const seedData = async () => {
   if (!adminPasswordText && process.env.NODE_ENV === 'production') {
     throw new Error('❌ SECURE ACTION REQUIRED: ADMIN_PASSWORD environment variable must be defined in production!');
   }
-  const secureAdminPassword = adminPasswordText || 'Shri_navrang_admin_secure_2026_#';
+  const secureAdminPassword = adminPasswordText || 'adminpassword123';
 
   const salt = await bcrypt.genSalt(10);
   const adminPassword = await bcrypt.hash(secureAdminPassword, salt);

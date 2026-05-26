@@ -5,8 +5,8 @@ import { Lock, Mail, ShieldAlert, Award } from 'lucide-react';
 
 const AdminLogin = ({ onShowToast }) => {
   const { login } = useAuth();
-  const [email, setEmail] = useState('admin@Shrinavrang.com');
-  const [password, setPassword] = useState('adminpassword123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -78,28 +78,7 @@ const AdminLogin = ({ onShowToast }) => {
           Secure Administrative Director Console
         </p>
 
-        {/* Credentials guidance box */}
-        <div style={{
-          backgroundColor: 'rgba(212,175,55,0.1)',
-          border: '1px dashed var(--gold)',
-          borderRadius: '6px',
-          padding: '16px',
-          textAlign: 'left',
-          fontSize: '0.8rem',
-          lineHeight: '1.5',
-          color: 'var(--gold-light)',
-          marginBottom: '30px',
-          display: 'flex',
-          gap: '12px',
-          alignItems: 'center'
-        }}>
-          <ShieldAlert size={28} color="var(--gold)" style={{ flexShrink: 0 }} />
-          <div>
-            <strong>CONVENIENT TESTING CREDENTIALS:</strong><br />
-            Email: <span style={{ color: '#fff', textDecoration: 'underline' }}>admin@Shrinavrang.com</span><br />
-            Password: <span style={{ color: '#fff', textDecoration: 'underline' }}>adminpassword123</span>
-          </div>
-        </div>
+
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} style={{ textAlign: 'left' }}>
@@ -111,7 +90,7 @@ const AdminLogin = ({ onShowToast }) => {
                 type="email" 
                 id="adm_email"
                 className="form-control" 
-                placeholder="admin@Shrinavrang.com"
+                placeholder="Enter your administrative email"
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)}
                 style={{

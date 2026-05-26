@@ -5,7 +5,7 @@ import { Lock, Mail, ShieldAlert, Award } from 'lucide-react';
 
 const AdminLogin = ({ onShowToast }) => {
   const { login } = useAuth();
-  const [email, setEmail] = useState('admin@shriinavrang.com');
+  const [email, setEmail] = useState('admin@Shrinavrang.com');
   const [password, setPassword] = useState('adminpassword123');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -72,7 +72,7 @@ const AdminLogin = ({ onShowToast }) => {
         </div>
 
         <h1 style={{ fontFamily: 'var(--font-title)', color: '#ffffff', fontSize: '2.2rem', marginBottom: '8px' }}>
-          Shrii Navrang Jewellers
+          Shri Navrang Jewellers
         </h1>
         <p style={{ color: 'var(--grey)', fontSize: '0.85rem', fontWeight: 300, marginBottom: '40px', letterSpacing: '0.5px' }}>
           Secure Administrative Director Console
@@ -96,7 +96,7 @@ const AdminLogin = ({ onShowToast }) => {
           <ShieldAlert size={28} color="var(--gold)" style={{ flexShrink: 0 }} />
           <div>
             <strong>CONVENIENT TESTING CREDENTIALS:</strong><br />
-            Email: <span style={{ color: '#fff', textDecoration: 'underline' }}>admin@shriinavrang.com</span><br />
+            Email: <span style={{ color: '#fff', textDecoration: 'underline' }}>admin@Shrinavrang.com</span><br />
             Password: <span style={{ color: '#fff', textDecoration: 'underline' }}>adminpassword123</span>
           </div>
         </div>
@@ -111,7 +111,7 @@ const AdminLogin = ({ onShowToast }) => {
                 type="email" 
                 id="adm_email"
                 className="form-control" 
-                placeholder="admin@shriinavrang.com"
+                placeholder="admin@Shrinavrang.com"
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)}
                 style={{

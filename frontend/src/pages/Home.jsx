@@ -258,7 +258,7 @@ const Home = ({ onShowToast }) => {
               Our Story of Devotion
             </h2>
             <p style={{ color: '#cccccc', lineHeight: '1.8', marginBottom: '20px', fontWeight: 300 }}>
-              Shrii Navrang Jewellers was founded on a simple philosophy: gold is not just a metal; it is a sacred ornament carrying generations of Indian legacy, rituals, and emotions. For over four decades, our master artisans have breathed soul into gold, silver, and diamonds.
+              Shri Navrang Jewellers was founded on a simple philosophy: gold is not just a metal; it is a sacred ornament carrying generations of Indian legacy, rituals, and emotions. For over four decades, our master artisans have breathed soul into gold, silver, and diamonds.
             </p>
             <p style={{ color: '#cccccc', lineHeight: '1.8', marginBottom: '30px', fontWeight: 300 }}>
               Every filigree wire we twist, every Polki diamond we select, and every temple figure we carve is a tribute to India's breathtaking heritage. When you wear a Navrang masterpiece, you wear a piece of eternity.

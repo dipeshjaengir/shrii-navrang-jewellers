@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
         gold24k: 7250,
         gold22k: 6650,
         silver: 90,
-        businessEmail: 'info@shriinavrang.com',
+        businessEmail: 'info@Shrinavrang.com',
         updatedAt: new Date().toISOString()
       };
     }
@@ -47,7 +47,7 @@ router.put('/', protect, admin, async (req, res) => {
         gold24k: Number(gold24k),
         gold22k: Number(gold22k),
         silver: Number(silver),
-        businessEmail: businessEmail || 'info@shriinavrang.com'
+        businessEmail: businessEmail || 'info@Shrinavrang.com'
       });
     }
     res.json(rates);

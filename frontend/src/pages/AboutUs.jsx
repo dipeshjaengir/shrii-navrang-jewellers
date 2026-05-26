@@ -19,7 +19,7 @@ const AboutUs = () => {
             Our Heritage & Story
           </h1>
           <p style={{ color: 'var(--gold)', fontFamily: 'var(--font-title)', fontStyle: 'italic', fontSize: '1.4rem', letterSpacing: '1px', maxWidth: '700px', margin: '0 auto' }}>
-            "Shrii Navrang Jewellers - Where pure devotion meets timeless artistry."
+            "Shri Navrang Jewellers - Where pure devotion meets timeless artistry."
           </p>
         </div>
       </div>

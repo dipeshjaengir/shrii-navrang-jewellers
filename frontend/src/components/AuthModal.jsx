@@ -96,18 +96,19 @@ const AuthModal = () => {
         <div style={{ display: 'inline-flex', marginBottom: '16px' }}>
           <img 
             src="/logo.png" 
-            alt="Shrii Navrang Jewellers Logo" 
+            alt="Shri Navrang Jewellers Logo" 
             style={{
               height: '80px',
               width: 'auto',
               objectFit: 'contain',
-              filter: 'drop-shadow(0 2px 8px rgba(212, 175, 55, 0.25))'
+              mixBlendMode: 'screen',
+              filter: 'invert(1) hue-rotate(180deg) brightness(1.1) contrast(1.2)'
             }} 
           />
         </div>
 
         <h3 style={{ fontSize: '1.6rem', color: 'var(--white)', fontWeight: 600, fontFamily: 'var(--font-title)', marginBottom: '8px' }}>
-          Shrii Navrang Jewellers
+          Shri Navrang Jewellers
         </h3>
 
         <p style={{ color: 'var(--gold)', fontSize: '0.85rem', letterSpacing: '0.5px', marginBottom: '24px', fontWeight: 500 }}>
@@ -253,7 +254,7 @@ const AuthModal = () => {
         {/* Quick Testing helper */}
         <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--charcoal-light)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', textAlign: 'left' }}>
           <span style={{ color: 'var(--gold)', fontWeight: 600 }}>💡 Testing Credentials:</span><br />
-          Email: <span style={{ color: '#fff' }}>customer@shriinavrang.com</span> | Pass: <span style={{ color: '#fff' }}>customerpassword123</span>
+          Email: <span style={{ color: '#fff' }}>customer@Shrinavrang.com</span> | Pass: <span style={{ color: '#fff' }}>customerpassword123</span>
         </div>
       </div>
     </div>

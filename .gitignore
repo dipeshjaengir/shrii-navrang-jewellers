@@ -14,3 +14,5 @@ backend/data/*.json
 !backend/data/Rates.json
 *.log
 .DS_Store
+git-portable/
+frontend/public/logo_temp.png

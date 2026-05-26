@@ -7,7 +7,7 @@ const Footer = () => {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [ratesConfig, setRatesConfig] = useState({
-    businessEmail: 'info@shriinavrang.com'
+    businessEmail: 'info@Shrinavrang.com'
   });
 
   useEffect(() => {
@@ -54,17 +54,19 @@ const Footer = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
             <img 
               src="/logo.png" 
-              alt="Shrii Navrang Jewellers Logo" 
+              alt="Shri Navrang Jewellers Logo" 
               style={{
                 height: '45px',
                 width: 'auto',
                 objectFit: 'contain',
+                mixBlendMode: 'screen',
+                filter: 'invert(1) hue-rotate(180deg) brightness(1.1) contrast(1.2)',
                 display: 'block'
               }} 
             />
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <h4 style={{ fontFamily: 'var(--font-title)', color: '#ffffff', fontSize: '1.2rem', fontWeight: 600, lineHeight: '1.2' }}>
-                Shrii Navrang Jewellers
+                Shri Navrang Jewellers
               </h4>
               <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.55rem', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', marginTop: '2px' }}>
                 Purity • Trust • Perfection
@@ -170,7 +172,7 @@ const Footer = () => {
       </div>
 
       <div className="container" style={{ borderTop: '1px solid #1c1c1c', paddingTop: '30px', textAlign: 'center', fontSize: '0.75rem', color: '#666' }}>
-        <p>© {new Date().getFullYear()} Shrii Navrang Jewellers. All Rights Reserved. Crafted with absolute devotion.</p>
+        <p>© {new Date().getFullYear()} Shri Navrang Jewellers. All Rights Reserved. Crafted with absolute devotion.</p>
       </div>
     </footer>
   );

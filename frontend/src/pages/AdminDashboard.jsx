@@ -345,8 +345,20 @@ const AdminDashboard = ({ onShowToast }) => {
       <div style={{ backgroundColor: 'var(--black)', color: '#ffffff', padding: '20px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid var(--gold)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
           <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#4caf50', boxShadow: '0 0 8px #4caf50' }} />
+          <img 
+            src="/logo.png" 
+            alt="Shri Navrang Jewellers Logo" 
+            style={{
+              height: '42px',
+              width: 'auto',
+              objectFit: 'contain',
+              mixBlendMode: 'screen',
+              filter: 'invert(1) hue-rotate(180deg) brightness(1.1) contrast(1.2)',
+              display: 'block'
+            }} 
+          />
           <div>
-            <h2 style={{ fontFamily: 'var(--font-title)', color: '#ffffff', fontSize: '1.4rem', letterSpacing: '1px' }}>Shrii Navrang Jewellers</h2>
+            <h2 style={{ fontFamily: 'var(--font-title)', color: '#ffffff', fontSize: '1.4rem', letterSpacing: '1px' }}>Shri Navrang Jewellers</h2>
             <span style={{ fontSize: '0.65rem', color: 'var(--gold)', letterSpacing: '2px', fontWeight: 700, textTransform: 'uppercase' }}>Administrative Director Panel</span>
           </div>
         </div>
@@ -969,7 +981,7 @@ const AdminDashboard = ({ onShowToast }) => {
                     <input 
                       type="email" 
                       required
-                      placeholder="e.g. info@shriinavrang.com"
+                      placeholder="e.g. info@Shrinavrang.com"
                       className="form-control"
                       value={ratesForm.businessEmail}
                       onChange={(e) => setRatesForm({ ...ratesForm, businessEmail: e.target.value })}

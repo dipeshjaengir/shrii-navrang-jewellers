@@ -8,7 +8,7 @@ const FAQ = () => {
       questions: [
         {
           q: "Are all your gold jewellery items hallmarked?",
-          a: "Yes, absolutely! Every single gold article at Shrii Navrang Jewellers carries the official 3-stamp BIS Hallmark, including: (1) BIS Logo, (2) Purity Mark (e.g., 916 for 22K, 750 for 18K), and (3) a unique 6-digit HUID (Hallmarked Unique ID). You can verify your ornaments using the official Bureau of Indian Standards BIS CARE App."
+          a: "Yes, absolutely! Every single gold article at Shri Navrang Jewellers carries the official 3-stamp BIS Hallmark, including: (1) BIS Logo, (2) Purity Mark (e.g., 916 for 22K, 750 for 18K), and (3) a unique 6-digit HUID (Hallmarked Unique ID). You can verify your ornaments using the official Bureau of Indian Standards BIS CARE App."
         },
         {
           q: "How are your diamonds certified?",
@@ -16,7 +16,7 @@ const FAQ = () => {
         },
         {
           q: "What is your policy on gold buybacks and exchanges?",
-          a: "We offer a Lifetime Exchange & Buyback guarantee on all Shrii Navrang Jewellers pieces. If you wish to exchange, we will credit 100% of the current market gold value based on the exact gold weight of the item. For buybacks, a nominal deduction of 3% to 5% is made. Making charges and taxes are not eligible for buyback or exchange value."
+          a: "We offer a Lifetime Exchange & Buyback guarantee on all Shri Navrang Jewellers pieces. If you wish to exchange, we will credit 100% of the current market gold value based on the exact gold weight of the item. For buybacks, a nominal deduction of 3% to 5% is made. Making charges and taxes are not eligible for buyback or exchange value."
         }
       ]
     },
@@ -42,7 +42,7 @@ const FAQ = () => {
       questions: [
         {
           q: "What are 'Making Charges' on gold jewellery?",
-          a: "Making charges are the costs associated with melting, refining, design sculpting, and assembling raw gold into a gorgeous piece of jewellery. At Shrii Navrang, we pride ourselves on honest pricing. Our making charges start as low as 8% for basic designs, and go up to 18% for extremely detailed antique temple carvings or bridal sets, which is significantly lower than typical high-street brands."
+          a: "Making charges are the costs associated with melting, refining, design sculpting, and assembling raw gold into a gorgeous piece of jewellery. At Shri Navrang, we pride ourselves on honest pricing. Our making charges start as low as 8% for basic designs, and go up to 18% for extremely detailed antique temple carvings or bridal sets, which is significantly lower than typical high-street brands."
         },
         {
           q: "Can I customize a design I see on the website?",
@@ -167,7 +167,7 @@ const FAQ = () => {
                 Still have questions?
               </h4>
               <p style={{ fontSize: '0.9rem', fontWeight: 300, lineHeight: '1.5' }}>
-                Our personal shopper support team is happy to assist you. Drop us a note at <strong>concierge@shriinavrang.com</strong> or call us directly at <strong>+91 11 4987 6543</strong>.
+                Our personal shopper support team is happy to assist you. Drop us a note at <strong>concierge@Shrinavrang.com</strong> or call us directly at <strong>+91 11 4987 6543</strong>.
               </p>
             </div>
           </div>

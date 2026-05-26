@@ -248,11 +248,11 @@ const OrderHistory = () => {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '2px solid var(--gold)', paddingBottom: '20px', marginBottom: '25px' }}>
                 <div>
                   <h1 style={{ fontFamily: 'var(--font-title)', fontSize: '1.6rem', color: 'var(--black)', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '4px' }}>
-                    Shrii Navrang Jewellers
+                    Shri Navrang Jewellers
                   </h1>
                   <p style={{ fontSize: '0.75rem', color: 'var(--grey)', fontWeight: 300 }}>
                     104-106, Chandni Chowk Road, Delhi - 110006<br />
-                    concierge@shriinavrang.com • +91 11 4987 6543
+                    concierge@Shrinavrang.com • +91 11 4987 6543
                   </p>
                 </div>
                 <div style={{ textAlign: 'right' }}>

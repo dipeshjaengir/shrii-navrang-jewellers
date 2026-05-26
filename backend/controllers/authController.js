@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET || 'shrii_navrang_jewellers_secret_key_12345_luxury_brand_2026', {
+  return jwt.sign({ id }, process.env.JWT_SECRET || 'Shri_navrang_jewellers_secret_key_12345_luxury_brand_2026', {
     expiresIn: '30d'
   });
 };

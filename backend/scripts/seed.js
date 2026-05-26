@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 
 // Custom File Logging Instrumentation
 const logFile = path.join(__dirname, '../seed_debug.log');
-fs.writeFileSync(logFile, '--- Shrii Navrang Jewellers Seed Log ---\n');
+fs.writeFileSync(logFile, '--- Shri Navrang Jewellers Seed Log ---\n');
 const originalLog = console.log;
 const originalError = console.error;
 console.log = function(...args) {
@@ -555,18 +555,18 @@ const seedData = async () => {
     gold24k: 7250,
     gold22k: 6650,
     silver: 90,
-    businessEmail: 'info@shriinavrang.com'
+    businessEmail: 'info@Shrinavrang.com'
   });
 
   console.log('👥 Seeding default users...');
   
   // Hashed Passwords
-  const adminEmailText = process.env.ADMIN_EMAIL || 'admin@shriinavrang.com';
+  const adminEmailText = process.env.ADMIN_EMAIL || 'admin@Shrinavrang.com';
   const adminPasswordText = process.env.ADMIN_PASSWORD;
   if (!adminPasswordText && process.env.NODE_ENV === 'production') {
     throw new Error('❌ SECURE ACTION REQUIRED: ADMIN_PASSWORD environment variable must be defined in production!');
   }
-  const secureAdminPassword = adminPasswordText || 'shrii_navrang_admin_secure_2026_#';
+  const secureAdminPassword = adminPasswordText || 'Shri_navrang_admin_secure_2026_#';
 
   const salt = await bcrypt.genSalt(10);
   const adminPassword = await bcrypt.hash(secureAdminPassword, salt);
@@ -591,7 +591,7 @@ const seedData = async () => {
   // 2. Seed Customer Account
   const customerUser = await User.create({
     name: "Dipesh Sharma",
-    email: "customer@shriinavrang.com",
+    email: "customer@Shrinavrang.com",
     phone: "+91 99887 76655",
     password: customerPassword,
     role: "customer",
@@ -635,13 +635,13 @@ const seedData = async () => {
     userId: customerUser._id,
     productId: seededProducts[1]._id,
     rating: 4,
-    comment: "A beautiful solitaire diamond. Clean cut, high clarity. The packaging from Shrii Navrang Jewellers felt so premium."
+    comment: "A beautiful solitaire diamond. Clean cut, high clarity. The packaging from Shri Navrang Jewellers felt so premium."
   });
 
   // Seed sample notification for customer
   await Notification.create({
     userId: customerUser._id,
-    title: "Welcome to Shrii Navrang Jewellers! 🌟",
+    title: "Welcome to Shri Navrang Jewellers! 🌟",
     message: "Thank you for registering. Discover our premium hand-crafted gold and diamond collections inspired by Indian heritage."
   });
 
@@ -649,11 +649,11 @@ const seedData = async () => {
   console.log('\n🔐 DEFAULT USER CREDENTIALS FOR TESTING:');
   console.log('--------------------------------------------------');
   console.log('👤 CUSTOMER LOGIN:');
-  console.log('   Email:    customer@shriinavrang.com');
+  console.log('   Email:    customer@Shrinavrang.com');
   console.log('   Password: customerpassword123');
   console.log('--------------------------------------------------');
   console.log('🔑 ADMIN LOGIN:');
-  console.log('   Email:    admin@shriinavrang.com');
+  console.log('   Email:    admin@Shrinavrang.com');
   console.log('   Password: adminpassword123');
   console.log('--------------------------------------------------\n');
 

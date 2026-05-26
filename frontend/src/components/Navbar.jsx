@@ -17,7 +17,7 @@ const Navbar = () => {
     gold24k: 7250,
     gold22k: 6650,
     silver: 90,
-    businessEmail: 'info@shriinavrang.com',
+    businessEmail: 'info@Shrinavrang.com',
     updatedAt: new Date().toISOString()
   });
   const navigate = useNavigate();
@@ -124,12 +124,13 @@ const Navbar = () => {
           <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
             <img 
               src="/logo.png" 
-              alt="Shrii Navrang Jewellers Logo" 
+              alt="Shri Navrang Jewellers Logo" 
               style={{
                 height: '54px',
                 width: 'auto',
                 objectFit: 'contain',
-                filter: 'drop-shadow(0 2px 8px rgba(212, 175, 55, 0.35))',
+                mixBlendMode: 'screen',
+                filter: 'invert(1) hue-rotate(180deg) brightness(1.1) contrast(1.2)',
                 display: 'block'
               }} 
             />
@@ -148,7 +149,7 @@ const Navbar = () => {
               display: 'inline-block',
               lineHeight: '1.2'
             }}>
-              Shrii Navrang Jewellers
+              Shri Navrang Jewellers
             </span>
             <span className="brand-tagline" style={{
               fontFamily: 'var(--font-body)',
@@ -583,7 +584,7 @@ const Navbar = () => {
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
               <img 
                 src="/logo.png" 
-                alt="Shrii Navrang Jewellers Logo" 
+                alt="Shri Navrang Jewellers Logo" 
                 style={{
                   height: '70px',
                   width: 'auto',
@@ -594,7 +595,7 @@ const Navbar = () => {
             </div>
 
             <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '1.6rem', color: '#ffffff', margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              Shrii Navrang Jewellers
+              Shri Navrang Jewellers
             </h3>
             <span style={{ fontSize: '0.7rem', color: 'var(--gold)', letterSpacing: '2px', textTransform: 'uppercase', fontWeight: 600, display: 'block', marginBottom: '30px' }}>
               Today's Live Showroom Rates

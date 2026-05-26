@@ -39,7 +39,7 @@ const PrivacyPolicy = () => {
             1. Commitment to Data Security
           </h3>
           <p style={{ marginBottom: '20px' }}>
-            At Shrii Navrang Jewellers, we understand that purchasing luxury jewelry online involves sharing sensitive personal and financial data. We are fully committed to protecting your privacy. We implement industry-leading encryption and secure cloud-hosted databases to safeguard all customer data, transactions, and session information.
+            At Shri Navrang Jewellers, we understand that purchasing luxury jewelry online involves sharing sensitive personal and financial data. We are fully committed to protecting your privacy. We implement industry-leading encryption and secure cloud-hosted databases to safeguard all customer data, transactions, and session information.
           </p>
 
           <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '1.6rem', color: 'var(--black)', marginTop: '40px', marginBottom: '15px' }}>
@@ -89,7 +89,7 @@ const PrivacyPolicy = () => {
                 Questions or Data Requests?
               </h4>
               <p style={{ fontSize: '0.85rem', lineHeight: '1.5' }}>
-                If you wish to view, modify, or permanently delete your stored details, please write to our Data Privacy Officer at <strong>security@shriinavrang.com</strong>.
+                If you wish to view, modify, or permanently delete your stored details, please write to our Data Privacy Officer at <strong>security@Shrinavrang.com</strong>.
               </p>
             </div>
           </div>

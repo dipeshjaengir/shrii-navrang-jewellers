@@ -7,7 +7,7 @@ const ContactUs = ({ onShowToast }) => {
     gold24k: 7250,
     gold22k: 6650,
     silver: 90,
-    businessEmail: 'info@shriinavrang.com'
+    businessEmail: 'info@Shrinavrang.com'
   });
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const ContactUs = ({ onShowToast }) => {
             <span style={{ fontSize: '0.7rem', color: 'var(--gold)', letterSpacing: '2px', fontWeight: 600, textTransform: 'uppercase' }}>Purity • Trust • Perfection</span>
           </div>
           <h1 style={{ fontFamily: 'var(--font-title)', color: '#ffffff', fontSize: '3.6rem', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 700 }}>
-            Shrii Navrang Jewellers
+            Shri Navrang Jewellers
           </h1>
           <p style={{ color: '#cccccc', fontSize: '1.2rem', lineHeight: '1.6', maxWidth: '650px', margin: '0 auto', fontWeight: 300 }}>
             Whether scheduling a private showroom preview or arranging a bespoke design consultation, our personal advisors are delighted to assist you.
@@ -292,7 +292,7 @@ const ContactUs = ({ onShowToast }) => {
               </p>
 
               <a 
-                href="https://wa.me/918094150075?text=Hello%20Shrii%20Navrang%20Jewellers,%20I%20would%20like%20to%20schedule%20a%20bespoke%20consultation." 
+                href="https://wa.me/918094150075?text=Hello%20Shri%20Navrang%20Jewellers,%20I%20would%20like%20to%20schedule%20a%20bespoke%20consultation." 
                 target="_blank" 
                 rel="noreferrer"
                 style={{
@@ -327,14 +327,14 @@ const ContactUs = ({ onShowToast }) => {
       {/* 3. Interactive Embedded Google Maps Section */}
       <section style={{ borderTop: '3px solid var(--gold)', height: '450px', backgroundColor: 'var(--black)' }}>
         <iframe 
-          src="https://maps.google.com/maps?q=Shrii%20Navrang%20Jewellers,%20BR%20Tower,%20Jhunjhunu&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+          src="https://maps.google.com/maps?q=Shri%20Navrang%20Jewellers,%20BR%20Tower,%20Jhunjhunu&t=&z=16&ie=UTF8&iwloc=&output=embed" 
           width="100%" 
           height="100%" 
           style={{ border: 0, filter: 'grayscale(0.1) contrast(1.1) invert(0)' }} 
           allowFullScreen="" 
           loading="lazy" 
           referrerPolicy="no-referrer-when-downgrade"
-          title="Shrii Navrang Jewellers Flagship Showroom Jhunjhunu"
+          title="Shri Navrang Jewellers Flagship Showroom Jhunjhunu"
         />
       </section>
 

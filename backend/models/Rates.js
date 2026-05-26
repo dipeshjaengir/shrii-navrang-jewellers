@@ -5,7 +5,7 @@ const ratesSchema = new mongoose.Schema({
   gold24k: { type: Number, required: true },
   gold22k: { type: Number, required: true },
   silver: { type: Number, required: true },
-  businessEmail: { type: String, default: 'info@shriinavrang.com' }
+  businessEmail: { type: String, default: 'info@Shrinavrang.com' }
 }, { timestamps: true });
 
 let RatesModel;

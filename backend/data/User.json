@@ -2,7 +2,7 @@
   {
     "_id": "u5da46nlc",
     "name": "Navrang Shrinath (Admin)",
-    "email": "admin@shriinavrang.com",
+    "email": "admin@shrinavrang.com",
     "phone": "+91 98765 43210",
     "password": "$2a$10$dWw24a62wj5ELav6pCxzPeHeuxHw8b9JTCS/BBcIJxpAQv2fVhTIS",
     "role": "admin",
@@ -13,7 +13,7 @@
   {
     "_id": "lqeuodaip",
     "name": "Dipesh Sharma",
-    "email": "customer@shriinavrang.com",
+    "email": "customer@shrinavrang.com",
     "phone": "+91 99887 76655",
     "password": "$2a$10$dWw24a62wj5ELav6pCxzPe8VKMow4yNtsxrIE4ro4qmDM4pg9V3W2",
     "role": "customer",

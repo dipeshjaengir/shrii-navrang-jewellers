@@ -71,7 +71,7 @@ const startServer = async () => {
         gold24k: 7250,
         gold22k: 6650,
         silver: 90,
-        businessEmail: 'info@shriinavrang.com'
+        businessEmail: 'info@shrinavrang.com'
       });
     }
   } catch (seedErr) {
@@ -79,7 +79,7 @@ const startServer = async () => {
   }
 
   app.listen(PORT, () => {
-    console.log(`✨ Shrii Navrang Jewellers server is gleaming beautifully on port ${PORT}!`);
+    console.log(`✨ Shri Navrang Jewellers server is gleaming beautifully on port ${PORT}!`);
     console.log(`🔗 API Health URL: http://localhost:${PORT}/api/health`);
     if (global.useJsonDb) {
       console.log('📂 Local JSON file-based database active in backend/data/');

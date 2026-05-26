@@ -26,11 +26,12 @@ const Cart = require('../models/Cart');
 const Order = require('../models/Order');
 const Review = require('../models/Review');
 const Notification = require('../models/Notification');
+const Rates = require('../models/Rates');
 
 const productsData = [
   {
     productName: "Aditi Gold Temple Choker Necklace",
-    category: "Necklaces",
+    category: "Gold Jewellery",
     price: 185000,
     description: "Exquisite 22-karat gold choker necklace featuring antique temple patterns of Goddess Lakshmi, adorned with premium ruby drops. Crafted by master Indian goldsmiths.",
     images: [
@@ -94,7 +95,7 @@ const productsData = [
   },
   {
     productName: "Kundan Emerald Kada Bangles",
-    category: "Bangles",
+    category: "Gold Jewellery",
     price: 210000,
     description: "Set of two stunning 22k gold Kada bangles, embellished with pure Kundan settings and vivid green hand-cut emeralds.",
     images: [
@@ -109,7 +110,7 @@ const productsData = [
   },
   {
     productName: "The Emperor Diamond Band for Men",
-    category: "Men's Collection",
+    category: "Men's Jewellery",
     price: 98000,
     description: "Sleek, bold men's platinum wedding band featuring a flush-set row of brilliant round-cut diamonds. Minimalist luxury at its finest.",
     images: [
@@ -139,7 +140,7 @@ const productsData = [
   },
   {
     productName: "Majestic Peacock Gold Pendant",
-    category: "Necklaces",
+    category: "Gold Jewellery",
     price: 48000,
     description: "Finely detailed peacock shaped pendant crafted in glowing 22-karat yellow gold and set with ruby cabochons.",
     images: [
@@ -169,7 +170,7 @@ const productsData = [
   },
   {
     productName: "Infinity Diamond Stud Earrings",
-    category: "Earrings",
+    category: "Diamond Jewellery",
     price: 145000,
     description: "Brilliant-cut pair of diamond studs featuring an infinity loop basket design, set in high-polish 18k yellow gold.",
     images: [
@@ -184,7 +185,7 @@ const productsData = [
   },
   {
     productName: "Royal Rajwadi Gold Choker Set",
-    category: "Necklaces",
+    category: "Bridal Collection",
     price: 295000,
     description: "Opulent 22k gold choker highlighting intricate meenakari work and classic Rajwadi kundan clusters. Perfect for regal functions.",
     images: [
@@ -199,7 +200,7 @@ const productsData = [
   },
   {
     productName: "Aura Diamond Hoop Earrings",
-    category: "Earrings",
+    category: "Diamond Jewellery",
     price: 88000,
     description: "Dazzling diamond hoop earrings set in 18k yellow gold. Perfect circular contours with micro-pave hand-set brilliant solitaire diamonds.",
     images: [
@@ -214,7 +215,7 @@ const productsData = [
   },
   {
     productName: "Vedic Gold Mangalsutra",
-    category: "Necklaces",
+    category: "Gold Jewellery",
     price: 54000,
     description: "Sacred 22k yellow gold Mangalsutra featuring traditional black beads and an ornate gold pendant depicting cosmic harmony.",
     images: [
@@ -229,7 +230,7 @@ const productsData = [
   },
   {
     productName: "Ganga Silver Filigree Bangles",
-    category: "Bangles",
+    category: "Silver Jewellery",
     price: 18500,
     description: "A pair of hand-twisted 925 sterling silver bangles highlighting delicate filigree artwork representing the sacred flows of the Ganges.",
     images: [
@@ -244,7 +245,7 @@ const productsData = [
   },
   {
     productName: "Meenakari Peacock Kada",
-    category: "Bangles",
+    category: "Gold Jewellery",
     price: 135000,
     description: "Stunning 22k gold Kada bangle showcasing heritage hand-painted Meenakari peacock enameling and fine Kundan settings.",
     images: [
@@ -259,7 +260,7 @@ const productsData = [
   },
   {
     productName: "Nirvana Platinum Ring for Men",
-    category: "Men's Collection",
+    category: "Men's Jewellery",
     price: 115000,
     description: "Premium pure 950 platinum band featuring a brushed matte center finish and polished secure bevels. High-comfort luxury fit.",
     images: [
@@ -274,7 +275,7 @@ const productsData = [
   },
   {
     productName: "Heritage Polki Chandbalis",
-    category: "Earrings",
+    category: "Bridal Collection",
     price: 145000,
     description: "Breath-taking 22k gold crescent-shaped Chandbali earrings, set with uncut Polki diamonds, pearls, and ruby beads.",
     images: [
@@ -289,7 +290,7 @@ const productsData = [
   },
   {
     productName: "Modernist Silver Curb Chain",
-    category: "Men's Collection",
+    category: "Men's Jewellery",
     price: 12000,
     description: "Strong, thick 925 sterling silver curb link chain for men. Fully polished, hand-soldered, with secure custom luxury clasp.",
     images: [
@@ -304,7 +305,7 @@ const productsData = [
   },
   {
     productName: "Solitaire Diamond Studs",
-    category: "Earrings",
+    category: "Diamond Jewellery",
     price: 95000,
     description: "Timeless 18k white gold stud earrings featuring two perfectly matched brilliant-cut diamonds, GIA certified.",
     images: [
@@ -319,7 +320,7 @@ const productsData = [
   },
   {
     productName: "Classic Gold Temple Bangles Set",
-    category: "Bangles",
+    category: "Gold Jewellery",
     price: 220000,
     description: "Set of four heavy solid 22k gold bangles showcasing hand-carved floral, bead, and divine coin patterns.",
     images: [
@@ -409,7 +410,7 @@ const productsData = [
   },
   {
     productName: "Maharaja Gold Sherwani Buttons",
-    category: "Men's Collection",
+    category: "Men's Jewellery",
     price: 165000,
     description: "Set of seven handcrafted 22k gold sherwani buttons linked with a gold safety chain, featuring deep engraving and rubies.",
     images: [
@@ -424,7 +425,7 @@ const productsData = [
   },
   {
     productName: "Elegant Diamond Tennis Bracelet",
-    category: "Bangles",
+    category: "Diamond Jewellery",
     price: 320000,
     description: "A breathtaking continuous row of GIA certified round brilliant-cut diamonds, hand-set in an 18-karat white gold slider setting.",
     images: [
@@ -454,7 +455,7 @@ const productsData = [
   },
   {
     productName: "Vintage Gold Kasu Mala",
-    category: "Necklaces",
+    category: "Gold Jewellery",
     price: 240000,
     description: "Stunning traditional South Indian coin necklace (Kasu Mala) meticulously crafted in pure 22-karat yellow gold with Laxmi coins.",
     images: [
@@ -469,7 +470,7 @@ const productsData = [
   },
   {
     productName: "Elite Platinum Diamond Cufflinks",
-    category: "Men's Collection",
+    category: "Men's Jewellery",
     price: 140000,
     description: "Exquisite pair of 950 platinum square cufflinks, featuring custom central princess-cut diamonds. An executive luxury statement.",
     images: [
@@ -529,6 +530,7 @@ const seedData = async () => {
     fs.writeFileSync(path.join(dataDir, 'Order.json'), JSON.stringify([], null, 2));
     fs.writeFileSync(path.join(dataDir, 'Review.json'), JSON.stringify([], null, 2));
     fs.writeFileSync(path.join(dataDir, 'Notification.json'), JSON.stringify([], null, 2));
+    fs.writeFileSync(path.join(dataDir, 'Rates.json'), JSON.stringify([], null, 2));
   } else {
     // Mongoose clear
     await User.deleteMany({});
@@ -537,6 +539,7 @@ const seedData = async () => {
     await Order.deleteMany({});
     await Review.deleteMany({});
     await Notification.deleteMany({});
+    await Rates.deleteMany({});
   }
 
   console.log('💎 Seeding products...');
@@ -547,17 +550,32 @@ const seedData = async () => {
   }
   console.log(`✅ Seeded ${seededProducts.length} premium jewellery products!`);
 
+  console.log('📈 Seeding default market rates for Gold and Silver...');
+  await Rates.create({
+    gold24k: 7250,
+    gold22k: 6650,
+    silver: 90,
+    businessEmail: 'info@shriinavrang.com'
+  });
+
   console.log('👥 Seeding default users...');
   
   // Hashed Passwords
+  const adminEmailText = process.env.ADMIN_EMAIL || 'admin@shriinavrang.com';
+  const adminPasswordText = process.env.ADMIN_PASSWORD;
+  if (!adminPasswordText && process.env.NODE_ENV === 'production') {
+    throw new Error('❌ SECURE ACTION REQUIRED: ADMIN_PASSWORD environment variable must be defined in production!');
+  }
+  const secureAdminPassword = adminPasswordText || 'shrii_navrang_admin_secure_2026_#';
+
   const salt = await bcrypt.genSalt(10);
-  const adminPassword = await bcrypt.hash('adminpassword123', salt);
+  const adminPassword = await bcrypt.hash(secureAdminPassword, salt);
   const customerPassword = await bcrypt.hash('customerpassword123', salt);
 
   // 1. Seed Admin Account
   const adminUser = await User.create({
     name: "Navrang Shrinath (Admin)",
-    email: "admin@shriinavrang.com",
+    email: adminEmailText,
     phone: "+91 98765 43210",
     password: adminPassword,
     role: "admin",

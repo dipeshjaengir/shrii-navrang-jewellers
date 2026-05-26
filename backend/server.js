@@ -24,6 +24,7 @@ const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const ratesRoutes = require('./routes/ratesRoutes');
 
 // API Routes
 app.use('/api/auth', authRoutes);
@@ -32,6 +33,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/rates', ratesRoutes);
 
 // Health Check API
 app.get('/api/health', (req, res) => {
@@ -58,6 +60,19 @@ const startServer = async () => {
       console.log('🔮 Empty database detected. Auto-seeding premium jewelry items...');
       const seedData = require('./scripts/seed');
       await seedData();
+    }
+
+    // Auto-seed rates and config if empty
+    const Rates = require('./models/Rates');
+    const ratesCount = await Rates.countDocuments();
+    if (ratesCount === 0) {
+      console.log('📈 Seeding default market rates for Gold and Silver...');
+      await Rates.create({
+        gold24k: 7250,
+        gold22k: 6650,
+        silver: 90,
+        businessEmail: 'info@shriinavrang.com'
+      });
     }
   } catch (seedErr) {
     console.error('⚠️ Auto-seeding failed:', seedErr.message);

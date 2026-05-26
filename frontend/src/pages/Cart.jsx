@@ -65,7 +65,7 @@ const Cart = ({ onShowToast }) => {
 
   if (loading || fetchingDetails) {
     return (
-      <div className="container" style={{ padding: '80px 20px', height: '50vh' }} className="skeleton" />
+      <div className="container skeleton" style={{ padding: '80px 20px', height: '50vh' }} />
     );
   }
 

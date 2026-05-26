@@ -1,21 +1,21 @@
 [
   {
-    "_id": "id0gv6ryg",
+    "_id": "u5da46nlc",
     "name": "Navrang Shrinath (Admin)",
     "email": "admin@shriinavrang.com",
     "phone": "+91 98765 43210",
-    "password": "$2a$10$szZTGZLuHTZxLNCf.2xoteFnPkzq114gk5IIJysIDv7YGJ17Pw1Qm",
+    "password": "$2a$10$dWw24a62wj5ELav6pCxzPeHeuxHw8b9JTCS/BBcIJxpAQv2fVhTIS",
     "role": "admin",
     "addresses": [],
     "wishlist": [],
-    "createdAt": "2026-05-26T06:29:13.691Z"
+    "createdAt": "2026-05-26T06:48:29.852Z"
   },
   {
-    "_id": "t50zg2x5m",
+    "_id": "lqeuodaip",
     "name": "Dipesh Sharma",
     "email": "customer@shriinavrang.com",
     "phone": "+91 99887 76655",
-    "password": "$2a$10$szZTGZLuHTZxLNCf.2xoteg2sfqM1zd8b0a3NGALucOa3RAimqPbS",
+    "password": "$2a$10$dWw24a62wj5ELav6pCxzPe8VKMow4yNtsxrIE4ro4qmDM4pg9V3W2",
     "role": "customer",
     "addresses": [
       {
@@ -28,9 +28,9 @@
       }
     ],
     "wishlist": [
-      "wdgar8vn9",
-      "uaciznwck"
+      "he3rwv6qu",
+      "iiu6iaq57"
     ],
-    "createdAt": "2026-05-26T06:29:13.709Z"
+    "createdAt": "2026-05-26T06:48:29.863Z"
   }
 ]

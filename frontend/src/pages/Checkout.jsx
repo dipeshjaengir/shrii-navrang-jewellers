@@ -172,7 +172,7 @@ const Checkout = ({ onShowToast }) => {
 
   if (loading) {
     return (
-      <div className="container" style={{ padding: '80px 20px', height: '60vh' }} className="skeleton" />
+      <div className="container skeleton" style={{ padding: '80px 20px', height: '60vh' }} />
     );
   }
 

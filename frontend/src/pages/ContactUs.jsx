@@ -1,7 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail, Clock, Send, ShieldCheck, MessageCircle, Sparkles, Star } from 'lucide-react';
+import { API_URL } from '../config';
 
 const ContactUs = ({ onShowToast }) => {
+  const [ratesConfig, setRatesConfig] = useState({
+    gold24k: 7250,
+    gold22k: 6650,
+    silver: 90,
+    businessEmail: 'info@shriinavrang.com'
+  });
+
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const res = await fetch(`${API_URL}/rates`);
+        if (res.ok) {
+          const data = await res.json();
+          setRatesConfig(data);
+        }
+      } catch (err) {
+        console.error('Error fetching rates/config:', err);
+      }
+    };
+    fetchConfig();
+  }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -190,7 +213,7 @@ const ContactUs = ({ onShowToast }) => {
                 <div>
                   <h4 style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--black)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Location</h4>
                   <p style={{ fontWeight: 300, fontSize: '0.9rem', lineHeight: '1.6', color: 'var(--charcoal-light)' }}>
-                    Shrii Navrang Jewellers Building, 45, Gold Plaza Market, Sector 18, Noida, Uttar Pradesh, India - 201301.
+                    BR Tower, Near Sonu Monu Complex, Jhunjhunu, Rajasthan - 333001.
                   </p>
                 </div>
               </div>
@@ -202,8 +225,8 @@ const ContactUs = ({ onShowToast }) => {
                 <div>
                   <h4 style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--black)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Luxury Phone Concierge</h4>
                   <p style={{ fontWeight: 300, fontSize: '0.9rem', lineHeight: '1.6', color: 'var(--charcoal-light)' }}>
-                    Line support: +91 120 4567 890<br />
-                    Toll-Free Heritage Support: 1800 212 5555
+                    CA Ajay Jangir: +91 80941 50075<br />
+                    Sachin Jangir: +91 70142 22896
                   </p>
                 </div>
               </div>
@@ -215,8 +238,7 @@ const ContactUs = ({ onShowToast }) => {
                 <div>
                   <h4 style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--black)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Email Channels</h4>
                   <p style={{ fontWeight: 300, fontSize: '0.9rem', lineHeight: '1.6', color: 'var(--charcoal-light)' }}>
-                    Bespoke Inquiries: concierge@shriinavrang.com<br />
-                    Corporate & Orders: orders@shriinavrang.com
+                    Showroom: {ratesConfig.businessEmail}
                   </p>
                 </div>
               </div>
@@ -229,7 +251,7 @@ const ContactUs = ({ onShowToast }) => {
                   <h4 style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--black)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Visiting Hours</h4>
                   <p style={{ fontWeight: 300, fontSize: '0.9rem', lineHeight: '1.6', color: 'var(--charcoal-light)' }}>
                     Tuesday - Sunday: 11:00 AM - 08:30 PM<br />
-                    <span style={{ color: 'var(--error)', fontWeight: 600 }}>(Mondays Closed for vault inventory audits)</span>
+                    <span style={{ color: 'var(--error)', fontWeight: 600 }}>(Mondays Closed for inventory audit)</span>
                   </p>
                 </div>
               </div>
@@ -267,7 +289,7 @@ const ContactUs = ({ onShowToast }) => {
               </p>
 
               <a 
-                href="https://wa.me/919876543210?text=Hello%20Shrii%20Navrang%20Jewellers,%20I%20would%20like%20to%20schedule%20a%20bespoke%20consultation." 
+                href="https://wa.me/918094150075?text=Hello%20Shrii%20Navrang%20Jewellers,%20I%20would%20like%20to%20schedule%20a%20bespoke%20consultation." 
                 target="_blank" 
                 rel="noreferrer"
                 style={{
@@ -302,14 +324,14 @@ const ContactUs = ({ onShowToast }) => {
       {/* 3. Interactive Embedded Google Maps Section */}
       <section style={{ borderTop: '3px solid var(--gold)', height: '450px', backgroundColor: 'var(--black)' }}>
         <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500.567080836585!2d77.3218768!3d28.5707106!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce5cc00000001%3A0x6bcfd3ff698d5c4e!2sSector%2018%2C%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1684000000000!5m2!1sen!2sin" 
+          src="https://maps.google.com/maps?q=Shrii%20Navrang%20Jewellers,%20BR%20Tower,%20Jhunjhunu&t=&z=16&ie=UTF8&iwloc=&output=embed" 
           width="100%" 
           height="100%" 
           style={{ border: 0, filter: 'grayscale(0.1) contrast(1.1) invert(0)' }} 
           allowFullScreen="" 
           loading="lazy" 
           referrerPolicy="no-referrer-when-downgrade"
-          title="Shrii Navrang Jewellers Flagship Showroom Noida"
+          title="Shrii Navrang Jewellers Flagship Showroom Jhunjhunu"
         />
       </section>
 

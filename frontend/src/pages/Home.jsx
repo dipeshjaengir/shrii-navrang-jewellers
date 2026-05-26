@@ -310,7 +310,7 @@ const Home = ({ onShowToast }) => {
               </p>
               <div>
                 <h5 style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--black)' }}>Aishwarya Sharma</h5>
-                <span style={{ fontSize: '0.75rem', color: 'var(--grey)' }}>Noida, Uttar Pradesh</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--grey)' }}>Jhunjhunu, Rajasthan</span>
               </div>
             </div>
 

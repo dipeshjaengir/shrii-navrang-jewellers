@@ -149,7 +149,7 @@ const Shop = ({ onShowToast }) => {
     navigate('/shop');
   };
 
-  const categoriesList = ["Necklaces", "Rings", "Earrings", "Bangles", "Bridal Collection", "Men's Collection", "Silver Jewellery"];
+  const categoriesList = ["Rings", "Bridal Collection", "Necklaces", "Earrings", "Bangles", "Diamond Jewellery", "Men's Jewellery", "Silver Jewellery", "Gold Jewellery"];
   const materialsList = ["Gold", "Silver", "Diamond", "Platinum"];
   const gendersList = ["Women", "Men", "Unisex"];
 

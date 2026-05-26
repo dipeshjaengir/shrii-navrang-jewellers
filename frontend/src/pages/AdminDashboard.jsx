@@ -4,12 +4,13 @@ import { useAuth } from '../context/AuthContext';
 import { 
   TrendingUp, Users, ShoppingBag, Database, ShieldAlert, 
   Plus, Edit, Trash2, CheckCircle2, ChevronRight, X, 
-  LogOut, ShoppingCart, Info, ListOrdered, UserX, Search
+  LogOut, ShoppingCart, Info, ListOrdered, UserX, Search, Landmark
 } from 'lucide-react';
+import { API_URL } from '../config';
 
 const AdminDashboard = ({ onShowToast }) => {
   const { token, user, logout } = useAuth();
-  const [activeTab, setActiveTab] = useState('analytics'); // analytics, products, orders, users
+  const [activeTab, setActiveTab] = useState('analytics'); // analytics, products, orders, users, rates
   
   // States
   const [analytics, setAnalytics] = useState(null);
@@ -17,6 +18,15 @@ const AdminDashboard = ({ onShowToast }) => {
   const [orders, setOrders] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Rates & Email Config State
+  const [ratesForm, setRatesForm] = useState({
+    gold24k: '',
+    gold22k: '',
+    silver: '',
+    businessEmail: ''
+  });
+  const [ratesLoading, setRatesLoading] = useState(false);
 
   // Search & Filter States
   const [prodSearch, setProdSearch] = useState('');
@@ -40,7 +50,6 @@ const AdminDashboard = ({ onShowToast }) => {
   });
 
   const navigate = useNavigate();
-  const API_URL = 'http://localhost:5000/api';
 
   const fetchDashboardData = async () => {
     if (!token) return;
@@ -92,6 +101,54 @@ const AdminDashboard = ({ onShowToast }) => {
   useEffect(() => {
     fetchDashboardData();
   }, [token]);
+
+  const fetchRatesConfig = async () => {
+    try {
+      const res = await fetch(`${API_URL}/rates`);
+      if (res.ok) {
+        const data = await res.json();
+        setRatesForm({
+          gold24k: data.gold24k,
+          gold22k: data.gold22k,
+          silver: data.silver,
+          businessEmail: data.businessEmail
+        });
+      }
+    } catch (err) {
+      console.error('Error fetching rates inside dashboard:', err);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'rates') {
+      fetchRatesConfig();
+    }
+  }, [activeTab]);
+
+  const handleRatesSubmit = async (e) => {
+    e.preventDefault();
+    setRatesLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/rates`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(ratesForm)
+      });
+      const data = await res.json();
+      if (res.ok) {
+        if (onShowToast) onShowToast('Rates & Showroom Config updated successfully! ✨', 'success');
+      } else {
+        throw new Error(data.message || 'Rates update failed');
+      }
+    } catch (err) {
+      if (onShowToast) onShowToast(err.message, 'error');
+    } finally {
+      setRatesLoading(false);
+    }
+  };
 
   const handleAdminLogout = () => {
     logout();
@@ -312,10 +369,14 @@ const AdminDashboard = ({ onShowToast }) => {
               fontWeight: 600,
               transition: 'var(--transition)'
             }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--error)'}
-            onMouseEnter={(e) => e.currentTarget.style.color = '#fff'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(211,47,47,0.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--error)'}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--error)';
+              e.currentTarget.style.color = '#fff';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(211,47,47,0.1)';
+              e.currentTarget.style.color = 'var(--error)';
+            }}
           >
             <LogOut size={12} /> Exit
           </button>
@@ -418,6 +479,29 @@ const AdminDashboard = ({ onShowToast }) => {
             }}
           >
             <Users size={16} /> Customers Registry
+          </button>
+
+          <button 
+            onClick={() => setActiveTab('rates')}
+            style={{
+              padding: '12px 18px',
+              borderRadius: '4px',
+              border: 'none',
+              background: activeTab === 'rates' ? 'linear-gradient(135deg, var(--gold), var(--gold-dark))' : 'none',
+              color: activeTab === 'rates' ? 'var(--black)' : '#cccccc',
+              textAlign: 'left',
+              fontFamily: 'var(--font-body)',
+              fontWeight: 600,
+              fontSize: '0.85rem',
+              letterSpacing: '0.5px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              transition: 'var(--transition)'
+            }}
+          >
+            <Landmark size={16} /> Rates & Config
           </button>
 
         </div>
@@ -816,6 +900,92 @@ const AdminDashboard = ({ onShowToast }) => {
                     ))}
                   </tbody>
                 </table>
+              </div>
+
+            </div>
+          )}
+
+          {/* TAB 5: RATES & CONFIG */}
+          {activeTab === 'rates' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '30px', animation: 'fadeIn 0.5s forwards', maxWidth: '550px' }}>
+              
+              <div className="glass-panel" style={{ padding: '40px', borderRadius: '8px', border: '1px solid rgba(212,175,55,0.15)', boxShadow: 'var(--shadow)', backgroundColor: '#ffffff' }}>
+                <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '1.6rem', color: 'var(--black)', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px', marginTop: 0 }}>
+                  <Landmark size={22} color="var(--gold-dark)" /> Rates & Contact Management
+                </h3>
+                <p style={{ color: 'var(--grey)', fontSize: '0.85rem', marginBottom: '30px', fontWeight: 300 }}>
+                  Showroom Live Rates and Contact details are displayed directly to clients on the homepage rates widget, navbar rates modal, contact page email concierges, and footer showroom channels.
+                </p>
+
+                <form onSubmit={handleRatesSubmit}>
+                  {/* Gold 24K */}
+                  <div className="form-group" style={{ marginBottom: '20px' }}>
+                    <label style={{ fontWeight: 600, fontSize: '0.8rem', textTransform: 'uppercase', color: 'var(--black)', display: 'block', marginBottom: '8px' }}>Today's Gold 24K (₹ / 1 Gram) *</label>
+                    <input 
+                      type="number" 
+                      step="any"
+                      required
+                      placeholder="e.g. 7250"
+                      className="form-control"
+                      value={ratesForm.gold24k}
+                      onChange={(e) => setRatesForm({ ...ratesForm, gold24k: e.target.value })}
+                      style={{ border: '1.5px solid var(--light-grey)', borderRadius: '4px', padding: '12px 14px', fontSize: '0.85rem' }}
+                    />
+                  </div>
+
+                  {/* Gold 22K */}
+                  <div className="form-group" style={{ marginBottom: '20px' }}>
+                    <label style={{ fontWeight: 600, fontSize: '0.8rem', textTransform: 'uppercase', color: 'var(--black)', display: 'block', marginBottom: '8px' }}>Today's Gold 22K (₹ / 1 Gram) *</label>
+                    <input 
+                      type="number" 
+                      step="any"
+                      required
+                      placeholder="e.g. 6650"
+                      className="form-control"
+                      value={ratesForm.gold22k}
+                      onChange={(e) => setRatesForm({ ...ratesForm, gold22k: e.target.value })}
+                      style={{ border: '1.5px solid var(--light-grey)', borderRadius: '4px', padding: '12px 14px', fontSize: '0.85rem' }}
+                    />
+                  </div>
+
+                  {/* Silver */}
+                  <div className="form-group" style={{ marginBottom: '20px' }}>
+                    <label style={{ fontWeight: 600, fontSize: '0.8rem', textTransform: 'uppercase', color: 'var(--black)', display: 'block', marginBottom: '8px' }}>Today's Silver (₹ / 1 Gram) *</label>
+                    <input 
+                      type="number" 
+                      step="any"
+                      required
+                      placeholder="e.g. 90"
+                      className="form-control"
+                      value={ratesForm.silver}
+                      onChange={(e) => setRatesForm({ ...ratesForm, silver: e.target.value })}
+                      style={{ border: '1.5px solid var(--light-grey)', borderRadius: '4px', padding: '12px 14px', fontSize: '0.85rem' }}
+                    />
+                  </div>
+
+                  {/* Showroom Contact Email */}
+                  <div className="form-group" style={{ marginBottom: '35px' }}>
+                    <label style={{ fontWeight: 600, fontSize: '0.8rem', textTransform: 'uppercase', color: 'var(--black)', display: 'block', marginBottom: '8px' }}>Showroom Business Email (Editable) *</label>
+                    <input 
+                      type="email" 
+                      required
+                      placeholder="e.g. info@shriinavrang.com"
+                      className="form-control"
+                      value={ratesForm.businessEmail}
+                      onChange={(e) => setRatesForm({ ...ratesForm, businessEmail: e.target.value })}
+                      style={{ border: '1.5px solid var(--light-grey)', borderRadius: '4px', padding: '12px 14px', fontSize: '0.85rem' }}
+                    />
+                  </div>
+
+                  <button 
+                    type="submit" 
+                    className="btn-gold" 
+                    style={{ width: '100%', justifyContent: 'center', height: '48px' }}
+                    disabled={ratesLoading}
+                  >
+                    {ratesLoading ? 'SAVING BOARD CONFIG...' : 'UPDATE BOARD RATES & EMAIL'}
+                  </button>
+                </form>
               </div>
 
             </div>

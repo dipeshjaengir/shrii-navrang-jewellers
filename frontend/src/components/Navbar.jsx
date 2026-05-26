@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { Search, Heart, ShoppingBag, User as UserIcon, LogOut, ChevronDown, Menu, X, Sparkles, LayoutDashboard } from 'lucide-react';
+import { Search, Heart, ShoppingBag, User as UserIcon, LogOut, ChevronDown, Menu, X, Sparkles, LayoutDashboard, Landmark } from 'lucide-react';
+import { API_URL } from '../config';
 
 const Navbar = () => {
   const { user, logout, triggerRestrictedAction, setAuthModalPurpose, setShowAuthModal } = useAuth();
@@ -10,7 +11,30 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [showRatesModal, setShowRatesModal] = useState(false);
+  const [ratesConfig, setRatesConfig] = useState({
+    gold24k: 7250,
+    gold22k: 6650,
+    silver: 90,
+    businessEmail: 'info@shriinavrang.com',
+    updatedAt: new Date().toISOString()
+  });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchRates = async () => {
+      try {
+        const res = await fetch(`${API_URL}/rates`);
+        if (res.ok) {
+          const data = await res.json();
+          setRatesConfig(data);
+        }
+      } catch (err) {
+        console.error('Error fetching rates in navbar:', err);
+      }
+    };
+    fetchRates();
+  }, []);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -70,8 +94,14 @@ const Navbar = () => {
       }}>
         {/* Logo */}
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px' }} onClick={() => setShowProfileDropdown(false)}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '6px', borderRadius: '50%', backgroundColor: 'rgba(212, 175, 55, 0.1)', border: '1px solid var(--gold)' }}>
-            <Sparkles size={20} color="var(--gold)" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <svg width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 2px 6px rgba(212, 175, 55, 0.4))' }}>
+              <circle cx="50" cy="50" r="46" stroke="#D4AF37" strokeWidth="4" fill="#111111" />
+              <circle cx="50" cy="50" r="40" stroke="#D4AF37" strokeWidth="1.5" strokeDasharray="3 3" />
+              <path d="M50 20 L60 32 L50 44 L40 32 Z" fill="#D4AF37" />
+              <path d="M50 56 L60 68 L50 80 L40 68 Z" fill="#D4AF37" opacity="0.85" />
+              <text x="50" y="58" fontFamily="Georgia, serif" fontSize="24" fontWeight="bold" fill="#D4AF37" textAnchor="middle">N</text>
+            </svg>
           </div>
           <span style={{
             fontFamily: 'var(--font-title)',
@@ -134,6 +164,29 @@ const Navbar = () => {
           <Link to="/contact" style={{ fontSize: '0.85rem', fontWeight: 600, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#e5e5e5' }} onMouseEnter={(e) => e.target.style.color = 'var(--gold)'} onMouseLeave={(e) => e.target.style.color = '#e5e5e5'}>
             Contact
           </Link>
+          <button 
+            onClick={() => setShowRatesModal(true)}
+            style={{ 
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '0.85rem', 
+              fontWeight: 600, 
+              letterSpacing: '1.5px', 
+              textTransform: 'uppercase', 
+              color: 'var(--gold)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontFamily: 'var(--font-body)',
+              transition: 'transform 0.2s'
+            }}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
+            <Sparkles size={14} color="var(--gold)" />
+            Today's Rate
+          </button>
 
           {/* Icons block */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px', borderLeft: '1px solid #333', paddingLeft: '20px' }}>
@@ -279,6 +332,25 @@ const Navbar = () => {
           <Link to="/shop" onClick={() => setMobileMenuOpen(false)} style={{ fontWeight: 600 }}>Collections</Link>
           <Link to="/about" onClick={() => setMobileMenuOpen(false)} style={{ fontWeight: 600 }}>Heritage</Link>
           <Link to="/contact" onClick={() => setMobileMenuOpen(false)} style={{ fontWeight: 600 }}>Contact</Link>
+          <button 
+            onClick={() => { setMobileMenuOpen(false); setShowRatesModal(true); }} 
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: 'var(--gold)', 
+              textAlign: 'left', 
+              fontSize: '1rem', 
+              fontWeight: 600, 
+              cursor: 'pointer', 
+              padding: 0,
+              fontFamily: 'var(--font-body)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+          >
+            <Sparkles size={16} /> Today's Rate
+          </button>
           
           <div style={{ display: 'flex', gap: '20px', borderTop: '1px solid #222', paddingTop: '20px' }}>
             <a href="/wishlist" onClick={(e) => { setMobileMenuOpen(false); handleWishlistClick(e); }} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--gold)' }}>
@@ -318,13 +390,114 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Navigation responsive injection styling */}
+      {/* Responsive adjustments */}
       <style dangerouslySetInnerHTML={{__html: `
         @media (max-width: 768px) {
           .nav-desktop-actions { display: none !important; }
           .nav-mobile-trigger { display: block !important; }
         }
       `}} />
+
+      {/* 5. Today's Rates Luxury Modal */}
+      {showRatesModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.85)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999,
+          backdropFilter: 'blur(8px)',
+          animation: 'fadeIn 0.3s'
+        }}>
+          <div 
+            className="glass-panel" 
+            style={{
+              width: '100%',
+              maxWidth: '420px',
+              backgroundColor: '#111111',
+              border: '2px solid var(--gold)',
+              borderRadius: '8px',
+              padding: '40px 30px',
+              color: '#ffffff',
+              textAlign: 'center',
+              boxShadow: '0 10px 40px rgba(212,175,55,0.15)',
+              position: 'relative'
+            }}
+          >
+            <button 
+              onClick={() => setShowRatesModal(false)}
+              style={{
+                position: 'absolute',
+                top: '15px',
+                right: '15px',
+                background: 'none',
+                border: 'none',
+                color: '#cccccc',
+                cursor: 'pointer',
+                fontSize: '1.2rem'
+              }}
+              onMouseEnter={(e) => e.target.style.color = 'var(--gold)'}
+              onMouseLeave={(e) => e.target.style.color = '#cccccc'}
+            >
+              <X size={20} />
+            </button>
+
+            {/* Logo Monogram */}
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+              <svg width="46" height="46" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="46" stroke="#D4AF37" strokeWidth="4" fill="#111111" />
+                <circle cx="50" cy="50" r="40" stroke="#D4AF37" strokeWidth="1.5" strokeDasharray="3 3" />
+                <path d="M50 20 L60 32 L50 44 L40 32 Z" fill="#D4AF37" />
+                <path d="M50 56 L60 68 L50 80 L40 68 Z" fill="#D4AF37" opacity="0.8" />
+                <text x="50" y="58" fontFamily="Georgia, serif" fontSize="24" fontWeight="bold" fill="#D4AF37" textAnchor="middle">N</text>
+              </svg>
+            </div>
+
+            <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '1.6rem', color: '#ffffff', margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '1px' }}>
+              Shrii Navrang Jewellers
+            </h3>
+            <span style={{ fontSize: '0.7rem', color: 'var(--gold)', letterSpacing: '2px', textTransform: 'uppercase', fontWeight: 600, display: 'block', marginBottom: '30px' }}>
+              Today's Live Showroom Rates
+            </span>
+
+            {/* Rates Table/Cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '30px' }}>
+              {/* Gold 24K */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 20px', backgroundColor: 'rgba(212, 175, 55, 0.05)', border: '1px solid rgba(212,175,55,0.2)', borderRadius: '4px' }}>
+                <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#e5e5e5' }}>Gold 24K (99.9% Purity)</span>
+                <span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--gold)' }}>₹{ratesConfig.gold24k.toLocaleString('en-IN')} <span style={{ fontSize: '0.75rem', fontWeight: 500, color: '#aaa' }}>/ 1g</span></span>
+              </div>
+
+              {/* Gold 22K */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 20px', backgroundColor: 'rgba(212, 175, 55, 0.05)', border: '1px solid rgba(212,175,55,0.2)', borderRadius: '4px' }}>
+                <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#e5e5e5' }}>Gold 22K (91.6% Purity)</span>
+                <span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--gold)' }}>₹{ratesConfig.gold22k.toLocaleString('en-IN')} <span style={{ fontSize: '0.75rem', fontWeight: 500, color: '#aaa' }}>/ 1g</span></span>
+              </div>
+
+              {/* Silver */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 20px', backgroundColor: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px' }}>
+                <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#e5e5e5' }}>Silver (99.9% Purity)</span>
+                <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#ffffff' }}>₹{ratesConfig.silver.toLocaleString('en-IN')} <span style={{ fontSize: '0.75rem', fontWeight: 500, color: '#aaa' }}>/ 1g</span></span>
+              </div>
+            </div>
+
+            {/* Last Updated Timestamp & Hallmark Info */}
+            <div style={{ borderTop: '1px solid #222', paddingTop: '20px', fontSize: '0.7rem', color: '#888', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', color: 'var(--gold)' }}>
+                <Landmark size={12} />
+                <span>Showroom Rate Board • BIS 22/22 Hallmark</span>
+              </div>
+              <span>Last updated: {new Date(ratesConfig.updatedAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}</span>
+              <span style={{ color: '#666', fontSize: '0.65rem' }}>Showroom Managed by Navrang Jangid & Family. GST & Making charges extra.</span>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

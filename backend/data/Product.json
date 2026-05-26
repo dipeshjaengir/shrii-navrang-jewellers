@@ -1,8 +1,8 @@
 [
   {
-    "_id": "wdgar8vn9",
+    "_id": "he3rwv6qu",
     "productName": "Aditi Gold Temple Choker Necklace",
-    "category": "Necklaces",
+    "category": "Gold Jewellery",
     "price": 185000,
     "description": "Exquisite 22-karat gold choker necklace featuring antique temple patterns of Goddess Lakshmi, adorned with premium ruby drops. Crafted by master Indian goldsmiths.",
     "images": [
@@ -15,10 +15,10 @@
     "gender": "Women",
     "ratings": 4.9,
     "reviewsCount": 3,
-    "createdAt": "2026-05-26T06:29:12.533Z"
+    "createdAt": "2026-05-26T06:48:29.265Z"
   },
   {
-    "_id": "uaciznwck",
+    "_id": "iiu6iaq57",
     "productName": "Aria Princess Diamond Ring",
     "category": "Rings",
     "price": 125000,
@@ -33,10 +33,10 @@
     "gender": "Women",
     "ratings": 4.8,
     "reviewsCount": 5,
-    "createdAt": "2026-05-26T06:29:12.561Z"
+    "createdAt": "2026-05-26T06:48:29.278Z"
   },
   {
-    "_id": "q30evwfru",
+    "_id": "q1x2flf6o",
     "productName": "Navrang Royal Bridal Polki Set",
     "category": "Bridal Collection",
     "price": 420000,
@@ -51,10 +51,10 @@
     "gender": "Women",
     "ratings": 5,
     "reviewsCount": 2,
-    "createdAt": "2026-05-26T06:29:12.585Z"
+    "createdAt": "2026-05-26T06:48:29.291Z"
   },
   {
-    "_id": "zrzdzshf6",
+    "_id": "ex6ioc49v",
     "productName": "Classic Gold Filigree Jhumkas",
     "category": "Earrings",
     "price": 65000,
@@ -69,12 +69,12 @@
     "gender": "Women",
     "ratings": 4.7,
     "reviewsCount": 8,
-    "createdAt": "2026-05-26T06:29:12.611Z"
+    "createdAt": "2026-05-26T06:48:29.304Z"
   },
   {
-    "_id": "9ey393vb8",
+    "_id": "85t8975af",
     "productName": "Kundan Emerald Kada Bangles",
-    "category": "Bangles",
+    "category": "Gold Jewellery",
     "price": 210000,
     "description": "Set of two stunning 22k gold Kada bangles, embellished with pure Kundan settings and vivid green hand-cut emeralds.",
     "images": [
@@ -86,12 +86,12 @@
     "gender": "Women",
     "ratings": 4.9,
     "reviewsCount": 4,
-    "createdAt": "2026-05-26T06:29:12.635Z"
+    "createdAt": "2026-05-26T06:48:29.317Z"
   },
   {
-    "_id": "7vc2v9mv7",
+    "_id": "hvvv7zy2z",
     "productName": "The Emperor Diamond Band for Men",
-    "category": "Men's Collection",
+    "category": "Men's Jewellery",
     "price": 98000,
     "description": "Sleek, bold men's platinum wedding band featuring a flush-set row of brilliant round-cut diamonds. Minimalist luxury at its finest.",
     "images": [
@@ -103,10 +103,10 @@
     "gender": "Men",
     "ratings": 4.6,
     "reviewsCount": 6,
-    "createdAt": "2026-05-26T06:29:12.660Z"
+    "createdAt": "2026-05-26T06:48:29.331Z"
   },
   {
-    "_id": "vyh375swm",
+    "_id": "qxh8b63y5",
     "productName": "Divine Silver Anklets Pair",
     "category": "Silver Jewellery",
     "price": 15000,
@@ -120,12 +120,12 @@
     "gender": "Women",
     "ratings": 4.5,
     "reviewsCount": 9,
-    "createdAt": "2026-05-26T06:29:12.687Z"
+    "createdAt": "2026-05-26T06:48:29.347Z"
   },
   {
-    "_id": "ugmikt5my",
+    "_id": "czejjg7z9",
     "productName": "Majestic Peacock Gold Pendant",
-    "category": "Necklaces",
+    "category": "Gold Jewellery",
     "price": 48000,
     "description": "Finely detailed peacock shaped pendant crafted in glowing 22-karat yellow gold and set with ruby cabochons.",
     "images": [
@@ -137,10 +137,10 @@
     "gender": "Women",
     "ratings": 4.7,
     "reviewsCount": 4,
-    "createdAt": "2026-05-26T06:29:12.737Z"
+    "createdAt": "2026-05-26T06:48:29.361Z"
   },
   {
-    "_id": "d27bzo0l1",
+    "_id": "16udt68ss",
     "productName": "Minimalist Silver Sleek Bracelet",
     "category": "Silver Jewellery",
     "price": 8500,
@@ -154,12 +154,12 @@
     "gender": "Women",
     "ratings": 4.4,
     "reviewsCount": 11,
-    "createdAt": "2026-05-26T06:29:12.762Z"
+    "createdAt": "2026-05-26T06:48:29.376Z"
   },
   {
-    "_id": "g9nwvivnp",
+    "_id": "kws5iha3u",
     "productName": "Infinity Diamond Stud Earrings",
-    "category": "Earrings",
+    "category": "Diamond Jewellery",
     "price": 145000,
     "description": "Brilliant-cut pair of diamond studs featuring an infinity loop basket design, set in high-polish 18k yellow gold.",
     "images": [
@@ -171,12 +171,12 @@
     "gender": "Women",
     "ratings": 4.8,
     "reviewsCount": 7,
-    "createdAt": "2026-05-26T06:29:12.787Z"
+    "createdAt": "2026-05-26T06:48:29.389Z"
   },
   {
-    "_id": "ax4nbpj5f",
+    "_id": "svr03geos",
     "productName": "Royal Rajwadi Gold Choker Set",
-    "category": "Necklaces",
+    "category": "Bridal Collection",
     "price": 295000,
     "description": "Opulent 22k gold choker highlighting intricate meenakari work and classic Rajwadi kundan clusters. Perfect for regal functions.",
     "images": [
@@ -188,12 +188,12 @@
     "gender": "Women",
     "ratings": 4.9,
     "reviewsCount": 4,
-    "createdAt": "2026-05-26T06:29:12.812Z"
+    "createdAt": "2026-05-26T06:48:29.403Z"
   },
   {
-    "_id": "b28azr34i",
+    "_id": "z7lnf08cz",
     "productName": "Aura Diamond Hoop Earrings",
-    "category": "Earrings",
+    "category": "Diamond Jewellery",
     "price": 88000,
     "description": "Dazzling diamond hoop earrings set in 18k yellow gold. Perfect circular contours with micro-pave hand-set brilliant solitaire diamonds.",
     "images": [
@@ -205,12 +205,12 @@
     "gender": "Women",
     "ratings": 4.7,
     "reviewsCount": 3,
-    "createdAt": "2026-05-26T06:29:12.838Z"
+    "createdAt": "2026-05-26T06:48:29.418Z"
   },
   {
-    "_id": "ksxb1drdt",
+    "_id": "hvjeqhkoo",
     "productName": "Vedic Gold Mangalsutra",
-    "category": "Necklaces",
+    "category": "Gold Jewellery",
     "price": 54000,
     "description": "Sacred 22k yellow gold Mangalsutra featuring traditional black beads and an ornate gold pendant depicting cosmic harmony.",
     "images": [
@@ -222,12 +222,12 @@
     "gender": "Women",
     "ratings": 4.8,
     "reviewsCount": 5,
-    "createdAt": "2026-05-26T06:29:12.863Z"
+    "createdAt": "2026-05-26T06:48:29.432Z"
   },
   {
-    "_id": "i7oiwevmc",
+    "_id": "0gqhyv4dr",
     "productName": "Ganga Silver Filigree Bangles",
-    "category": "Bangles",
+    "category": "Silver Jewellery",
     "price": 18500,
     "description": "A pair of hand-twisted 925 sterling silver bangles highlighting delicate filigree artwork representing the sacred flows of the Ganges.",
     "images": [
@@ -239,12 +239,12 @@
     "gender": "Women",
     "ratings": 4.6,
     "reviewsCount": 6,
-    "createdAt": "2026-05-26T06:29:12.888Z"
+    "createdAt": "2026-05-26T06:48:29.446Z"
   },
   {
-    "_id": "kp1b53s0y",
+    "_id": "m9fz9pu4x",
     "productName": "Meenakari Peacock Kada",
-    "category": "Bangles",
+    "category": "Gold Jewellery",
     "price": 135000,
     "description": "Stunning 22k gold Kada bangle showcasing heritage hand-painted Meenakari peacock enameling and fine Kundan settings.",
     "images": [
@@ -256,12 +256,12 @@
     "gender": "Women",
     "ratings": 4.9,
     "reviewsCount": 4,
-    "createdAt": "2026-05-26T06:29:12.913Z"
+    "createdAt": "2026-05-26T06:48:29.461Z"
   },
   {
-    "_id": "k4clq5bo2",
+    "_id": "4gdfq2kyn",
     "productName": "Nirvana Platinum Ring for Men",
-    "category": "Men's Collection",
+    "category": "Men's Jewellery",
     "price": 115000,
     "description": "Premium pure 950 platinum band featuring a brushed matte center finish and polished secure bevels. High-comfort luxury fit.",
     "images": [
@@ -273,12 +273,12 @@
     "gender": "Men",
     "ratings": 4.8,
     "reviewsCount": 5,
-    "createdAt": "2026-05-26T06:29:12.942Z"
+    "createdAt": "2026-05-26T06:48:29.475Z"
   },
   {
-    "_id": "c7pvt3hep",
+    "_id": "8gd7neu4x",
     "productName": "Heritage Polki Chandbalis",
-    "category": "Earrings",
+    "category": "Bridal Collection",
     "price": 145000,
     "description": "Breath-taking 22k gold crescent-shaped Chandbali earrings, set with uncut Polki diamonds, pearls, and ruby beads.",
     "images": [
@@ -290,12 +290,12 @@
     "gender": "Women",
     "ratings": 5,
     "reviewsCount": 3,
-    "createdAt": "2026-05-26T06:29:12.968Z"
+    "createdAt": "2026-05-26T06:48:29.490Z"
   },
   {
-    "_id": "zytz4fwnv",
+    "_id": "szpum8vif",
     "productName": "Modernist Silver Curb Chain",
-    "category": "Men's Collection",
+    "category": "Men's Jewellery",
     "price": 12000,
     "description": "Strong, thick 925 sterling silver curb link chain for men. Fully polished, hand-soldered, with secure custom luxury clasp.",
     "images": [
@@ -307,12 +307,12 @@
     "gender": "Men",
     "ratings": 4.5,
     "reviewsCount": 8,
-    "createdAt": "2026-05-26T06:29:12.992Z"
+    "createdAt": "2026-05-26T06:48:29.504Z"
   },
   {
-    "_id": "xbhtsgxtf",
+    "_id": "iautk0xqx",
     "productName": "Solitaire Diamond Studs",
-    "category": "Earrings",
+    "category": "Diamond Jewellery",
     "price": 95000,
     "description": "Timeless 18k white gold stud earrings featuring two perfectly matched brilliant-cut diamonds, GIA certified.",
     "images": [
@@ -324,12 +324,12 @@
     "gender": "Women",
     "ratings": 4.9,
     "reviewsCount": 10,
-    "createdAt": "2026-05-26T06:29:13.015Z"
+    "createdAt": "2026-05-26T06:48:29.518Z"
   },
   {
-    "_id": "8ygfdmeb3",
+    "_id": "c2ub1h1ru",
     "productName": "Classic Gold Temple Bangles Set",
-    "category": "Bangles",
+    "category": "Gold Jewellery",
     "price": 220000,
     "description": "Set of four heavy solid 22k gold bangles showcasing hand-carved floral, bead, and divine coin patterns.",
     "images": [
@@ -341,10 +341,10 @@
     "gender": "Women",
     "ratings": 4.8,
     "reviewsCount": 5,
-    "createdAt": "2026-05-26T06:29:13.038Z"
+    "createdAt": "2026-05-26T06:48:29.533Z"
   },
   {
-    "_id": "rzmpp5g76",
+    "_id": "1rjz9rth7",
     "productName": "Maharani Kundan Bridal Necklace",
     "category": "Bridal Collection",
     "price": 490000,
@@ -358,10 +358,10 @@
     "gender": "Women",
     "ratings": 5,
     "reviewsCount": 4,
-    "createdAt": "2026-05-26T06:29:13.068Z"
+    "createdAt": "2026-05-26T06:48:29.547Z"
   },
   {
-    "_id": "t00qbegeo",
+    "_id": "5ej9nncjl",
     "productName": "Princess Cut Sapphire Diamond Ring",
     "category": "Rings",
     "price": 175000,
@@ -375,10 +375,10 @@
     "gender": "Women",
     "ratings": 4.8,
     "reviewsCount": 6,
-    "createdAt": "2026-05-26T06:29:13.092Z"
+    "createdAt": "2026-05-26T06:48:29.561Z"
   },
   {
-    "_id": "jksk48vv2",
+    "_id": "hlswpske6",
     "productName": "Timeless Platinum Solitaire Ring",
     "category": "Rings",
     "price": 210000,
@@ -392,10 +392,10 @@
     "gender": "Women",
     "ratings": 4.9,
     "reviewsCount": 4,
-    "createdAt": "2026-05-26T06:29:13.117Z"
+    "createdAt": "2026-05-26T06:48:29.575Z"
   },
   {
-    "_id": "9ndp6doam",
+    "_id": "9lx1nue8u",
     "productName": "Sterling Silver Ganesha Pendant",
     "category": "Silver Jewellery",
     "price": 7500,
@@ -409,10 +409,10 @@
     "gender": "Unisex",
     "ratings": 4.7,
     "reviewsCount": 12,
-    "createdAt": "2026-05-26T06:29:13.143Z"
+    "createdAt": "2026-05-26T06:48:29.589Z"
   },
   {
-    "_id": "06agr8ow8",
+    "_id": "g3mapddc6",
     "productName": "Royal Pearl Drop Gold Jhumkas",
     "category": "Earrings",
     "price": 72000,
@@ -426,12 +426,12 @@
     "gender": "Women",
     "ratings": 4.8,
     "reviewsCount": 5,
-    "createdAt": "2026-05-26T06:29:13.171Z"
+    "createdAt": "2026-05-26T06:48:29.604Z"
   },
   {
-    "_id": "uyyha9ygj",
+    "_id": "9j5xwmfml",
     "productName": "Maharaja Gold Sherwani Buttons",
-    "category": "Men's Collection",
+    "category": "Men's Jewellery",
     "price": 165000,
     "description": "Set of seven handcrafted 22k gold sherwani buttons linked with a gold safety chain, featuring deep engraving and rubies.",
     "images": [
@@ -443,12 +443,12 @@
     "gender": "Men",
     "ratings": 4.9,
     "reviewsCount": 2,
-    "createdAt": "2026-05-26T06:29:13.202Z"
+    "createdAt": "2026-05-26T06:48:29.618Z"
   },
   {
-    "_id": "ecex7c6za",
+    "_id": "dvsu1dfct",
     "productName": "Elegant Diamond Tennis Bracelet",
-    "category": "Bangles",
+    "category": "Diamond Jewellery",
     "price": 320000,
     "description": "A breathtaking continuous row of GIA certified round brilliant-cut diamonds, hand-set in an 18-karat white gold slider setting.",
     "images": [
@@ -460,10 +460,10 @@
     "gender": "Women",
     "ratings": 5,
     "reviewsCount": 7,
-    "createdAt": "2026-05-26T06:29:13.229Z"
+    "createdAt": "2026-05-26T06:48:29.633Z"
   },
   {
-    "_id": "81rrvazbz",
+    "_id": "g8135og0l",
     "productName": "Contemporary Silver Choker",
     "category": "Silver Jewellery",
     "price": 22000,
@@ -477,12 +477,12 @@
     "gender": "Women",
     "ratings": 4.4,
     "reviewsCount": 4,
-    "createdAt": "2026-05-26T06:29:13.255Z"
+    "createdAt": "2026-05-26T06:48:29.648Z"
   },
   {
-    "_id": "1r2knpdbl",
+    "_id": "8woaz5glt",
     "productName": "Vintage Gold Kasu Mala",
-    "category": "Necklaces",
+    "category": "Gold Jewellery",
     "price": 240000,
     "description": "Stunning traditional South Indian coin necklace (Kasu Mala) meticulously crafted in pure 22-karat yellow gold with Laxmi coins.",
     "images": [
@@ -494,12 +494,12 @@
     "gender": "Women",
     "ratings": 4.9,
     "reviewsCount": 6,
-    "createdAt": "2026-05-26T06:29:13.283Z"
+    "createdAt": "2026-05-26T06:48:29.662Z"
   },
   {
-    "_id": "jcww1nle0",
+    "_id": "uyb2xem4t",
     "productName": "Elite Platinum Diamond Cufflinks",
-    "category": "Men's Collection",
+    "category": "Men's Jewellery",
     "price": 140000,
     "description": "Exquisite pair of 950 platinum square cufflinks, featuring custom central princess-cut diamonds. An executive luxury statement.",
     "images": [
@@ -511,10 +511,10 @@
     "gender": "Men",
     "ratings": 4.7,
     "reviewsCount": 4,
-    "createdAt": "2026-05-26T06:29:13.311Z"
+    "createdAt": "2026-05-26T06:48:29.677Z"
   },
   {
-    "_id": "ncbk59mgc",
+    "_id": "j2ph9bs0a",
     "productName": "Traditional Silver Payal Pair",
     "category": "Silver Jewellery",
     "price": 9800,
@@ -528,10 +528,10 @@
     "gender": "Women",
     "ratings": 4.6,
     "reviewsCount": 8,
-    "createdAt": "2026-05-26T06:29:13.387Z"
+    "createdAt": "2026-05-26T06:48:29.691Z"
   },
   {
-    "_id": "481q3bcpj",
+    "_id": "tcuibzhp0",
     "productName": "Aria Marquise Diamond Ring",
     "category": "Rings",
     "price": 185000,
@@ -545,6 +545,6 @@
     "gender": "Women",
     "ratings": 4.9,
     "reviewsCount": 3,
-    "createdAt": "2026-05-26T06:29:13.440Z"
+    "createdAt": "2026-05-26T06:48:29.706Z"
   }
 ]

@@ -11,5 +11,6 @@ backend/data/*.json
 !backend/data/Notification.json
 !backend/data/Cart.json
 !backend/data/Order.json
+!backend/data/Rates.json
 *.log
 .DS_Store

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 
@@ -29,14 +29,17 @@ import AdminLogin from './pages/AdminLogin';
 
 function AppContent() {
   const [toast, setToast] = useState(null);
+  const location = useLocation();
 
   const showToast = (msg, type = 'success') => {
     setToast({ msg, type });
   };
 
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#ffffff' }}>
-      <Navbar />
+      {!isAdminRoute && <Navbar />}
       
       <main style={{ flexGrow: 1 }}>
         <Routes>
@@ -91,7 +94,7 @@ function AppContent() {
         </Routes>
       </main>
 
-      <Footer />
+      {!isAdminRoute && <Footer />}
       <AuthModal />
 
       {toast && (

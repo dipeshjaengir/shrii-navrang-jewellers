@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { 
   TrendingUp, Users, ShoppingBag, Database, ShieldAlert, 
   Plus, Edit, Trash2, CheckCircle2, ChevronRight, X, 
-  LogOut, ShoppingCart, Info, ListOrdered, UserX, Search, Landmark
+  LogOut, ShoppingCart, Info, ListOrdered, UserX, Search, Landmark, Bell
 } from 'lucide-react';
 import { API_URL } from '../config';
 
@@ -17,6 +17,9 @@ const AdminDashboard = ({ onShowToast }) => {
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [customers, setCustomers] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotificationsDropdown, setShowNotificationsDropdown] = useState(false);
+  const [selectedCustomerOrders, setSelectedCustomerOrders] = useState(null);
   const [loading, setLoading] = useState(true);
 
   // Rates & Email Config State
@@ -98,8 +101,73 @@ const AdminDashboard = ({ onShowToast }) => {
     }
   };
 
+  const fetchNotifications = async () => {
+    if (!token) return;
+    try {
+      const res = await fetch(`${API_URL}/admin/notifications`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setNotifications(data);
+      }
+    } catch (err) {
+      console.error('Error fetching admin notifications:', err);
+    }
+  };
+
+  const handleMarkAsRead = async (id) => {
+    try {
+      const res = await fetch(`${API_URL}/admin/notifications/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (res.ok) {
+        fetchNotifications();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     fetchDashboardData();
+    fetchNotifications();
+
+    // 5-second polling interval for reliable live real-time synchronization!
+    const interval = setInterval(() => {
+      if (token) {
+        fetch(`${API_URL}/admin/analytics`, { headers: { 'Authorization': `Bearer ${token}` } })
+          .then(res => res.ok && res.json())
+          .then(data => data && setAnalytics(data))
+          .catch(e => console.error(e));
+
+        fetch(`${API_URL}/products`)
+          .then(res => res.ok && res.json())
+          .then(data => data && setProducts(data))
+          .catch(e => console.error(e));
+
+        fetch(`${API_URL}/admin/orders`, { headers: { 'Authorization': `Bearer ${token}` } })
+          .then(res => res.ok && res.json())
+          .then(data => data && setOrders(data))
+          .catch(e => console.error(e));
+
+        fetch(`${API_URL}/admin/users`, { headers: { 'Authorization': `Bearer ${token}` } })
+          .then(res => res.ok && res.json())
+          .then(data => data && setCustomers(data))
+          .catch(e => console.error(e));
+
+        fetch(`${API_URL}/admin/notifications`, { headers: { 'Authorization': `Bearer ${token}` } })
+          .then(res => res.ok && res.json())
+          .then(data => data && setNotifications(data))
+          .catch(e => console.error(e));
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, [token]);
 
   const fetchRatesConfig = async () => {
@@ -364,6 +432,102 @@ const AdminDashboard = ({ onShowToast }) => {
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          {/* Real-time Admin Notifications Tray */}
+          <div style={{ position: 'relative' }}>
+            <button 
+              onClick={() => setShowNotificationsDropdown(!showNotificationsDropdown)}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: notifications.filter(n => !n.isRead).length > 0 ? 'var(--gold)' : '#ffffff',
+                cursor: 'pointer',
+                padding: '8px',
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'var(--transition)'
+              }}
+              title="Real-time Order Alerts"
+            >
+              <Bell size={20} style={{ animation: notifications.filter(n => !n.isRead).length > 0 ? 'pulseGold 2s infinite ease-in-out' : 'none' }} />
+              {notifications.filter(n => !n.isRead).length > 0 && (
+                <span style={{
+                  position: 'absolute',
+                  top: '0',
+                  right: '0',
+                  backgroundColor: '#d32f2f',
+                  color: '#ffffff',
+                  fontSize: '0.6rem',
+                  fontWeight: 700,
+                  borderRadius: '50%',
+                  width: '16px',
+                  height: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 0 8px rgba(211,47,47,0.6)'
+                }}>
+                  {notifications.filter(n => !n.isRead).length}
+                </span>
+              )}
+            </button>
+
+            {showNotificationsDropdown && (
+              <div style={{
+                position: 'absolute',
+                right: 0,
+                top: '45px',
+                width: '360px',
+                maxHeight: '400px',
+                overflowY: 'auto',
+                backgroundColor: '#ffffff',
+                color: 'var(--black)',
+                borderRadius: '8px',
+                border: '2px solid var(--gold)',
+                boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+                zIndex: 1000,
+                padding: '15px',
+                animation: 'fadeIn 0.2s ease-out'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(0,0,0,0.06)', paddingBottom: '10px', marginBottom: '10px' }}>
+                  <h4 style={{ margin: 0, fontFamily: 'var(--font-title)', fontSize: '1.05rem', color: 'var(--black)' }}>Incoming Showroom Alerts</h4>
+                  <span style={{ fontSize: '0.7rem', color: 'var(--grey)', fontWeight: 600 }}>{notifications.filter(n => !n.isRead).length} Unread</span>
+                </div>
+
+                {notifications.length === 0 ? (
+                  <p style={{ textAlign: 'center', color: 'var(--grey)', padding: '20px 0', fontSize: '0.8rem', fontWeight: 300 }}>No recent order alerts received.</p>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    {notifications.map((n) => (
+                      <div 
+                        key={n._id}
+                        onClick={() => handleMarkAsRead(n._id)}
+                        style={{
+                          padding: '10px 12px',
+                          borderRadius: '4px',
+                          backgroundColor: n.isRead ? 'var(--white)' : 'rgba(212,175,55,0.08)',
+                          borderLeft: n.isRead ? '2px solid #ddd' : '2px solid var(--gold)',
+                          cursor: 'pointer',
+                          transition: 'var(--transition)',
+                          fontSize: '0.78rem'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.02)'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = n.isRead ? 'var(--white)' : 'rgba(212,175,55,0.08)'}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                          <span style={{ fontWeight: 700, color: n.isRead ? 'var(--charcoal-light)' : 'var(--black)' }}>{n.title}</span>
+                          <span style={{ fontSize: '0.65rem', color: 'var(--grey)' }}>{new Date(n.createdAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</span>
+                        </div>
+                        <p style={{ margin: 0, fontWeight: 300, color: 'var(--charcoal)', lineHeight: '1.4' }}>{n.message}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
           <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)' }}>Logged in: <strong>{user?.name || 'Administrator'}</strong></span>
           <button 
             onClick={handleAdminLogout}
@@ -856,14 +1020,34 @@ const AdminDashboard = ({ onShowToast }) => {
 
           {/* TAB 4: CUSTOMERS REGISTRY */}
           {activeTab === 'users' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', animation: 'fadeIn 0.5s forwards' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '25px', animation: 'fadeIn 0.5s forwards' }}>
               
+              {/* Summary Cards */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px', marginBottom: '10px' }}>
+                <div className="glass-panel" style={{ padding: '20px', borderRadius: '6px', borderLeft: '3px solid var(--gold)', backgroundColor: '#ffffff' }}>
+                  <span style={{ fontSize: '0.7rem', color: 'var(--grey)', textTransform: 'uppercase', fontWeight: 600 }}>Registered Patrons</span>
+                  <h3 style={{ fontSize: '1.8rem', fontWeight: 700, margin: '5px 0 0', color: 'var(--black)' }}>{customers.length}</h3>
+                </div>
+                <div className="glass-panel" style={{ padding: '20px', borderRadius: '6px', borderLeft: '3px solid #2e7d32', backgroundColor: '#ffffff' }}>
+                  <span style={{ fontSize: '0.7rem', color: 'var(--grey)', textTransform: 'uppercase', fontWeight: 600 }}>Active Patrons</span>
+                  <h3 style={{ fontSize: '1.8rem', fontWeight: 700, margin: '5px 0 0', color: '#2e7d32' }}>
+                    {customers.filter(c => orders.some(o => String(o.userId) === String(c._id))).length}
+                  </h3>
+                </div>
+                <div className="glass-panel" style={{ padding: '20px', borderRadius: '6px', borderLeft: '3px solid var(--gold-dark)', backgroundColor: '#ffffff' }}>
+                  <span style={{ fontSize: '0.7rem', color: 'var(--grey)', textTransform: 'uppercase', fontWeight: 600 }}>Showroom Value (INR)</span>
+                  <h3 style={{ fontSize: '1.8rem', fontWeight: 700, margin: '5px 0 0', color: 'var(--gold-dark)' }}>
+                    ₹{orders.reduce((sum, o) => sum + o.totalPrice, 0).toLocaleString('en-IN')}
+                  </h3>
+                </div>
+              </div>
+
               {/* Customer Search */}
               <div style={{ position: 'relative', width: '300px' }}>
                 <Search size={16} color="var(--grey)" style={{ position: 'absolute', left: '14px', top: '13px' }} />
                 <input 
                   type="text" 
-                  placeholder="Search customer email, phone..." 
+                  placeholder="Search customer name, email, phone..." 
                   className="form-control"
                   value={userSearch}
                   onChange={(e) => setUserSearch(e.target.value)}
@@ -877,39 +1061,70 @@ const AdminDashboard = ({ onShowToast }) => {
                   <thead>
                     <tr style={{ backgroundColor: 'var(--black)', color: '#ffffff', borderBottom: '2px solid var(--gold)', textAlign: 'left' }}>
                       <th style={{ padding: '15px' }}>Patron Name</th>
-                      <th style={{ padding: '15px' }}>Email Address</th>
-                      <th style={{ padding: '15px' }}>Phone Support</th>
-                      <th style={{ padding: '15px' }}>Saved Addresses</th>
+                      <th style={{ padding: '15px' }}>Contact Channels</th>
+                      <th style={{ padding: '15px' }}>Last Activity</th>
+                      <th style={{ padding: '15px', textAlign: 'center' }}>Chest Orders</th>
+                      <th style={{ padding: '15px', textAlign: 'right' }}>Total Purchases</th>
                       <th style={{ padding: '15px', textAlign: 'center' }}>Admin Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredCustomers.map((c) => (
-                      <tr key={c._id} style={{ borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
-                        <td style={{ padding: '15px', fontWeight: 600, color: 'var(--black)' }}>{c.name}</td>
-                        <td style={{ padding: '15px' }}>{c.email}</td>
-                        <td style={{ padding: '15px' }}>{c.phone || 'Not provided'}</td>
-                        <td style={{ padding: '15px', fontWeight: 300 }}>{c.addresses ? c.addresses.length : 0} Saved Addresses</td>
-                        <td style={{ padding: '15px', textAlign: 'center' }}>
-                          <button 
-                            onClick={() => handleDeleteUser(c._id)}
-                            style={{
-                              border: 'none',
-                              background: 'none',
-                              color: 'var(--error)',
-                              cursor: 'pointer',
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '4px',
-                              fontWeight: 600
-                            }}
-                            title="Remove account from showroom"
-                          >
-                            <UserX size={14} /> Remove Account
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                    {filteredCustomers.map((c) => {
+                      const cOrders = orders.filter(o => String(o.userId) === String(c._id));
+                      const totalPurchase = cOrders.reduce((sum, o) => sum + o.totalPrice, 0);
+                      const lastActiveDate = c.lastLogin 
+                        ? new Date(c.lastLogin).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
+                        : 'Never';
+
+                      return (
+                        <tr key={c._id} style={{ borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
+                          <td style={{ padding: '15px', fontWeight: 600, color: 'var(--black)' }}>{c.name}</td>
+                          <td style={{ padding: '15px' }}>
+                            <div style={{ fontWeight: 500 }}>{c.email}</div>
+                            <div style={{ fontSize: '0.75rem', color: 'var(--grey)', marginTop: '2px' }}>{c.phone || 'No phone'}</div>
+                          </td>
+                          <td style={{ padding: '15px', color: 'var(--charcoal-light)' }}>{lastActiveDate}</td>
+                          <td style={{ padding: '15px', fontWeight: 600, color: 'var(--black)', textAlign: 'center' }}>{cOrders.length} Order(s)</td>
+                          <td style={{ padding: '15px', fontWeight: 700, color: 'var(--gold-dark)', textAlign: 'right' }}>₹{totalPurchase.toLocaleString('en-IN')}</td>
+                          <td style={{ padding: '15px', textAlign: 'center' }}>
+                            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                              <button 
+                                onClick={() => setSelectedCustomerOrders({ name: c.name, orders: cOrders })}
+                                style={{
+                                  border: 'none',
+                                  background: 'rgba(212,175,55,0.1)',
+                                  color: 'var(--gold-dark)',
+                                  borderRadius: '4px',
+                                  padding: '5px 10px',
+                                  cursor: 'pointer',
+                                  fontSize: '0.75rem',
+                                  fontWeight: 600
+                                }}
+                                title="View transaction history"
+                              >
+                                View Purchases
+                              </button>
+                              <button 
+                                onClick={() => handleDeleteUser(c._id)}
+                                style={{
+                                  border: 'none',
+                                  background: 'rgba(211,47,47,0.06)',
+                                  color: 'var(--error)',
+                                  borderRadius: '4px',
+                                  padding: '5px 10px',
+                                  cursor: 'pointer',
+                                  fontSize: '0.75rem',
+                                  fontWeight: 600
+                                }}
+                                title="Remove customer account"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -1195,6 +1410,73 @@ const AdminDashboard = ({ onShowToast }) => {
 
             </form>
 
+          </div>
+        </div>
+      )}
+
+      {/* Customer Purchase History Modal */}
+      {selectedCustomerOrders && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0,0,0,0.6)',
+          backdropFilter: 'blur(5px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999,
+          padding: '20px'
+        }}>
+          <div 
+            className="glass-panel"
+            style={{
+              width: '100%',
+              maxWidth: '650px',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              borderRadius: '8px',
+              border: '2px solid var(--gold)',
+              backgroundColor: '#ffffff',
+              padding: '40px',
+              position: 'relative',
+              boxShadow: '0 20px 50px rgba(0,0,0,0.3)'
+            }}
+          >
+            <button 
+              onClick={() => setSelectedCustomerOrders(null)}
+              style={{ position: 'absolute', right: '20px', top: '20px', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--grey)' }}
+            >
+              <X size={24} />
+            </button>
+
+            <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '1.6rem', color: 'var(--black)', marginBottom: '10px', marginTop: 0 }}>
+              Transaction Chest: {selectedCustomerOrders.name}
+            </h3>
+            <p style={{ color: 'var(--grey)', fontSize: '0.85rem', marginBottom: '25px', fontWeight: 300 }}>
+              Curated list of handcrafted acquisitions and delivery logs.
+            </p>
+
+            {selectedCustomerOrders.orders.length === 0 ? (
+              <p style={{ textAlign: 'center', padding: '30px 0', color: 'var(--grey)', fontWeight: 300 }}>No orders placed by this customer yet.</p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                {selectedCustomerOrders.orders.map((o) => (
+                  <div key={o._id} style={{ border: '1px solid rgba(212,175,55,0.15)', borderRadius: '6px', padding: '15px', backgroundColor: 'var(--alabaster)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.85rem' }}>
+                      <span style={{ fontWeight: 600 }}>Order ID: #{o._id.substring(o._id.length - 8).toUpperCase()}</span>
+                      <span style={{ color: 'var(--gold-dark)', fontWeight: 700 }}>₹{o.totalPrice.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--grey)', fontWeight: 500 }}>
+                      <span>Placed: {new Date(o.createdAt).toLocaleDateString('en-IN')}</span>
+                      <span>Status: <strong style={{ textTransform: 'uppercase' }}>{o.orderStatus}</strong></span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

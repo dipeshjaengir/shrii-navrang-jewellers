@@ -8,7 +8,9 @@ const {
   deleteUser,
   addProduct,
   editProduct,
-  deleteProduct
+  deleteProduct,
+  getNotifications,
+  markNotificationRead
 } = require('../controllers/adminController');
 const { protect, admin } = require('../middleware/auth');
 const { loginUser } = require('../controllers/authController');
@@ -22,5 +24,7 @@ router.delete('/users/:id', protect, admin, deleteUser);
 router.post('/products', protect, admin, addProduct);
 router.put('/products/:id', protect, admin, editProduct);
 router.delete('/products/:id', protect, admin, deleteProduct);
+router.get('/notifications', protect, admin, getNotifications);
+router.put('/notifications/:id', protect, admin, markNotificationRead);
 
 module.exports = router;

@@ -18,7 +18,7 @@ const OrderHistory = () => {
       try {
         setLoading(true);
         // Fetch order history
-        const orderRes = await fetch(`${API_URL}/orders`, {
+        const orderRes = await fetch(`${API_URL}/orders/history`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const orderData = await orderRes.json();

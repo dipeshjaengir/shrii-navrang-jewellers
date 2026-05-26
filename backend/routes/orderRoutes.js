@@ -4,6 +4,7 @@ const { placeOrder, getOrderHistory, getOrderById } = require('../controllers/or
 const { protect } = require('../middleware/auth');
 
 router.post('/', protect, placeOrder);
+router.get('/', protect, getOrderHistory);
 router.get('/history', protect, getOrderHistory);
 router.get('/:id', protect, getOrderById);
 

@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Product = require('../models/Product');
 const Order = require('../models/Order');
+const Notification = require('../models/Notification');
 
 // 1. Dashboard Analytics & Reports
 const getAnalytics = async (req, res) => {
@@ -203,6 +204,33 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const getNotifications = async (req, res) => {
+  try {
+    const rawNotifications = await Notification.find({ userId: 'admin' });
+    const notifications = Array.isArray(rawNotifications) ? rawNotifications : (rawNotifications.data || []);
+    // Sort newest first
+    notifications.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    return res.json(notifications);
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error fetching notifications', error: error.message });
+  }
+};
+
+const markNotificationRead = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const notification = await Notification.findById(id);
+    if (!notification) {
+      return res.status(404).json({ message: 'Notification not found' });
+    }
+    notification.isRead = true;
+    await notification.save();
+    return res.json({ message: 'Notification marked as read', notification });
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error updating notification', error: error.message });
+  }
+};
+
 module.exports = {
   getAnalytics,
   getAllOrders,
@@ -211,5 +239,7 @@ module.exports = {
   deleteUser,
   addProduct,
   editProduct,
-  deleteProduct
+  deleteProduct,
+  getNotifications,
+  markNotificationRead
 };

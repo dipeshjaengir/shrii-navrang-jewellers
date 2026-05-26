@@ -93,8 +93,9 @@ export const AuthProvider = ({ children }) => {
       });
       if (res.ok) {
         const data = await res.json();
-        setUser(data);
-        localStorage.setItem('sn_user', JSON.stringify(data));
+        const updatedUser = { ...data, token: token };
+        setUser(updatedUser);
+        localStorage.setItem('sn_user', JSON.stringify(updatedUser));
       }
     } catch (error) {
       console.error('Error syncing profile:', error);

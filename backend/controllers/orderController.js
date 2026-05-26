@@ -47,11 +47,18 @@ const placeOrder = async (req, res) => {
       await userCart.save();
     }
 
-    // 4. Trigger order notification
+    // 4. Trigger order notification for customer
     await Notification.create({
       userId: req.user._id,
       title: 'Order Placed successfully! ✨',
       message: `Your order of ₹${totalPrice.toLocaleString('en-IN')} has been placed. Order ID: ${newOrder._id}. Our master artisans are preparing your jewelry!`
+    });
+
+    // 5. Trigger real-time order notification for Store Administrators
+    await Notification.create({
+      userId: 'admin',
+      title: 'New Luxury Order Placed! 💎',
+      message: `Customer "${req.user.name}" (${req.user.phone || 'N/A'}) placed an order of ₹${totalPrice.toLocaleString('en-IN')} for ${products.length} item(s). Order ID: #${newOrder._id.substring(newOrder._id.length - 8).toUpperCase()}`
     });
 
     return res.status(201).json(newOrder);

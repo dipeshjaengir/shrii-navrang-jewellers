@@ -71,18 +71,40 @@ const loginUser = async (req, res) => {
 
   try {
     if (!email || !password) {
-      console.log(`⚠️ [AUTH-LOGIN] Rejected: Missing email or password in request payload.`);
-      return res.status(400).json({ message: 'Please provide email and password' });
+      console.log(`⚠️ [AUTH-LOGIN] Rejected: Missing email/phone or password in request payload.`);
+      return res.status(400).json({ message: 'Please provide email/phone and password' });
     }
 
-    const sanitizedEmail = email.trim().toLowerCase();
+    const identifier = email.trim();
     const dbMode = global.useJsonDb ? 'JSON FILE FALLBACK' : 'MONGODB CONNECTION ACTIVE';
-    console.log(`🔐 [AUTH-LOGIN] Attempt received. Email: "${sanitizedEmail}" (Original: "${email}"). Active DB Engine: [${dbMode}]`);
+    console.log(`🔐 [AUTH-LOGIN] Attempt received. Identifier: "${identifier}". Active DB Engine: [${dbMode}]`);
 
-    const user = await User.findOne({ email: sanitizedEmail });
+    let user;
+    if (identifier.includes('@')) {
+      const sanitizedEmail = identifier.toLowerCase();
+      user = await User.findOne({ email: sanitizedEmail });
+    } else {
+      console.log(`🔍 [AUTH-LOGIN] Identifier matches phone format. Performing phone query for "${identifier}"...`);
+      user = await User.findOne({ phone: identifier });
+      
+      if (!user) {
+        // Try normalized digits match
+        const digitsOnly = identifier.replace(/\D/g, '');
+        if (digitsOnly.length >= 8) {
+          const rawUsers = await User.find({});
+          const users = Array.isArray(rawUsers) ? rawUsers : (rawUsers.data || []);
+          user = users.find(u => {
+            if (!u.phone) return false;
+            const uDigits = u.phone.replace(/\D/g, '');
+            return uDigits.endsWith(digitsOnly) || digitsOnly.endsWith(uDigits);
+          });
+        }
+      }
+    }
+
     if (!user) {
-      console.log(`❌ [AUTH-LOGIN] Lookup failed. No record found for email: "${sanitizedEmail}" under active DB [${dbMode}].`);
-      return res.status(401).json({ message: 'Invalid email or user not found' });
+      console.log(`❌ [AUTH-LOGIN] Lookup failed. No record found for identifier: "${identifier}" under active DB [${dbMode}].`);
+      return res.status(401).json({ message: 'Invalid email/phone or user not found' });
     }
 
     console.log(`🔍 [AUTH-LOGIN] Lookup matched user: "${user.name}" with Role: "${user.role}". Hash signature: "${user.password ? user.password.substring(0, 15) : 'NONE'}...". Initiating password verification.`);
@@ -90,9 +112,14 @@ const loginUser = async (req, res) => {
     // Check password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      console.log(`❌ [AUTH-LOGIN] Verification rejected. Bcrypt signature mismatch for user "${user.name}" <${sanitizedEmail}>.`);
+      console.log(`❌ [AUTH-LOGIN] Verification rejected. Bcrypt signature mismatch for user "${user.name}" <${user.email}>.`);
       return res.status(401).json({ message: 'Invalid email or password' });
     }
+
+    // Save dynamic last login activity
+    user.lastLogin = new Date().toISOString();
+    await user.save();
+    console.log(`✓ [AUTH-LOGIN] Updated lastLogin timestamp in database for "${user.name}".`);
 
     console.log(`✨ [AUTH-LOGIN] Verification successful. Elevating session for Store Director / Client "${user.name}". Generating secure JWT.`);
 
@@ -104,6 +131,7 @@ const loginUser = async (req, res) => {
       email: user.email,
       phone: user.phone,
       role: user.role,
+      lastLogin: user.lastLogin,
       token: token
     });
   } catch (error) {

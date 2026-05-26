@@ -36,6 +36,28 @@ const Navbar = () => {
     fetchRates();
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setShowRatesModal(false);
+      }
+    };
+    if (showRatesModal) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [showRatesModal]);
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      setShowRatesModal(false);
+    }
+  };
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -85,155 +107,176 @@ const Navbar = () => {
       color: '#ffffff',
       fontFamily: 'var(--font-body)'
     }}>
-      <div className="container" style={{
+      <div className="nav-container" style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         height: '80px',
-        padding: '0 20px'
+        width: '100%',
+        maxWidth: '1440px',
+        margin: '0 auto',
+        padding: '0 30px',
+        gap: '20px'
       }}>
         {/* Logo */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px' }} onClick={() => setShowProfileDropdown(false)}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <svg width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 2px 6px rgba(212, 175, 55, 0.4))' }}>
-              <circle cx="50" cy="50" r="46" stroke="#D4AF37" strokeWidth="4" fill="#111111" />
-              <circle cx="50" cy="50" r="40" stroke="#D4AF37" strokeWidth="1.5" strokeDasharray="3 3" />
-              <path d="M50 20 L60 32 L50 44 L40 32 Z" fill="#D4AF37" />
-              <path d="M50 56 L60 68 L50 80 L40 68 Z" fill="#D4AF37" opacity="0.85" />
-              <text x="50" y="58" fontFamily="Georgia, serif" fontSize="24" fontWeight="bold" fill="#D4AF37" textAnchor="middle">N</text>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0 }} onClick={() => setShowProfileDropdown(false)}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+            {/* SN Royal Crown Premium Logo */}
+            <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 2px 8px rgba(212, 175, 55, 0.45))' }}>
+              <defs>
+                <linearGradient id="gold-grad-logo" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFF3B0" />
+                  <stop offset="30%" stopColor="#D4AF37" />
+                  <stop offset="70%" stopColor="#AA7C11" />
+                  <stop offset="100%" stopColor="#F3E5AB" />
+                </linearGradient>
+                <radialGradient id="gold-glow-logo" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.35" />
+                  <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+              <circle cx="50" cy="50" r="46" fill="url(#gold-glow-logo)" />
+              <circle cx="50" cy="50" r="42" stroke="url(#gold-grad-logo)" strokeWidth="1.5" fill="none" />
+              <circle cx="50" cy="50" r="38" stroke="url(#gold-grad-logo)" strokeWidth="0.75" strokeDasharray="2 2" fill="none" />
+              
+              {/* Crown Base */}
+              <path d="M35 55 H65 V58 Q50 60 35 58 Z" fill="url(#gold-grad-logo)" />
+              <rect x="38" y="52" width="24" height="1.5" rx="0.5" fill="#FFFFFF" opacity="0.8" />
+              
+              {/* Crown Peaks */}
+              <path d="M35 55 L30 35 L40 48 Z" fill="url(#gold-grad-logo)" />
+              <path d="M50 55 L50 24 L45 42 Z" fill="url(#gold-grad-logo)" />
+              <path d="M50 55 L50 24 L55 42 Z" fill="url(#gold-grad-logo)" opacity="0.9" />
+              <path d="M65 55 L70 35 L60 48 Z" fill="url(#gold-grad-logo)" />
+              
+              {/* Crown Peak Jewels */}
+              <circle cx="30" cy="34" r="2.5" fill="#FFFFFF" />
+              <circle cx="30" cy="34" r="1.5" fill="url(#gold-grad-logo)" />
+              
+              <circle cx="50" cy="22" r="3.5" fill="#FFFFFF" />
+              <circle cx="50" cy="22" r="2.5" fill="url(#gold-grad-logo)" />
+              
+              <circle cx="70" cy="34" r="2.5" fill="#FFFFFF" />
+              <circle cx="70" cy="34" r="1.5" fill="url(#gold-grad-logo)" />
+              
+              {/* Interwoven SN Serif Monogram */}
+              <text x="50" y="78" fontFamily="'Playfair Display', Georgia, serif" fontSize="20" fontWeight="bold" fill="url(#gold-grad-logo)" textAnchor="middle" letterSpacing="0.5">SN</text>
+              
+              {/* Sparkling Stars */}
+              <path d="M22 45 L24 47 L22 49 L20 47 Z" fill="url(#gold-grad-logo)" opacity="0.7" />
+              <path d="M78 45 L80 47 L78 49 L76 47 Z" fill="url(#gold-grad-logo)" opacity="0.7" />
             </svg>
           </div>
-          <span style={{
-            fontFamily: 'var(--font-title)',
-            fontWeight: 700,
-            fontSize: '1.3rem',
-            letterSpacing: '1px',
-            color: 'var(--white)',
-            background: 'linear-gradient(to right, #ffffff 40%, var(--gold) 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
-          }}>
-            Shrii Navrang
-          </span>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span className="brand-text" style={{
+              fontFamily: 'var(--font-title)',
+              fontWeight: 700,
+              fontSize: '1.35rem',
+              letterSpacing: '1px',
+              color: 'var(--white)',
+              background: 'linear-gradient(to right, #ffffff 40%, var(--gold) 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              whiteSpace: 'nowrap',
+              display: 'inline-block',
+              lineHeight: '1.2'
+            }}>
+              Shrii Navrang Jewellers
+            </span>
+            <span className="brand-tagline" style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '0.55rem',
+              fontWeight: 600,
+              color: 'var(--gold)',
+              letterSpacing: '2.5px',
+              textTransform: 'uppercase',
+              marginTop: '2px',
+              opacity: 0.95
+            }}>
+              Purity • Trust • Perfection
+            </span>
+          </div>
         </Link>
 
-        {/* Search Bar */}
-        <form onSubmit={handleSearchSubmit} style={{
+        {/* Desktop Navigation Links (Center) */}
+        <div className="nav-desktop-links" style={{
           display: 'flex',
           alignItems: 'center',
-          backgroundColor: '#222222',
-          border: '1.5px solid var(--charcoal-light)',
-          borderRadius: '4px',
-          width: '100%',
-          maxWidth: '400px',
-          padding: '4px 12px',
-          transition: 'border-color 0.3s'
-        }}
-        onFocusCapture={(e) => e.currentTarget.style.borderColor = 'var(--gold)'}
-        onBlurCapture={(e) => e.currentTarget.style.borderColor = 'var(--charcoal-light)'}
-        >
-          <input 
-            type="text" 
-            placeholder="Search necklaces, gold rings, bridal sets..." 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={{
-              background: 'none',
-              border: 'none',
-              outline: 'none',
-              color: '#ffffff',
-              width: '100%',
-              fontSize: '0.85rem',
-              padding: '6px 0',
-              fontFamily: 'var(--font-body)'
-            }}
-          />
-          <button type="submit" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--gold)' }}>
-            <Search size={18} />
-          </button>
-        </form>
-
-        {/* Desktop Links & Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }} className="nav-desktop-actions">
-          <Link to="/shop" style={{ fontSize: '0.85rem', fontWeight: 600, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#e5e5e5' }} onMouseEnter={(e) => e.target.style.color = 'var(--gold)'} onMouseLeave={(e) => e.target.style.color = '#e5e5e5'}>
+          gap: '30px'
+        }}>
+          <Link to="/shop" className="nav-desktop-link">
             Collections
           </Link>
-          <Link to="/about" style={{ fontSize: '0.85rem', fontWeight: 600, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#e5e5e5' }} onMouseEnter={(e) => e.target.style.color = 'var(--gold)'} onMouseLeave={(e) => e.target.style.color = '#e5e5e5'}>
+          <Link to="/about" className="nav-desktop-link">
             Heritage
           </Link>
-          <Link to="/contact" style={{ fontSize: '0.85rem', fontWeight: 600, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#e5e5e5' }} onMouseEnter={(e) => e.target.style.color = 'var(--gold)'} onMouseLeave={(e) => e.target.style.color = '#e5e5e5'}>
+          <Link to="/contact" className="nav-desktop-link">
             Contact
           </Link>
           <button 
             onClick={() => setShowRatesModal(true)}
-            style={{ 
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: '0.85rem', 
-              fontWeight: 600, 
-              letterSpacing: '1.5px', 
-              textTransform: 'uppercase', 
-              color: 'var(--gold)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontFamily: 'var(--font-body)',
-              transition: 'transform 0.2s'
-            }}
-            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+            className="nav-rates-btn"
           >
-            <Sparkles size={14} color="var(--gold)" />
+            <Sparkles size={14} style={{ marginRight: '6px' }} />
             Today's Rate
           </button>
+        </div>
 
-          {/* Icons block */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', borderLeft: '1px solid #333', paddingLeft: '20px' }}>
+        {/* Desktop Actions & Search (Right) */}
+        <div className="nav-desktop-actions-right" style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '24px'
+        }}>
+          {/* Search Bar */}
+          <form onSubmit={handleSearchSubmit} className="nav-search-form" style={{
+            display: 'flex',
+            alignItems: 'center',
+            backgroundColor: '#1a1a1a',
+            border: '1px solid rgba(212, 175, 55, 0.25)',
+            borderRadius: '4px',
+            width: '240px',
+            padding: '4px 12px',
+            transition: 'all 0.3s ease'
+          }}>
+            <input 
+              type="text" 
+              placeholder="Search..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                background: 'none',
+                border: 'none',
+                outline: 'none',
+                color: '#ffffff',
+                width: '100%',
+                fontSize: '0.8rem',
+                padding: '4px 0',
+                fontFamily: 'var(--font-body)'
+              }}
+            />
+            <button type="submit" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--gold)', padding: 0, display: 'flex', alignItems: 'center' }}>
+              <Search size={16} />
+            </button>
+          </form>
+
+          {/* Action Icons */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', borderLeft: '1px solid rgba(212, 175, 55, 0.2)', paddingLeft: '20px' }}>
             {/* Wishlist */}
-            <a href="/wishlist" onClick={handleWishlistClick} style={{ color: 'var(--gold)', position: 'relative', display: 'flex', alignItems: 'center' }}>
-              <Heart size={22} />
+            <a href="/wishlist" onClick={handleWishlistClick} className="nav-icon-link" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+              <Heart size={20} />
               {user?.wishlist?.length > 0 && (
-                <span style={{
-                  position: 'absolute',
-                  top: '-8px',
-                  right: '-10px',
-                  backgroundColor: 'var(--white)',
-                  color: 'var(--black)',
-                  fontSize: '0.65rem',
-                  fontWeight: 800,
-                  width: '18px',
-                  height: '18px',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '1px solid var(--gold)'
-                }}>
+                <span className="badge-count">
                   {user.wishlist.length}
                 </span>
               )}
             </a>
 
             {/* Cart */}
-            <a href="/cart" onClick={handleCartClick} style={{ color: 'var(--gold)', position: 'relative', display: 'flex', alignItems: 'center' }}>
-              <ShoppingBag size={22} />
+            <a href="/cart" onClick={handleCartClick} className="nav-icon-link" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+              <ShoppingBag size={20} />
               {cartCount > 0 && (
-                <span style={{
-                  position: 'absolute',
-                  top: '-8px',
-                  right: '-10px',
-                  backgroundColor: 'var(--gold)',
-                  color: 'var(--black)',
-                  fontSize: '0.65rem',
-                  fontWeight: 800,
-                  width: '18px',
-                  height: '18px',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
+                <span className="badge-count gold-badge">
                   {cartCount}
                 </span>
               )}
@@ -241,9 +284,9 @@ const Navbar = () => {
 
             {/* Profile Dropdown controller */}
             <div style={{ position: 'relative' }}>
-              <a href="/profile" onClick={handleProfileClick} style={{ color: user ? 'var(--gold)' : '#e5e5e5', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <UserIcon size={22} />
-                {user && <ChevronDown size={14} />}
+              <a href="/profile" onClick={handleProfileClick} className="nav-icon-link" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <UserIcon size={20} />
+                {user && <ChevronDown size={12} />}
               </a>
 
               {/* Profile sub menu */}
@@ -268,15 +311,15 @@ const Navbar = () => {
                     <p style={{ fontSize: '0.7rem', color: 'var(--gold)' }}>{user.role === 'admin' ? 'Administrator' : 'Valued Patron'}</p>
                   </div>
                   {user.role === 'admin' && (
-                    <Link to="/admin" onClick={() => setShowProfileDropdown(false)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', fontSize: '0.8rem', color: '#fff' }} onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(212, 175, 55, 0.1)'} onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>
+                    <Link to="/admin" onClick={() => setShowProfileDropdown(false)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', fontSize: '0.8rem', color: '#fff' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
                       <LayoutDashboard size={16} color="var(--gold)" />
                       Admin Panel
                     </Link>
                   )}
-                  <Link to="/profile" onClick={() => setShowProfileDropdown(false)} style={{ display: 'block', padding: '10px 16px', fontSize: '0.8rem', color: '#fff' }} onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(212, 175, 55, 0.1)'} onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>
+                  <Link to="/profile" onClick={() => setShowProfileDropdown(false)} style={{ display: 'block', padding: '10px 16px', fontSize: '0.8rem', color: '#fff' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
                     My Profile
                   </Link>
-                  <Link to="/order-history" onClick={() => setShowProfileDropdown(false)} style={{ display: 'block', padding: '10px 16px', fontSize: '0.8rem', color: '#fff' }} onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(212, 175, 55, 0.1)'} onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>
+                  <Link to="/order-history" onClick={() => setShowProfileDropdown(false)} style={{ display: 'block', padding: '10px 16px', fontSize: '0.8rem', color: '#fff' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
                     Order History
                   </Link>
                   <button 
@@ -296,8 +339,8 @@ const Navbar = () => {
                       borderTop: '1px solid #222',
                       fontFamily: 'var(--font-body)'
                     }}
-                    onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255, 107, 107, 0.05)'}
-                    onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 107, 107, 0.05)'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                   >
                     <LogOut size={14} />
                     Logout
@@ -390,60 +433,182 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Responsive adjustments */}
+      {/* Polish and media styles */}
       <style dangerouslySetInnerHTML={{__html: `
-        @media (max-width: 768px) {
-          .nav-desktop-actions { display: none !important; }
-          .nav-mobile-trigger { display: block !important; }
+        .nav-desktop-link {
+          font-size: 0.85rem;
+          font-weight: 600;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          color: #e5e5e5;
+          transition: all 0.3s ease;
+          position: relative;
+          padding: 6px 0;
+        }
+        .nav-desktop-link:hover {
+          color: var(--gold);
+        }
+        .nav-desktop-link::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 0;
+          height: 1.5px;
+          background-color: var(--gold);
+          transition: width 0.3s ease;
+        }
+        .nav-desktop-link:hover::after {
+          width: 100%;
+        }
+
+        .nav-rates-btn {
+          background: rgba(212, 175, 55, 0.08);
+          border: 1px solid var(--gold);
+          border-radius: 20px;
+          cursor: pointer;
+          padding: 6px 16px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          letter-spacing: 1.2px;
+          text-transform: uppercase;
+          color: var(--gold);
+          display: flex;
+          align-items: center;
+          font-family: var(--font-body);
+          transition: all 0.3s ease;
+        }
+        .nav-rates-btn:hover {
+          background: var(--gold);
+          color: var(--black);
+          box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+          transform: translateY(-1px);
+        }
+
+        .nav-icon-link {
+          color: #e5e5e5;
+          transition: all 0.3s ease;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .nav-icon-link:hover {
+          color: var(--gold);
+          transform: scale(1.08);
+        }
+
+        .badge-count {
+          position: absolute;
+          top: -8px;
+          right: -10px;
+          background-color: var(--white);
+          color: var(--black);
+          font-size: 0.65rem;
+          font-weight: 800;
+          width: 17px;
+          height: 17px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justifyContent: center;
+          border: 1px solid var(--gold);
+          transition: all 0.3s ease;
+        }
+        .badge-count.gold-badge {
+          background-color: var(--gold);
+          border: none;
+        }
+
+        .nav-search-form:focus-within {
+          border-color: var(--gold) !important;
+          box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+        }
+
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0,0,0,0.85);
+          display: flex;
+          align-items: center;
+          justifyContent: center;
+          z-index: 9999;
+          backdrop-filter: blur(8px);
+          padding: 20px;
+          overflow-y: auto;
+        }
+
+        .modal-content-card {
+          width: 100%;
+          max-width: 420px;
+          max-height: 90vh;
+          overflow-y: auto;
+          background-color: #111111;
+          border: 2px solid var(--gold);
+          border-radius: 8px;
+          padding: 40px 30px;
+          color: #ffffff;
+          text-align: center;
+          box-shadow: 0 10px 40px rgba(212,175,55,0.25);
+          position: relative;
+          animation: modalSlideUp 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        }
+
+        @keyframes modalSlideUp {
+          from {
+            transform: translateY(30px);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+
+        .modal-close-btn {
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          background: none;
+          border: none;
+          color: #cccccc;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justifyContent: center;
+          padding: 4px;
+        }
+        .modal-close-btn:hover {
+          color: var(--gold);
+          transform: rotate(90deg);
+        }
+
+        /* Responsive Show/Hide */
+        .nav-mobile-trigger {
+          display: none !important;
+        }
+
+        @media (max-width: 1024px) {
+          .nav-desktop-links {
+            display: none !important;
+          }
+          .nav-desktop-actions-right {
+            display: none !important;
+          }
+          .nav-mobile-trigger {
+            display: block !important;
+          }
         }
       `}} />
 
       {/* 5. Today's Rates Luxury Modal */}
       {showRatesModal && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0,0,0,0.85)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 9999,
-          backdropFilter: 'blur(8px)',
-          animation: 'fadeIn 0.3s'
-        }}>
-          <div 
-            className="glass-panel" 
-            style={{
-              width: '100%',
-              maxWidth: '420px',
-              backgroundColor: '#111111',
-              border: '2px solid var(--gold)',
-              borderRadius: '8px',
-              padding: '40px 30px',
-              color: '#ffffff',
-              textAlign: 'center',
-              boxShadow: '0 10px 40px rgba(212,175,55,0.15)',
-              position: 'relative'
-            }}
-          >
-            <button 
-              onClick={() => setShowRatesModal(false)}
-              style={{
-                position: 'absolute',
-                top: '15px',
-                right: '15px',
-                background: 'none',
-                border: 'none',
-                color: '#cccccc',
-                cursor: 'pointer',
-                fontSize: '1.2rem'
-              }}
-              onMouseEnter={(e) => e.target.style.color = 'var(--gold)'}
-              onMouseLeave={(e) => e.target.style.color = '#cccccc'}
-            >
+        <div className="modal-overlay" onClick={handleOverlayClick}>
+          <div className="modal-content-card">
+            <button className="modal-close-btn" onClick={() => setShowRatesModal(false)}>
               <X size={20} />
             </button>
 
@@ -492,12 +657,13 @@ const Navbar = () => {
                 <Landmark size={12} />
                 <span>Showroom Rate Board • BIS 22/22 Hallmark</span>
               </div>
-              <span>Last updated: {new Date(ratesConfig.updatedAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}</span>
+              <span>Last updated: {new Date(ratesConfig.updatedAt || ratesConfig.createdAt || new Date().toISOString()).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}</span>
               <span style={{ color: '#666', fontSize: '0.65rem' }}>Showroom Managed by Navrang Jangid & Family. GST & Making charges extra.</span>
             </div>
           </div>
         </div>
       )}
+
     </nav>
   );
 };

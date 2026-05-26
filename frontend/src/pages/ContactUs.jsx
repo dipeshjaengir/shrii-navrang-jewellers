@@ -69,10 +69,10 @@ const ContactUs = ({ onShowToast }) => {
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div style={{ display: 'inline-flex', padding: '6px 12px', backgroundColor: 'rgba(212,175,55,0.15)', border: '1px solid var(--gold)', borderRadius: '4px', gap: '8px', alignItems: 'center', marginBottom: '20px', animation: 'fadeIn 1s' }}>
             <Sparkles size={14} color="var(--gold)" />
-            <span style={{ fontSize: '0.7rem', color: 'var(--gold)', letterSpacing: '2px', fontWeight: 600, textTransform: 'uppercase' }}>Bespoke Experience</span>
+            <span style={{ fontSize: '0.7rem', color: 'var(--gold)', letterSpacing: '2px', fontWeight: 600, textTransform: 'uppercase' }}>Purity • Trust • Perfection</span>
           </div>
           <h1 style={{ fontFamily: 'var(--font-title)', color: '#ffffff', fontSize: '3.6rem', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 700 }}>
-            Connect With Navrang
+            Shrii Navrang Jewellers
           </h1>
           <p style={{ color: '#cccccc', fontSize: '1.2rem', lineHeight: '1.6', maxWidth: '650px', margin: '0 auto', fontWeight: 300 }}>
             Whether scheduling a private showroom preview or arranging a bespoke design consultation, our personal advisors are delighted to assist you.
@@ -202,9 +202,12 @@ const ContactUs = ({ onShowToast }) => {
             
             {/* Showroom card */}
             <div className="glass-panel" style={{ padding: '40px', borderRadius: '8px', border: '1px solid rgba(212,175,55,0.15)', backgroundColor: '#ffffff', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
-              <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '1.8rem', color: 'var(--black)', marginBottom: '30px', borderBottom: '1px solid var(--light-grey)', paddingBottom: '12px' }}>
+              <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '1.8rem', color: 'var(--black)', marginBottom: '8px' }}>
                 Flagship Showroom
               </h3>
+              <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--gold-dark)', fontWeight: 600, letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '24px', borderBottom: '1px solid var(--light-grey)', paddingBottom: '12px' }}>
+                Since 1921 • Managed by Navrang Jangid & Family
+              </span>
               
               <div style={{ display: 'flex', gap: '15px', marginBottom: '24px', alignItems: 'flex-start' }}>
                 <div style={{ minWidth: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(212,175,55,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>

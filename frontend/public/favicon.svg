@@ -1,17 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
-  <circle cx="50" cy="50" r="46" stroke="url(#goldGradient)" stroke-width="4" fill="#111111" />
-  <circle cx="50" cy="50" r="40" stroke="url(#goldGradient)" stroke-width="1.5" stroke-dasharray="4 4" />
-  <!-- stylized diamond shape top -->
-  <path d="M50 20 L60 32 L50 44 L40 32 Z" fill="url(#goldGradient)" />
-  <!-- stylized diamond shape bottom -->
-  <path d="M50 56 L60 68 L50 80 L40 68 Z" fill="url(#goldGradient)" opacity="0.85" />
-  <!-- Central gold 'N' monogram -->
-  <text x="50" y="58" font-family="'Cinzel', 'Georgia', serif" font-size="25" font-weight="bold" fill="url(#goldGradient)" text-anchor="middle">N</text>
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="goldGradient" x1="0" y1="0" x2="100" y2="100">
-      <stop offset="0%" stop-color="#FFE082" />
-      <stop offset="50%" stop-color="#FFD54F" />
-      <stop offset="100%" stop-color="#B18A2B" />
+    <linearGradient id="gold-grad-fav" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF3B0" />
+      <stop offset="30%" stop-color="#D4AF37" />
+      <stop offset="70%" stop-color="#AA7C11" />
+      <stop offset="100%" stop-color="#F3E5AB" />
     </linearGradient>
+    <radialGradient id="gold-glow-fav" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#D4AF37" stop-opacity="0" />
+    </radialGradient>
   </defs>
+  
+  <circle cx="50" cy="50" r="46" fill="url(#gold-glow-fav)" />
+  <circle cx="50" cy="50" r="42" stroke="url(#gold-grad-fav)" stroke-width="2.5" fill="#111111" />
+  <circle cx="50" cy="50" r="38" stroke="url(#gold-grad-fav)" stroke-width="0.75" stroke-dasharray="2 2" fill="none" />
+  
+  <path d="M35 55 H65 V58 Q50 60 35 58 Z" fill="url(#gold-grad-fav)" />
+  <rect x="38" y="52" width="24" height="1.5" rx="0.5" fill="#FFFFFF" opacity="0.8" />
+  
+  <path d="M35 55 L30 35 L40 48 Z" fill="url(#gold-grad-fav)" />
+  <path d="M50 55 L50 24 L45 42 Z" fill="url(#gold-grad-fav)" />
+  <path d="M50 55 L50 24 L55 42 Z" fill="url(#gold-grad-fav)" opacity="0.9" />
+  <path d="M65 55 L70 35 L60 48 Z" fill="url(#gold-grad-fav)" />
+  
+  <circle cx="30" cy="34" r="2.5" fill="#FFFFFF" />
+  <circle cx="50" cy="22" r="3.5" fill="#FFFFFF" />
+  <circle cx="70" cy="34" r="2.5" fill="#FFFFFF" />
+  
+  <text x="50" y="78" font-family="Georgia, serif" font-size="20" font-weight="bold" fill="url(#gold-grad-fav)" text-anchor="middle" letter-spacing="0.5">SN</text>
 </svg>

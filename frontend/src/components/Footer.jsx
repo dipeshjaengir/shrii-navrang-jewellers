@@ -52,15 +52,50 @@ const Footer = () => {
         {/* Legacy Narrative */}
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-            <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="50" cy="50" r="46" stroke="#D4AF37" strokeWidth="4" fill="#111111" />
-              <path d="M50 20 L60 32 L50 44 L40 32 Z" fill="#D4AF37" />
-              <path d="M50 56 L60 68 L50 80 L40 68 Z" fill="#D4AF37" opacity="0.8" />
-              <text x="50" y="58" fontFamily="Georgia, serif" fontSize="24" fontWeight="bold" fill="#D4AF37" textAnchor="middle">N</text>
+            {/* SN Royal Crown Premium Logo */}
+            <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 2px 6px rgba(212, 175, 55, 0.4))' }}>
+              <defs>
+                <linearGradient id="gold-grad-footer" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFF3B0" />
+                  <stop offset="30%" stopColor="#D4AF37" />
+                  <stop offset="70%" stopColor="#AA7C11" />
+                  <stop offset="100%" stopColor="#F3E5AB" />
+                </linearGradient>
+                <radialGradient id="gold-glow-footer" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+              <circle cx="50" cy="50" r="46" fill="url(#gold-glow-footer)" />
+              <circle cx="50" cy="50" r="42" stroke="url(#gold-grad-footer)" strokeWidth="1.5" fill="none" />
+              <circle cx="50" cy="50" r="38" stroke="url(#gold-grad-footer)" strokeWidth="0.75" strokeDasharray="2 2" fill="none" />
+              
+              {/* Crown Base */}
+              <path d="M35 55 H65 V58 Q50 60 35 58 Z" fill="url(#gold-grad-footer)" />
+              <rect x="38" y="52" width="24" height="1.5" rx="0.5" fill="#FFFFFF" opacity="0.8" />
+              
+              {/* Crown Peaks */}
+              <path d="M35 55 L30 35 L40 48 Z" fill="url(#gold-grad-footer)" />
+              <path d="M50 55 L50 24 L45 42 Z" fill="url(#gold-grad-footer)" />
+              <path d="M50 55 L50 24 L55 42 Z" fill="url(#gold-grad-footer)" opacity="0.9" />
+              <path d="M65 55 L70 35 L60 48 Z" fill="url(#gold-grad-footer)" />
+              
+              {/* Crown Peak Jewels */}
+              <circle cx="30" cy="34" r="2.5" fill="#FFFFFF" />
+              <circle cx="50" cy="22" r="3.5" fill="#FFFFFF" />
+              <circle cx="70" cy="34" r="2.5" fill="#FFFFFF" />
+              
+              {/* Interwoven SN Serif Monogram */}
+              <text x="50" y="78" fontFamily="'Playfair Display', Georgia, serif" fontSize="20" fontWeight="bold" fill="url(#gold-grad-footer)" textAnchor="middle" letterSpacing="0.5">SN</text>
             </svg>
-            <h4 style={{ fontFamily: 'var(--font-title)', color: '#ffffff', fontSize: '1.2rem', fontWeight: 600 }}>
-              Shrii Navrang
-            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <h4 style={{ fontFamily: 'var(--font-title)', color: '#ffffff', fontSize: '1.2rem', fontWeight: 600, lineHeight: '1.2' }}>
+                Shrii Navrang Jewellers
+              </h4>
+              <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.55rem', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', marginTop: '2px' }}>
+                Purity • Trust • Perfection
+              </span>
+            </div>
           </div>
           <p style={{ lineHeight: '1.8', marginBottom: '20px' }}>
             Celebrating generations of timeless legacy, masterly craftsmanship, and purity. Our jewelry items are handcrafted with absolute devotion by Indian artisans.

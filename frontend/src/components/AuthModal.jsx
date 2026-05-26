@@ -35,6 +35,21 @@ const AuthModal = () => {
       if (authModalPurpose === 'login') {
         await login(email, password);
       } else {
+        // Frontend validation for email and mobile format
+        const phoneClean = phone.trim().replace(/\D/g, '');
+        if (phoneClean.length < 10) {
+          setError('Please enter a valid 10-digit mobile number');
+          setLoading(false);
+          return;
+        }
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email.trim())) {
+          setError('Please enter a valid email address');
+          setLoading(false);
+          return;
+        }
+        
         await register(name, email, phone, password);
       }
     } catch (err) {

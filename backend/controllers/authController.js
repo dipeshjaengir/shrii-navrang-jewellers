@@ -18,10 +18,14 @@ const registerUser = async (req, res) => {
     }
 
     const sanitizedEmail = email.trim().toLowerCase();
+    const sanitizedPhone = phone.trim();
 
-    const userExists = await User.findOne({ email: sanitizedEmail });
-    if (userExists) {
-      return res.status(400).json({ message: 'User already exists with this email' });
+    // Verify existing user lookup before account creation (uniqueness validation)
+    const emailExists = await User.findOne({ email: sanitizedEmail });
+    const phoneExists = await User.findOne({ phone: sanitizedPhone });
+
+    if (emailExists || phoneExists) {
+      return res.status(400).json({ message: 'Account already exists' });
     }
 
     // Hash password
@@ -31,7 +35,7 @@ const registerUser = async (req, res) => {
     const user = await User.create({
       name,
       email: sanitizedEmail,
-      phone,
+      phone: sanitizedPhone,
       password: hashedPassword,
       role: 'customer',
       addresses: [],

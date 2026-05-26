@@ -121,10 +121,11 @@ const Profile = ({ onShowToast }) => {
   const handleDeleteAddress = async (addrId) => {
     if (!window.confirm('Are you sure you want to delete this address?')) return;
     try {
-      const updatedAddresses = user.addresses.filter(addr => addr._id !== addrId);
+      const userAddresses = user?.addresses || [];
+      const updatedAddresses = userAddresses.filter(addr => addr._id !== addrId);
       
       // If we deleted the default address, and we have remaining addresses, set the first one as default
-      const deletedWasDefault = user.addresses.find(addr => addr._id === addrId)?.isDefault;
+      const deletedWasDefault = userAddresses.find(addr => addr._id === addrId)?.isDefault;
       if (deletedWasDefault && updatedAddresses.length > 0) {
         updatedAddresses[0].isDefault = true;
       }
@@ -138,7 +139,8 @@ const Profile = ({ onShowToast }) => {
 
   const handleSetDefault = async (addrId) => {
     try {
-      const updatedAddresses = user.addresses.map(addr => ({
+      const userAddresses = user?.addresses || [];
+      const updatedAddresses = userAddresses.map(addr => ({
         ...addr,
         isDefault: addr._id === addrId
       }));

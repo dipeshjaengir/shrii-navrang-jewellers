@@ -76,8 +76,9 @@ const Checkout = ({ onShowToast }) => {
     e.preventDefault();
     if (!street || !city || !state || !zip) return;
 
-    const newAddress = { street, city, state, zip, country, isDefault: user.addresses.length === 0 };
-    const updatedAddresses = [...user.addresses, newAddress];
+    const userAddresses = user?.addresses || [];
+    const newAddress = { street, city, state, zip, country, isDefault: userAddresses.length === 0 };
+    const updatedAddresses = [...userAddresses, newAddress];
 
     try {
       await updateProfile({ addresses: updatedAddresses });
@@ -96,7 +97,8 @@ const Checkout = ({ onShowToast }) => {
 
   const handlePaymentSubmit = async (e) => {
     e.preventDefault();
-    if (user.addresses.length === 0) {
+    const userAddresses = user?.addresses || [];
+    if (userAddresses.length === 0) {
       if (onShowToast) onShowToast('Please save a shipping address to continue', 'error');
       return;
     }
@@ -110,7 +112,7 @@ const Checkout = ({ onShowToast }) => {
     // Simulate Insured Payment Gateway verification
     setTimeout(async () => {
       try {
-        const activeAddress = user.addresses[selectedAddressIdx];
+        const activeAddress = (user?.addresses || [])[selectedAddressIdx];
         const subtotal = cartProducts.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         const makingCharges = Math.round(subtotal * 0.03);
         const gstTax = Math.round((subtotal + makingCharges) * 0.03);
@@ -347,13 +349,13 @@ const Checkout = ({ onShowToast }) => {
               )}
 
               {/* Addresses List selector */}
-              {user?.addresses?.length === 0 ? (
+              {(!user?.addresses || user.addresses.length === 0) ? (
                 <p style={{ color: 'var(--grey)', fontSize: '0.85rem', fontStyle: 'italic' }}>
                   No shipping addresses saved. Please add a shipping destination to continue.
                 </p>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {user.addresses.map((addr, idx) => (
+                  {(user?.addresses || []).map((addr, idx) => (
                     <label 
                       key={idx}
                       style={{

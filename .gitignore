@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.local
+.env.*.local
+dist/
+build/
+backend/data/*.json
+!backend/data/products.json
+*.log
+.DS_Store

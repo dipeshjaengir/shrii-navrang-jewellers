@@ -3,6 +3,7 @@ const Cart = require('../models/Cart');
 const Notification = require('../models/Notification');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { sendEmail, sendSMS } = require('../services/otpService');
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET || 'Shri_navrang_jewellers_secret_key_12345_luxury_brand_2026', {
@@ -219,7 +220,7 @@ const toggleWishlist = async (req, res) => {
 };
 
 const forgotPassword = async (req, res) => {
-  const { identifier } = req.body;
+  const { identifier, method } = req.body;
   try {
     if (!identifier) {
       return res.status(400).json({ message: 'Please enter your registered email or mobile number' });
@@ -266,15 +267,107 @@ const forgotPassword = async (req, res) => {
     
     await user.save();
 
-    console.log(`🔑 [OTP-SECURITY] Secure Reset Flow: Generated OTP ${otp} for User: "${user.name}" (${user.email}). Expires in 10 minutes.`);
+    console.log(`🔑 [OTP-SECURITY] Secure Reset Flow: Generated OTP ${otp} for User: "${user.name}" (${user.email || user.phone}). Expiry: 10 mins. (Delivering via ${method || 'email'})`);
+
+    const deliveryMethod = method || 'email';
+    
+    if (deliveryMethod === 'sms') {
+      const smsMsg = `Your Shri Navrang Jewellers secure password reset code is ${otp}. It is valid for 10 minutes only. Purity • Trust • Perfection`;
+      const smsTo = user.phone;
+      await sendSMS({ to: smsTo, message: smsMsg });
+    } else {
+      const emailSubject = `Secure Password Recovery Code - Shri Navrang Jewellers`;
+      const emailText = `Your password reset OTP is ${otp}. It expires in 10 minutes.`;
+      const emailHtml = `
+        <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background-color: #111111; color: #ffffff; border: 2px solid #D4AF37; border-radius: 8px; text-align: center;">
+          <h2 style="font-family: 'Georgia', serif; font-size: 26px; color: #D4AF37; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;">Shri Navrang Jewellers</h2>
+          <p style="font-size: 14px; color: #aaaaaa; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 30px; font-weight: bold;">Purity • Trust • Perfection</p>
+          <div style="border-top: 1px solid #222; border-bottom: 1px solid #222; padding: 30px 0; margin-bottom: 30px;">
+            <p style="font-size: 16px; line-height: 1.6; color: #e5e5e5; margin-bottom: 20px;">Dear Patron,</p>
+            <p style="font-size: 15px; line-height: 1.6; color: #e5e5e5; margin-bottom: 25px;">A secure request has been made to recover access to your luxury jewellery account. Please use the following 6-digit verification code to complete your reset:</p>
+            <h1 style="font-family: monospace; font-size: 40px; color: #D4AF37; letter-spacing: 10px; margin: 0 0 15px 0; line-height: 1.2;">${otp}</h1>
+            <p style="font-size: 12px; color: #888888; margin-top: 10px;">This code is strictly for <strong>one-time use</strong> only and will expire in <strong>10 minutes</strong>.</p>
+          </div>
+          <p style="font-size: 13px; color: #666666; line-height: 1.6; margin-bottom: 0;">If you did not make this request, please secure your account immediately. Daily Showroom Managed by Navrang Jangid & Family.</p>
+        </div>
+      `;
+      await sendEmail({ to: user.email, subject: emailSubject, text: emailText, html: emailHtml });
+    }
 
     return res.json({ 
-      message: `A secure 6-digit verification code has been generated. For testing/local validation, your code is: ${otp}`,
-      otp 
+      message: `A secure 6-digit verification code has been dispatched. Please check your registered ${deliveryMethod === 'sms' ? 'mobile number' : 'email inbox'}.`
     });
   } catch (error) {
     console.error('Forgot password OTP generation crash:', error);
     return res.status(500).json({ message: 'Server recovery error', error: error.message });
+  }
+};
+
+const verifyOtp = async (req, res) => {
+  const { identifier, otp } = req.body;
+  try {
+    if (!identifier || !otp) {
+      return res.status(400).json({ message: 'Please provide both identifier and OTP code' });
+    }
+
+    const searchStr = identifier.trim();
+    let user;
+    
+    if (searchStr.includes('@')) {
+      const sanitizedEmail = searchStr.toLowerCase();
+      user = await User.findOne({ email: sanitizedEmail });
+    } else {
+      const digitsOnly = searchStr.replace(/\D/g, '');
+      user = await User.findOne({ phone: digitsOnly });
+      if (!user && digitsOnly.length >= 8) {
+        const rawUsers = await User.find({});
+        const users = Array.isArray(rawUsers) ? rawUsers : (rawUsers.data || []);
+        user = users.find(u => {
+          if (!u.phone) return false;
+          const uDigits = u.phone.replace(/\D/g, '');
+          return uDigits.endsWith(digitsOnly) || digitsOnly.endsWith(uDigits);
+        });
+      }
+    }
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (!user.otp) {
+      return res.status(400).json({ message: 'No active password recovery request found for this account.' });
+    }
+
+    // Check expiration
+    if (new Date() > new Date(user.otpExpires)) {
+      user.otp = undefined;
+      user.otpExpires = undefined;
+      user.otpAttempts = 0;
+      await user.save();
+      return res.status(400).json({ message: 'The verification code has expired (valid for 10 minutes only). Please request a new code.' });
+    }
+
+    // Verify code match
+    if (String(user.otp) !== String(otp).trim()) {
+      user.otpAttempts = (user.otpAttempts || 0) + 1;
+      
+      // Repeated abuse protection: Max 5 failed attempts
+      if (user.otpAttempts >= 5) {
+        user.otp = undefined;
+        user.otpExpires = undefined;
+        user.otpAttempts = 0;
+        await user.save();
+        return res.status(400).json({ message: 'Too many invalid OTP attempts. For security, this verification code has been revoked. Please request a new one.' });
+      }
+
+      await user.save();
+      return res.status(400).json({ message: `Invalid verification code. You have ${5 - user.otpAttempts} attempt(s) remaining.` });
+    }
+
+    return res.json({ message: 'Verification successful! You may now create a new password.' });
+  } catch (error) {
+    console.error('Verify OTP crash:', error);
+    return res.status(500).json({ message: 'Server verification error', error: error.message });
   }
 };
 
@@ -396,6 +489,7 @@ module.exports = {
   updateUserProfile,
   toggleWishlist,
   forgotPassword,
+  verifyOtp,
   resetPassword,
   getCustomerNotifications,
   markCustomerNotificationRead

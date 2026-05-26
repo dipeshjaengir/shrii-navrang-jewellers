@@ -7,6 +7,7 @@ const {
   updateUserProfile,
   toggleWishlist,
   forgotPassword,
+  verifyOtp,
   resetPassword,
   getCustomerNotifications,
   markCustomerNotificationRead
@@ -16,6 +17,7 @@ const { protect } = require('../middleware/auth');
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/forgot-password', forgotPassword);
+router.post('/verify-otp', verifyOtp);
 router.post('/reset-password', resetPassword);
 
 router.get('/profile', protect, getUserProfile);

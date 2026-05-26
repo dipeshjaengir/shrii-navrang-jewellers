@@ -22,8 +22,9 @@ const AuthModal = () => {
   const [loading, setLoading] = useState(false);
 
   // Recovery flow states
-  const [recoveryStep, setRecoveryStep] = useState(0); // 0 = standard, 1 = request otp, 2 = verify and reset
+  const [recoveryStep, setRecoveryStep] = useState(0); // 0 = standard, 1 = request otp, 2 = verify otp, 3 = reset password
   const [recoveryIdentifier, setRecoveryIdentifier] = useState('');
+  const [recoveryMethod, setRecoveryMethod] = useState('email'); // 'email' or 'sms'
   const [recoveryOtp, setRecoveryOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -88,7 +89,7 @@ const AuthModal = () => {
       const res = await fetch(`${API_URL}/auth/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ identifier: recoveryIdentifier })
+        body: JSON.stringify({ identifier: recoveryIdentifier, method: recoveryMethod })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Verification request failed');
@@ -97,6 +98,30 @@ const AuthModal = () => {
       setRecoveryStep(2);
     } catch (err) {
       setError(err.message || 'Unable to process request. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccessMsg('');
+    setLoading(true);
+
+    try {
+      const res = await fetch(`${API_URL}/auth/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifier: recoveryIdentifier, otp: recoveryOtp })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'OTP verification failed');
+
+      setSuccessMsg(data.message);
+      setRecoveryStep(3);
+    } catch (err) {
+      setError(err.message || 'Unable to verify OTP. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -216,8 +241,9 @@ const AuthModal = () => {
         </h3>
 
         <p style={{ color: 'var(--gold)', fontSize: '0.85rem', letterSpacing: '0.5px', marginBottom: '24px', fontWeight: 500 }}>
-          {recoveryStep === 1 && "Reset your luxury account credentials."}
-          {recoveryStep === 2 && "Enter verification details to finalize."}
+          {recoveryStep === 1 && "Choose recovery method and enter account details."}
+          {recoveryStep === 2 && "Enter the secure verification OTP code."}
+          {recoveryStep === 3 && "Create a secure new password."}
           {recoveryStep === 0 && (authModalPurpose === 'login' 
             ? "Please login or create an account to continue." 
             : "Register to curate your premium jewelry collection.")}
@@ -253,17 +279,71 @@ const AuthModal = () => {
           </div>
         )}
 
-        {/* 1. Request Recovery OTP */}
+        {/* STEP 1: Request Recovery OTP & Choose Delivery Method */}
         {recoveryStep === 1 && (
           <form onSubmit={handleRequestRecovery} style={{ textAlign: 'left' }}>
+            <div className="form-group" style={{ marginBottom: '20px' }}>
+              <label style={{ color: 'rgba(255,255,255,0.7)', display: 'block', marginBottom: '6px' }}>Recovery Method</label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <button
+                  type="button"
+                  onClick={() => setRecoveryMethod('email')}
+                  style={{
+                    padding: '10px',
+                    borderRadius: '4px',
+                    border: recoveryMethod === 'email' ? '2px solid var(--gold)' : '1px solid var(--charcoal-light)',
+                    backgroundColor: recoveryMethod === 'email' ? 'rgba(212, 175, 55, 0.1)' : 'var(--black)',
+                    color: recoveryMethod === 'email' ? 'var(--gold)' : '#cccccc',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    fontSize: '0.8rem',
+                    transition: 'all 0.2s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <Mail size={14} /> Email
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRecoveryMethod('sms')}
+                  style={{
+                    padding: '10px',
+                    borderRadius: '4px',
+                    border: recoveryMethod === 'sms' ? '2px solid var(--gold)' : '1px solid var(--charcoal-light)',
+                    backgroundColor: recoveryMethod === 'sms' ? 'rgba(212, 175, 55, 0.1)' : 'var(--black)',
+                    color: recoveryMethod === 'sms' ? 'var(--gold)' : '#cccccc',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    fontSize: '0.8rem',
+                    transition: 'all 0.2s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <Phone size={14} /> Mobile SMS
+                </button>
+              </div>
+            </div>
+
             <div className="form-group" style={{ marginBottom: '24px' }}>
-              <label style={{ color: 'rgba(255,255,255,0.7)' }}>Email or Mobile Number</label>
+              <label style={{ color: 'rgba(255,255,255,0.7)' }}>
+                {recoveryMethod === 'email' ? 'Registered Email Address' : 'Registered Phone Number'}
+              </label>
               <div style={{ position: 'relative' }}>
-                <Mail size={18} color="#888888" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
+                {recoveryMethod === 'email' ? (
+                  <Mail size={18} color="#888888" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
+                ) : (
+                  <Phone size={18} color="#888888" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
+                )}
                 <input 
                   type="text" 
                   className="form-control"
-                  placeholder="Enter registered email or phone"
+                  placeholder={recoveryMethod === 'email' ? 'patron@example.com' : 'e.g. 9876543210'}
                   value={recoveryIdentifier}
                   onChange={(e) => setRecoveryIdentifier(e.target.value)}
                   required
@@ -283,22 +363,22 @@ const AuthModal = () => {
               disabled={loading}
               style={{ width: '100%', justifyContent: 'center', padding: '14px', marginBottom: '20px' }}
             >
-              {loading ? 'Sending Code...' : 'Send Verification OTP'}
+              {loading ? 'Dispatched secure code...' : 'Request Secure OTP'}
             </button>
           </form>
         )}
 
-        {/* 2. Verify OTP & Reset Password */}
+        {/* STEP 2: Verify OTP Only */}
         {recoveryStep === 2 && (
-          <form onSubmit={handleResetPassword} style={{ textAlign: 'left' }}>
-            <div className="form-group">
+          <form onSubmit={handleVerifyOtp} style={{ textAlign: 'left' }}>
+            <div className="form-group" style={{ marginBottom: '24px' }}>
               <label style={{ color: 'rgba(255,255,255,0.7)' }}>6-Digit OTP Code</label>
               <div style={{ position: 'relative' }}>
                 <Key size={18} color="#888888" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
                 <input 
                   type="text" 
                   className="form-control"
-                  placeholder="Enter 6-digit OTP code"
+                  placeholder="••••••"
                   maxLength={6}
                   value={recoveryOtp}
                   onChange={(e) => setRecoveryOtp(e.target.value)}
@@ -308,14 +388,31 @@ const AuthModal = () => {
                     border: '1px solid var(--charcoal-light)',
                     color: '#ffffff',
                     paddingLeft: '42px',
-                    letterSpacing: '2px'
+                    letterSpacing: '4px',
+                    fontWeight: 'bold',
+                    fontSize: '1.2rem',
+                    textAlign: 'center'
                   }}
                 />
               </div>
             </div>
 
+            <button 
+              type="submit" 
+              className="btn-gold"
+              disabled={loading}
+              style={{ width: '100%', justifyContent: 'center', padding: '14px', marginBottom: '20px' }}
+            >
+              {loading ? 'Verifying OTP...' : 'Verify OTP Code'}
+            </button>
+          </form>
+        )}
+
+        {/* STEP 3: Create Secure Password */}
+        {recoveryStep === 3 && (
+          <form onSubmit={handleResetPassword} style={{ textAlign: 'left' }}>
             <div className="form-group">
-              <label style={{ color: 'rgba(255,255,255,0.7)' }}>New Password</label>
+              <label style={{ color: 'rgba(255,255,255,0.7)' }}>New Secure Password</label>
               <div style={{ position: 'relative' }}>
                 <Lock size={18} color="#888888" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
                 <input 
@@ -362,12 +459,12 @@ const AuthModal = () => {
               disabled={loading}
               style={{ width: '100%', justifyContent: 'center', padding: '14px', marginBottom: '20px' }}
             >
-              {loading ? 'Resetting Password...' : 'Reset Password'}
+              {loading ? 'Updating Password...' : 'Reset Password'}
             </button>
           </form>
         )}
 
-        {/* 3. Normal Authentication Forms */}
+        {/* STEP 0: Standard Login or Sign Up Forms */}
         {recoveryStep === 0 && (
           <form onSubmit={handleSubmit} style={{ textAlign: 'left' }}>
             {authModalPurpose === 'signup' && (
@@ -443,7 +540,12 @@ const AuthModal = () => {
                 {authModalPurpose === 'login' && (
                   <button
                     type="button"
-                    onClick={() => { setRecoveryStep(1); setError(''); setSuccessMsg(''); setRecoveryIdentifier(email); }}
+                    onClick={() => { 
+                      setRecoveryStep(1); 
+                      setError(''); 
+                      setSuccessMsg(''); 
+                      setRecoveryIdentifier(email); 
+                    }}
                     style={{
                       background: 'none',
                       border: 'none',

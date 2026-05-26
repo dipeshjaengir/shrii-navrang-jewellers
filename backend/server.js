@@ -50,19 +50,17 @@ const startServer = async () => {
   // Connect to Database
   await connectDB();
 
-  // If using local JSON database fallback, let's auto-seed if it contains no products!
-  if (global.useJsonDb) {
-    try {
-      const Product = require('./models/Product');
-      const count = await Product.countDocuments();
-      if (count === 0) {
-        console.log('🔮 Empty local JSON database detected. Auto-seeding premium jewelry items...');
-        const seedData = require('./scripts/seed');
-        await seedData();
-      }
-    } catch (seedErr) {
-      console.error('⚠️ Auto-seeding failed:', seedErr.message);
+  // Auto-seed if the database (MongoDB or JSON) contains no products!
+  try {
+    const Product = require('./models/Product');
+    const count = await Product.countDocuments();
+    if (count === 0) {
+      console.log('🔮 Empty database detected. Auto-seeding premium jewelry items...');
+      const seedData = require('./scripts/seed');
+      await seedData();
     }
+  } catch (seedErr) {
+    console.error('⚠️ Auto-seeding failed:', seedErr.message);
   }
 
   app.listen(PORT, () => {

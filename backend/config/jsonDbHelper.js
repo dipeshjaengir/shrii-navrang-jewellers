@@ -41,6 +41,8 @@ class JsonModel {
           if ('$gte' in qVal && iVal < qVal.$gte) return false;
           if ('$lte' in qVal && iVal > qVal.$lte) return false;
         }
+      } else if (key === 'email' && typeof iVal === 'string' && typeof qVal === 'string') {
+        if (iVal.trim().toLowerCase() !== qVal.trim().toLowerCase()) return false;
       } else if (iVal !== qVal) {
         return false;
       }

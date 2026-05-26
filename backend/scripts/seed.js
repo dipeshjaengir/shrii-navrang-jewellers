@@ -561,7 +561,7 @@ const seedData = async () => {
   console.log('👥 Seeding default users...');
   
   // Hashed Passwords
-  const adminEmailText = process.env.ADMIN_EMAIL || 'admin@Shrinavrang.com';
+  const adminEmailText = (process.env.ADMIN_EMAIL || 'admin@shrinavrang.com').trim().toLowerCase();
   const adminPasswordText = process.env.ADMIN_PASSWORD;
   if (!adminPasswordText && process.env.NODE_ENV === 'production') {
     throw new Error('❌ SECURE ACTION REQUIRED: ADMIN_PASSWORD environment variable must be defined in production!');
@@ -591,7 +591,7 @@ const seedData = async () => {
   // 2. Seed Customer Account
   const customerUser = await User.create({
     name: "Dipesh Sharma",
-    email: "customer@Shrinavrang.com",
+    email: "customer@shrinavrang.com",
     phone: "+91 99887 76655",
     password: customerPassword,
     role: "customer",
@@ -649,11 +649,11 @@ const seedData = async () => {
   console.log('\n🔐 DEFAULT USER CREDENTIALS FOR TESTING:');
   console.log('--------------------------------------------------');
   console.log('👤 CUSTOMER LOGIN:');
-  console.log('   Email:    customer@Shrinavrang.com');
+  console.log('   Email:    customer@shrinavrang.com');
   console.log('   Password: customerpassword123');
   console.log('--------------------------------------------------');
   console.log('🔑 ADMIN LOGIN:');
-  console.log('   Email:    admin@Shrinavrang.com');
+  console.log('   Email:    admin@shrinavrang.com');
   console.log('   Password: adminpassword123');
   console.log('--------------------------------------------------\n');
 

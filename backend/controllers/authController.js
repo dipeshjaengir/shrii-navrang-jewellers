@@ -71,21 +71,32 @@ const loginUser = async (req, res) => {
 
   try {
     if (!email || !password) {
+      console.log(`⚠️ [AUTH-LOGIN] Rejected: Missing email or password in request payload.`);
       return res.status(400).json({ message: 'Please provide email and password' });
     }
 
     const sanitizedEmail = email.trim().toLowerCase();
+    const dbMode = global.useJsonDb ? 'JSON FILE FALLBACK' : 'MONGODB CONNECTION ACTIVE';
+    console.log(`🔐 [AUTH-LOGIN] Attempt received. Email: "${sanitizedEmail}" (Original: "${email}"). Active DB Engine: [${dbMode}]`);
 
     const user = await User.findOne({ email: sanitizedEmail });
     if (!user) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      console.log(`❌ [AUTH-LOGIN] Lookup failed. No record found for email: "${sanitizedEmail}" under active DB [${dbMode}].`);
+      return res.status(401).json({ message: 'Invalid email or user not found' });
     }
+
+    console.log(`🔍 [AUTH-LOGIN] Lookup matched user: "${user.name}" with Role: "${user.role}". Hash signature: "${user.password ? user.password.substring(0, 15) : 'NONE'}...". Initiating password verification.`);
 
     // Check password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
+      console.log(`❌ [AUTH-LOGIN] Verification rejected. Bcrypt signature mismatch for user "${user.name}" <${sanitizedEmail}>.`);
       return res.status(401).json({ message: 'Invalid email or password' });
     }
+
+    console.log(`✨ [AUTH-LOGIN] Verification successful. Elevating session for Store Director / Client "${user.name}". Generating secure JWT.`);
+
+    const token = generateToken(user._id);
 
     return res.json({
       _id: user._id,
@@ -93,10 +104,10 @@ const loginUser = async (req, res) => {
       email: user.email,
       phone: user.phone,
       role: user.role,
-      token: generateToken(user._id)
+      token: token
     });
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('❌ [AUTH-LOGIN] Critical internal server crash during validation:', error);
     return res.status(500).json({ message: 'Server login error', error: error.message });
   }
 };

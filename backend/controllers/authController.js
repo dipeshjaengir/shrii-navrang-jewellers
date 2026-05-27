@@ -274,7 +274,16 @@ const forgotPassword = async (req, res) => {
     if (deliveryMethod === 'sms') {
       const smsMsg = `Your Shri Navrang Jewellers secure password reset code is ${otp}. It is valid for 10 minutes only. Purity • Trust • Perfection`;
       const smsTo = user.phone;
-      await sendSMS({ to: smsTo, message: smsMsg });
+      try {
+        await sendSMS({ to: smsTo, message: smsMsg });
+      } catch (smsErr) {
+        console.error('❌ [OTP-SMS] Failed to send OTP SMS:', smsErr);
+        user.otp = undefined;
+        user.otpExpires = undefined;
+        user.otpAttempts = 0;
+        await user.save();
+        return res.status(500).json({ message: 'Unable to send OTP. Please try again.' });
+      }
     } else {
       const emailSubject = `Secure Password Recovery Code - Shri Navrang Jewellers`;
       const emailText = `Your password reset OTP is ${otp}. It expires in 10 minutes.`;
@@ -291,7 +300,16 @@ const forgotPassword = async (req, res) => {
           <p style="font-size: 13px; color: #666666; line-height: 1.6; margin-bottom: 0;">If you did not make this request, please secure your account immediately. Daily Showroom Managed by Navrang Jangid & Family.</p>
         </div>
       `;
-      await sendEmail({ to: user.email, subject: emailSubject, text: emailText, html: emailHtml });
+      try {
+        await sendEmail({ to: user.email, subject: emailSubject, text: emailText, html: emailHtml });
+      } catch (emailErr) {
+        console.error('❌ [OTP-EMAIL] Failed to send OTP email via SMTP:', emailErr);
+        user.otp = undefined;
+        user.otpExpires = undefined;
+        user.otpAttempts = 0;
+        await user.save();
+        return res.status(500).json({ message: 'Unable to send OTP. Please try again.' });
+      }
     }
 
     return res.json({ 

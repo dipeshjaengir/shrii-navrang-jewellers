@@ -1,115 +1,52 @@
-const tls = require('tls');
+const nodemailer = require('nodemailer');
 const https = require('https');
 
-// Pure Node.js SMTP email sender (zero dependencies!)
+// Nodemailer SMTP email sender
 const sendEmail = ({ to, subject, html, text }) => {
   return new Promise((resolve, reject) => {
     const emailUser = process.env.EMAIL_USER;
     const emailPass = process.env.EMAIL_PASS;
-    const smtpHost = process.env.EMAIL_HOST || 'smtp.gmail.com';
-    const smtpPort = parseInt(process.env.EMAIL_PORT || '465');
+    const smtpHost = process.env.SMTP_HOST || process.env.EMAIL_HOST || 'smtp.gmail.com';
+    const smtpPort = parseInt(process.env.SMTP_PORT || process.env.EMAIL_PORT || '465');
 
-    // If SMTP credentials are not configured, print to console gracefully for development/testing
-    if (!emailUser || !emailPass) {
-      console.log(`\n==================================================`);
-      console.log(`⚠️  [SMTP-SERVICE] Warning: EMAIL_USER and/or EMAIL_PASS environment variables are not configured.`);
-      console.log(`✉️  [SMTP-SERVICE] MOCK EMAIL OTP DELIVERED SUCCESSFULLY`);
-      console.log(`✉️  [SMTP-SERVICE] Recipient: "${to}"`);
-      console.log(`✉️  [SMTP-SERVICE] Subject: "${subject}"`);
-      console.log(`✉️  [SMTP-SERVICE] Body:\n${text || html.replace(/<[^>]*>/g, '')}`);
-      console.log(`==================================================\n`);
-      return resolve({ mock: true });
+    // Reject immediately if SMTP credentials are not configured or are placeholders
+    if (!emailUser || !emailPass || emailUser.includes('your-email') || emailPass.includes('your-gmail')) {
+      const errorMsg = 'SMTP credentials are not configured or contain placeholder values. Please check EMAIL_USER and EMAIL_PASS.';
+      console.error(`❌ [SMTP-SERVICE] ${errorMsg}`);
+      return reject(new Error(errorMsg));
     }
 
-    console.log(`📧 [SMTP-SERVICE] Connecting to secure SMTP server ${smtpHost}:${smtpPort}...`);
+    console.log(`📧 [SMTP-SERVICE] Connecting to secure SMTP server ${smtpHost}:${smtpPort} as ${emailUser}...`);
 
-    let socket;
-    try {
-      socket = tls.connect({
-        host: smtpHost,
-        port: smtpPort,
-        rejectUnauthorized: false
-      }, () => {
-        console.log('✓ [SMTP-SERVICE] Secured TLS connection established.');
-      });
-    } catch (err) {
-      return reject(err);
-    }
-
-    let responseStep = 0;
-    let accumulatedData = '';
-
-    socket.on('data', (data) => {
-      const response = data.toString();
-      accumulatedData += response;
-      
-      const lines = response.split('\n');
-      const lastLine = lines[lines.length - 2] || response;
-      const code = lastLine.substring(0, 3);
-
-      try {
-        if (responseStep === 0) {
-          socket.write('EHLO localhost\r\n');
-          responseStep = 1;
-        } else if (responseStep === 1) {
-          socket.write('AUTH LOGIN\r\n');
-          responseStep = 2;
-        } else if (responseStep === 2) {
-          const base64User = Buffer.from(emailUser).toString('base64');
-          socket.write(base64User + '\r\n');
-          responseStep = 3;
-        } else if (responseStep === 3) {
-          const base64Pass = Buffer.from(emailPass).toString('base64');
-          socket.write(base64Pass + '\r\n');
-          responseStep = 4;
-        } else if (responseStep === 4) {
-          if (code === '235') {
-            socket.write(`MAIL FROM:<${emailUser}>\r\n`);
-            responseStep = 5;
-          } else {
-            throw new Error(`Authentication failed: ${response}`);
-          }
-        } else if (responseStep === 5) {
-          socket.write(`RCPT TO:<${to}>\r\n`);
-          responseStep = 6;
-        } else if (responseStep === 6) {
-          socket.write('DATA\r\n');
-          responseStep = 7;
-        } else if (responseStep === 7) {
-          const mailContent = 
-            `From: "Shri Navrang Jewellers" <${emailUser}>\r\n` +
-            `To: <${to}>\r\n` +
-            `Subject: ${subject}\r\n` +
-            `MIME-Version: 1.0\r\n` +
-            `Content-Type: text/html; charset=utf-8\r\n` +
-            `\r\n` +
-            `${html}\r\n` +
-            `.\r\n`;
-          socket.write(mailContent);
-          responseStep = 8;
-        } else if (responseStep === 8) {
-          socket.write('QUIT\r\n');
-          responseStep = 9;
-        } else if (responseStep === 9) {
-          socket.end();
-          console.log('✓ [SMTP-SERVICE] Email sent successfully and socket closed.');
-          resolve({ success: true });
-        }
-      } catch (err) {
-        socket.destroy();
-        console.error('❌ [SMTP-SERVICE] SMTP connection error:', err.message);
-        reject(err);
+    // Create transport
+    const transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port: smtpPort,
+      secure: smtpPort === 465, // true for 465, false for other ports
+      auth: {
+        user: emailUser,
+        pass: emailPass
+      },
+      tls: {
+        rejectUnauthorized: false // avoid self-signed certificate issues in local/prod servers
       }
     });
 
-    socket.on('error', (err) => {
-      console.error('❌ [SMTP-SERVICE] Socket error:', err.message);
-      reject(err);
-    });
+    const mailOptions = {
+      from: `"Shri Navrang Jewellers" <${emailUser}>`,
+      to,
+      subject,
+      text,
+      html
+    };
 
-    socket.on('timeout', () => {
-      socket.destroy();
-      reject(new Error('SMTP Socket timeout'));
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.error('❌ [SMTP-SERVICE] Nodemailer sendMail error:', err.message);
+        return reject(err);
+      }
+      console.log('✓ [SMTP-SERVICE] Email sent successfully via Nodemailer:', info.messageId);
+      resolve({ success: true, messageId: info.messageId });
     });
   });
 };

@@ -20,13 +20,30 @@ class JsonModel {
   }
 
   read() {
+    if (global.jsonDbInMemoryCache && global.jsonDbInMemoryCache[this.modelName]) {
+      return global.jsonDbInMemoryCache[this.modelName];
+    }
     this.initFile();
-    const data = fs.readFileSync(this.filePath, 'utf8');
-    return JSON.parse(data || '[]');
+    try {
+      const data = fs.readFileSync(this.filePath, 'utf8');
+      return JSON.parse(data || '[]');
+    } catch (e) {
+      console.error(`⚠️ [JSON-DB] Failed to read database file ${this.filePath}:`, e.message);
+      return [];
+    }
   }
 
   write(data) {
-    fs.writeFileSync(this.filePath, JSON.stringify(data, null, 2));
+    try {
+      fs.writeFileSync(this.filePath, JSON.stringify(data, null, 2));
+    } catch (e) {
+      console.warn(`⚠️ [JSON-DB] Failed to write database file ${this.filePath} (falling back to memory):`, e.message);
+    }
+    // Always update in-memory cache so that subsequent reads in this process see the updated data
+    if (!global.jsonDbInMemoryCache) {
+      global.jsonDbInMemoryCache = {};
+    }
+    global.jsonDbInMemoryCache[this.modelName] = data;
   }
 
   match(item, query) {

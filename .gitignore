@@ -5,7 +5,15 @@ node_modules/
 dist/
 build/
 backend/data/*.json
+!backend/data/User.json
+!backend/data/Product.json
+!backend/data/Order.json
+!backend/data/Cart.json
+!backend/data/Rates.json
+!backend/data/Review.json
+!backend/data/Notification.json
 *.log
 .DS_Store
 git-portable/
 frontend/public/logo_temp.png
+backend/data_test/

@@ -285,7 +285,7 @@ const forgotPassword = async (req, res) => {
         user.otpExpires = undefined;
         user.otpAttempts = 0;
         await user.save();
-        return res.status(500).json({ message: 'Unable to send OTP. Please try again.' });
+        return res.status(500).json({ message: `Unable to send OTP via SMS. SMS Error: ${smsErr.message || smsErr}` });
       }
     } else {
       const emailSubject = `Secure Password Recovery Code - Shri Navrang Jewellers`;
@@ -311,7 +311,7 @@ const forgotPassword = async (req, res) => {
         user.otpExpires = undefined;
         user.otpAttempts = 0;
         await user.save();
-        return res.status(500).json({ message: 'Unable to send OTP. Please try again.' });
+        return res.status(500).json({ message: `Unable to send OTP via Email. SMTP Connection Error: ${emailErr.message || emailErr}` });
       }
     }
 

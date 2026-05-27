@@ -5,13 +5,6 @@ node_modules/
 dist/
 build/
 backend/data/*.json
-!backend/data/Product.json
-!backend/data/User.json
-!backend/data/Review.json
-!backend/data/Notification.json
-!backend/data/Cart.json
-!backend/data/Order.json
-!backend/data/Rates.json
 *.log
 .DS_Store
 git-portable/

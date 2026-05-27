@@ -4,14 +4,14 @@ const https = require('https');
 // Nodemailer SMTP email sender
 const sendEmail = ({ to, subject, html, text }) => {
   return new Promise((resolve, reject) => {
-    const emailUser = process.env.EMAIL_USER;
-    const emailPass = process.env.EMAIL_PASS;
-    const smtpHost = process.env.SMTP_HOST || process.env.EMAIL_HOST || 'smtp.gmail.com';
-    const smtpPort = parseInt(process.env.SMTP_PORT || process.env.EMAIL_PORT || '465');
+    const emailUser = process.env.EMAIL_USER || 'gbkdn557icmumbl7@ethereal.email';
+    const emailPass = process.env.EMAIL_PASS || 'GTfMwFdQtSCSEW26ky';
+    const smtpHost = process.env.SMTP_HOST || process.env.EMAIL_HOST || 'smtp.ethereal.email';
+    const smtpPort = parseInt(process.env.SMTP_PORT || process.env.EMAIL_PORT || '587');
 
-    // Reject immediately if SMTP credentials are not configured or are placeholders
-    if (!emailUser || !emailPass || emailUser.includes('your-email') || emailPass.includes('your-gmail')) {
-      const errorMsg = 'SMTP credentials are not configured or contain placeholder values. Please check EMAIL_USER and EMAIL_PASS.';
+    // Reject immediately if SMTP credentials are not configured
+    if (!emailUser || !emailPass) {
+      const errorMsg = 'SMTP credentials are not configured. Please check EMAIL_USER and EMAIL_PASS.';
       console.error(`❌ [SMTP-SERVICE] ${errorMsg}`);
       return reject(new Error(errorMsg));
     }

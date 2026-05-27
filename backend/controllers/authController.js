@@ -32,8 +32,11 @@ const registerUser = async (req, res) => {
     const emailExists = await User.findOne({ email: sanitizedEmail });
     const phoneExists = await User.findOne({ phone: sanitizedPhone });
 
-    if (emailExists || phoneExists) {
-      return res.status(400).json({ message: 'Account already exists' });
+    if (emailExists) {
+      return res.status(400).json({ message: 'Account already exists with this email.' });
+    }
+    if (phoneExists) {
+      return res.status(400).json({ message: 'Account already exists with this mobile number.' });
     }
 
     // Hash password

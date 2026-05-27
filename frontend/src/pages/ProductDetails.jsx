@@ -3,8 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { API_URL } from '../config';
-import { Star, Heart, ShoppingBag, Truck, RotateCcw, ShieldCheck, MessageSquare, ChevronRight } from 'lucide-react';
+import { Star, Heart, ShoppingBag, Truck, RotateCcw, ShieldCheck, MessageSquare, ChevronRight, Sparkles } from 'lucide-react';
 import ProductZoom from '../components/ProductZoom';
+import TryOnModal from '../components/TryOnModal';
 
 const ProductDetails = ({ onShowToast }) => {
   const { id } = useParams();
@@ -15,6 +16,7 @@ const ProductDetails = ({ onShowToast }) => {
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState('');
   const [quantity, setQuantity] = useState(1);
+  const [showTryOnModal, setShowTryOnModal] = useState(false);
   
   // Reviews States
   const [reviews, setReviews] = useState([]);
@@ -222,9 +224,45 @@ const ProductDetails = ({ onShowToast }) => {
           </div>
 
           {/* Description */}
-          <p style={{ color: 'var(--charcoal)', lineHeight: '1.8', fontSize: '0.9rem', marginBottom: '35px', fontWeight: 400 }}>
+          <p style={{ color: 'var(--charcoal)', lineHeight: '1.8', fontSize: '0.9rem', marginBottom: '25px', fontWeight: 400 }}>
             {product.description}
           </p>
+
+          {/* AI Virtual Try-On button */}
+          <div style={{ marginBottom: '25px' }}>
+            <button
+              onClick={() => setShowTryOnModal(true)}
+              className="btn-gold"
+              style={{
+                width: '100%',
+                justifyContent: 'center',
+                height: '46px',
+                gap: '10px',
+                background: 'linear-gradient(135deg, #D4AF37 0%, #AA7C11 100%)',
+                boxShadow: '0 4px 15px rgba(212, 175, 55, 0.25)',
+                fontWeight: 600,
+                fontSize: '0.95rem',
+                border: 'none',
+                borderRadius: '4px',
+                color: 'var(--white)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 6px 20px rgba(212, 175, 55, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 15px rgba(212, 175, 55, 0.25)';
+              }}
+            >
+              <Sparkles size={18} className="animate-pulse" />
+              <span>AI Jewellery Virtual Try-On</span>
+            </button>
+          </div>
 
           {/* Purchase actions */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '40px' }}>
@@ -418,6 +456,13 @@ const ProductDetails = ({ onShowToast }) => {
           .details-grid, .reviews-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
         }
       `}} />
+
+      {/* AI Virtual Try-On Modal */}
+      <TryOnModal 
+        isOpen={showTryOnModal} 
+        onClose={() => setShowTryOnModal(false)} 
+        product={product} 
+      />
     </div>
   );
 };

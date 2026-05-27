@@ -4,7 +4,8 @@ const path = require('path');
 class JsonModel {
   constructor(modelName) {
     this.modelName = modelName;
-    this.filePath = path.join(__dirname, '../data', `${modelName}.json`);
+    const folder = global.useJsonDbTestMode ? '../data_test' : '../data';
+    this.filePath = path.join(__dirname, folder, `${modelName}.json`);
     this.initFile();
   }
 
